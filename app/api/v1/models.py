@@ -27,3 +27,20 @@ class Party:
             if party['id'] == id:
                 return party
 
+    def edit_party(self, id, data):
+        """Update the details of a political party"""
+        for party in self.parties:
+            if party['id'] == id:
+                name = data.get('name')
+                hqAddress = data.get('hqAddress')
+                logoUrl = data.get('logoUrl')
+
+                if name:
+                    party['name'] = name
+
+                if hqAddress:
+                    party['hqAddress'] = hqAddress
+                if logoUrl:
+                    party['logoUrl'] = logoUrl
+                    
+                return party

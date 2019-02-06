@@ -20,3 +20,9 @@ class Party:
     def get_all_parties(self):
         """ Get all parties method """
         return self.parties
+
+    def get_specific_party(self, id):
+        """ Get specific party method """
+        for party in self.parties:
+            if party['id'] == id:
+                return party

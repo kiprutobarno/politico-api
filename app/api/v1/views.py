@@ -2,6 +2,8 @@ from flask import Blueprint, make_response, request, jsonify
 from .models import Party
 
 api = Blueprint('api', __name__, url_prefix='/api/v1')
+
+
 class PartiesEndPoint:
     """Party API Endpoints"""
 
@@ -20,7 +22,6 @@ class PartiesEndPoint:
             "data": party
         }), 201)
 
-
     @api.route('/parties', methods=["GET"])
     def get():
         """ Get all parties endpoint """
@@ -29,4 +30,14 @@ class PartiesEndPoint:
             "status": 200,
             "message": "Success",
             "data": parties
+        }), 200)
+
+    @api.route('/parties/<int:id>', methods=["GET"])
+    def get_specific_party(id):
+        """ Get a specific political party """
+        party = Party().get_specific_party(id)
+        return make_response(jsonify({
+            "status": 200,
+            "message": "Success",
+            "data": party
         }), 200)

@@ -16,6 +16,7 @@ class PartiesEndPoint:
         party = Party().create_party(name, headquarters, logoUrl)
         return make_response(jsonify({
             "status": 201,
+            "message": "Success",
             "data": party
         }), 201)
 

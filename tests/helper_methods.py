@@ -6,3 +6,9 @@ def create_party(self, data):
         data=data,
         content_type='application/json'
     )
+
+def get_all_parties(self):
+    return self.client.get(
+        '/api/v1/parties',
+        content_type='application/json'
+    )

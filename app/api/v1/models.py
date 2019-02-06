@@ -13,7 +13,7 @@ class Party:
             "hqAddress": hqAddress,
             "logoUrl": logoUrl
         }
-
+        
         self.parties.append(party)
         return party
 

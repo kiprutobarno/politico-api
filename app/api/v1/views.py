@@ -16,5 +16,17 @@ class PartiesEndPoint:
         party = Party().create_party(name, headquarters, logoUrl)
         return make_response(jsonify({
             "status": 201,
+            "message": "Success",
             "data": party
         }), 201)
+
+
+    @api.route('/parties', methods=["GET"])
+    def get():
+        """ Get all parties endpoint """
+        parties = Party().get_all_parties()
+        return make_response(jsonify({
+            "status": 200,
+            "message": "Success",
+            "data": parties
+        }), 200)

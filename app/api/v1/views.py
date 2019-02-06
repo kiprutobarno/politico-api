@@ -42,4 +42,13 @@ class PartiesEndPoint:
             "data": party
         }), 200)
 
-    
+    @api.route('/parties/<int:id>', methods=['PATCH'])
+    def patch(id):
+        data = request.get_json()
+
+        party = Party().edit_party(id, data)
+        return make_response(jsonify({
+            "status": 200,
+            "message": "Success",
+            "data": party
+        }), 200)

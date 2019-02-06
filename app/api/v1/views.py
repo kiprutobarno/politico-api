@@ -41,3 +41,5 @@ class PartiesEndPoint:
             "message": "Success",
             "data": party
         }), 200)
+
+    

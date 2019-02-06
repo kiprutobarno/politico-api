@@ -16,3 +16,7 @@ class Party:
 
         self.parties.append(party)
         return party
+
+    def get_all_parties(self):
+        """ Get all parties method """
+        return self.parties

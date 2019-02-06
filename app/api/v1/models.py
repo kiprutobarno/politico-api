@@ -26,3 +26,4 @@ class Party:
         for party in self.parties:
             if party['id'] == id:
                 return party
+

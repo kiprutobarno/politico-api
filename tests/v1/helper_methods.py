@@ -1,5 +1,7 @@
 from flask import current_app
 
+# Party test methods
+
 def create_party(self, data):
     """Create party endpoint test method """
     return self.client.post(
@@ -34,4 +36,15 @@ def delete_party(self):
     return self.client.delete(
         '/api/v1/parties/1',
         content_type='application/json',
+    )
+
+
+# Office test methods
+
+def create_office(self, data):
+    """Create office endpoint test method """
+    return self.client.post(
+        'api/v1/offices',
+        data=data,
+        content_type='application/json'
     )

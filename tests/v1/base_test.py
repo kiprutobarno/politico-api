@@ -6,8 +6,7 @@ from app import create_app
 from unittest import TestCase
 from .helper_data import *
 from .helper_methods import *
-
-        
+   
 
 class BaseTestCase(TestCase):
     """ Base Tests """

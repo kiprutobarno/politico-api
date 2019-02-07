@@ -15,6 +15,14 @@ class OfficeTestCase(BaseTestCase):
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 201)
 
+    def test_get_all_offices(self):
+        """ Test that endpoint can retrieve all offices """
+        create_office(self, office)
+        response = get_all_offices(self)
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['message'] == "Success")
+
 
 if __name__ == "__main__":
     unittest.main()

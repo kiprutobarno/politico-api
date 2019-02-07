@@ -1,7 +1,7 @@
 import os
 import unittest
 import sys
-sys.path.append('../')
+sys.path.append('../../')
 from app import create_app
 from unittest import TestCase
 from .helper_data import *

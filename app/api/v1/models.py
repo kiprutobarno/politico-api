@@ -31,16 +31,17 @@ class Party:
         """Update the details of a political party"""
         for party in self.parties:
             if party['id'] == id:
-                name = data.get('name')
-                hqAddress = data.get('hqAddress')
-                logoUrl = data.get('logoUrl')
+                if data.get('name'):
+                    party['name'] = data.get('name')
 
-                if name:
-                    party['name'] = name
-
-                if hqAddress:
-                    party['hqAddress'] = hqAddress
-                if logoUrl:
-                    party['logoUrl'] = logoUrl
-                    
+                if data.get('hqAddress'):
+                    party['hqAddress'] = data.get('hqAddress')
+                if data.get('logoUrl'):
+                    party['logoUrl'] = data.get('logoUrl')
                 return party
+
+    def delete_party(self, id):
+        """ Delete party method """
+        for party in self.parties:
+            if party['id'] == id:
+                return self.parties.remove(party)

@@ -27,7 +27,7 @@ def get_specific_party(self):
 def edit_party(self, data):
     """Edit political party endpoint test method """
     return self.client.patch(
-        '/api/v1/parties/1/Addis',
+        '/api/v1/parties/1/Red',
         data=data,
         content_type='application/json'
     )

@@ -89,3 +89,13 @@ class OfficesEndpoint:
             "message": "Success",
             "data": offices
         }), 200)
+
+    @api.route('/offices/<int:id>', methods=["GET"])
+    def get_specific_office(id):
+        """ Get a specific political office """
+        office = Office().get_specific_office(id)
+        return make_response(jsonify({
+            "status": 200,
+            "message": "Success",
+            "data": office
+        }), 200)

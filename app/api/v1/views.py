@@ -79,3 +79,13 @@ class OfficesEndpoint:
             "message": "Success",
             "data": office
         }), 201)
+
+    @api.route('/offices', methods=["GET"])
+    def get_offices():
+        """ Get all offices endpoint """
+        offices = Office().get_all_offices()
+        return make_response(jsonify({
+            "status": 200,
+            "message": "Success",
+            "data": offices
+        }), 200)

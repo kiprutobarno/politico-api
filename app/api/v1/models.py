@@ -56,7 +56,7 @@ class Office:
 
     
     def create_office(self, office_type, name):
-
+        """ Create a office method """
         office = {
             "id": len(self.offices)+1,
             "type": office_type,
@@ -64,3 +64,7 @@ class Office:
         }
         self.offices.append(office)
         return office
+
+    def get_all_offices(self):
+        """ Get all offices method """
+        return self.offices

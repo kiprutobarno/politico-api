@@ -68,3 +68,9 @@ class Office:
     def get_all_offices(self):
         """ Get all offices method """
         return self.offices
+
+    def get_specific_office(self, id):
+        """ Get specific office method """
+        for office in self.offices:
+            if office['id'] == id:
+                return office

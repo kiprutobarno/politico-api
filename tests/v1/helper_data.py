@@ -13,3 +13,9 @@ party_edit_data = json.dumps(dict(
     hqAddress="Hawaii", 
     logoUrl="red.img"
 ))
+
+office = json.dumps(dict(
+    id=1,
+    type="National",
+    name="Presidential"
+))

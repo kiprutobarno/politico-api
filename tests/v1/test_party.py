@@ -3,7 +3,7 @@ from .helper_data import *
 from .helper_methods import *
 
 class PartyTestCase(BaseTestCase):
-    """ This class represents the party test case and inherits from BaseTestCase class """
+    """ This class represents the party test cases and inherits from BaseTestCase class """
     
     def setUp(self):
         super(PartyTestCase, self).setUp()

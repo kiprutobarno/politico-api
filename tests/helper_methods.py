@@ -29,3 +29,9 @@ def edit_party(self, data):
         data=data,
         content_type='application/json'
     )
+
+def delete_party(self):
+    return self.client.delete(
+        '/api/v1/parties/1',
+        content_type='application/json',
+    )

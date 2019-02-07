@@ -55,3 +55,10 @@ def get_all_offices(self):
         '/api/v1/offices',
         content_type='application/json'
     )
+
+def get_specific_office(self):
+    """Get specific office endpoint test method """
+    return self.client.get(
+        '/api/v1/offices/1',
+        content_type='application/json'
+    )

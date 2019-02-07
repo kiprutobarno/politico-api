@@ -3,7 +3,7 @@ from .helper_data import *
 from .helper_methods import *
 
 class OfficeTestCase(BaseTestCase):
-    """ This class represents the party test case and inherits from BaseTestCase class """
+    """ This class represents the office test cases and inherits from BaseTestCase class """
     
     def setUp(self):
         super(OfficeTestCase, self).setUp()
@@ -23,6 +23,13 @@ class OfficeTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == "Success")
 
+    def test_get_specific_office(self):
+        """ Test that endpoint can fetch a specific political office """
+        create_office(self, office)
+        response = get_specific_office(self)
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['message'] == "Success")
 
 if __name__ == "__main__":
     unittest.main()

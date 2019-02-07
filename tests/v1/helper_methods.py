@@ -48,3 +48,10 @@ def create_office(self, data):
         data=data,
         content_type='application/json'
     )
+
+def get_all_offices(self):
+    """Get all offices endpoint test method """
+    return self.client.get(
+        '/api/v1/offices',
+        content_type='application/json'
+    )

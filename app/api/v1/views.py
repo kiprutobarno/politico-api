@@ -42,12 +42,12 @@ class PartiesEndPoint:
             "data": party
         }), 200)
 
-    @api.route('/parties/<int:id>', methods=['PATCH'])
-    def patch_party(id):
+    @api.route('/parties/<int:id>/<string:name>', methods=['PATCH'])
+    def patch_party(id, name):
         """ Update specific political party """
         data = request.get_json()
 
-        party = Party().edit_party(id, data)
+        party = Party().edit_party(id, name, data)
         return make_response(jsonify({
             "status": 200,
             "message": "Success",

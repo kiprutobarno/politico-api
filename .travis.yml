@@ -12,7 +12,7 @@ install:
 
 # run pytest
 script:
-  - pytest --cov=app tests/
+  - pytest --cov=app tests/v1/
 
 # then post the results to coveralls
 after_success:

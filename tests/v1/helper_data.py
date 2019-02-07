@@ -10,7 +10,7 @@ party = json.dumps(dict(
 party_edit_data = json.dumps(dict(
     id=1, 
     name="Red", 
-    hqAddress="Hawaii", 
+    hqAddress="Addis", 
     logoUrl="red.img"
 ))
 

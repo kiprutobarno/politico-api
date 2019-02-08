@@ -28,4 +28,3 @@ def error(status, message):
             "status": status,
             "message": message
         }), status)
-

@@ -1,6 +1,6 @@
 from flask import Blueprint, make_response, request, jsonify
-from .models import Party, Office, parties, offices
-from .validations import *
+from app.api.v1.models.models import Party, Office, parties, offices
+from utils.validations import *
 
 api = Blueprint('api', __name__, url_prefix='/api/v1')
 

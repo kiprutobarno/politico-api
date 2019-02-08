@@ -4,7 +4,7 @@ import sys
 sys.path.append('../../')
 from app import create_app
 from unittest import TestCase
-from .helper_data import *
+from utils.helper_data import *
 from .helper_methods import *
    
 

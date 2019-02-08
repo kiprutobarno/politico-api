@@ -1,5 +1,5 @@
 from .base_test import *
-from .helper_data import *
+from utils.helper_data import *
 from .helper_methods import *
 
 class PartyTestCase(BaseTestCase):

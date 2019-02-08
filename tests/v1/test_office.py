@@ -1,6 +1,6 @@
 from .base_test import *
-from .helper_data import *
 from .helper_methods import *
+from utils.helper_data import *
 
 class OfficeTestCase(BaseTestCase):
     """ This class represents the office test cases and inherits from BaseTestCase class """

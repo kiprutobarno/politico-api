@@ -13,6 +13,16 @@ def handle_bad_request(e):
         )
     )
 
+def handle_method_not_allowed(e):
+    return make_response(
+        jsonify(
+            {
+                "error": "Sorry, method",
+                "status": 405
+            }
+        )
+    )
+
 def create_app(config_name):
     """ This method creates a flask application """
     app = Flask(__name__, instance_relative_config=True)
@@ -20,5 +30,6 @@ def create_app(config_name):
     app.register_blueprint(party)
     app.register_blueprint(office)
     app.register_error_handler(400, handle_bad_request)
+    app.register_error_handler(405, handle_method_not_allowed)
 
     return app

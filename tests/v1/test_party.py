@@ -90,13 +90,18 @@ class PartyTestCase(BaseTestCase):
         self.assertTrue(response_content['message'] == 'That party already exists!')
         Party().parties.clear()
 
-    def test_get_non_existing_party(self):
-        """Test get non exisiting party"""
+    def test_get_non_existing_parties(self):
+        """Test get non exisiting parties"""
         response = super().get_all_parties()
-        # self.assertEqual(response.status_code, 200)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == "No party is currently registered")
-        # Party().parties.clear()
+
+    def test_get_non_existing_parties(self):
+        """Test get non exisiting party"""
+        response = super().get_specific_party()
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['message'] == "Sorry, no such party exists")
+
 
     def tearDown(self):
         return super().tearDown()

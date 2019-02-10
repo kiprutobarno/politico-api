@@ -66,7 +66,12 @@ class PartyTestCase(BaseTestCase):
         response = super().create_party(party_blank_logoUrl)
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == 'logoUrl cannot be blank')
-    
+
+    def test_non_string_name(self):
+        """Test that endpoint cannot accept non string name"""
+        response = super().create_party(party_non_string_name)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 400)
 
     def tearDown(self):
         return super().tearDown()

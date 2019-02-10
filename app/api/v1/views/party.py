@@ -151,6 +151,15 @@ class PartiesEndPoint:
     @party.route('/parties/<int:id>', methods=["DELETE"])
     def delete_party(id):
         """ Delete specific political party """
+        if id <= 0:
+            return make_response(
+                jsonify(
+                    {
+                        "status": 400,
+                        "message": "Unacceptable id format",
+                    }
+                ), 400
+            )
         if not Party().parties:
             return make_response(
                 jsonify(
@@ -159,16 +168,6 @@ class PartiesEndPoint:
                         "message": "You cannot delete a non-existent party",
                     }
                 ), 404
-            )
-
-        if id <=0:
-            return make_response(
-                jsonify(
-                    {
-                        "status": 400,
-                        "message": "Please check your search parameter",
-                    }
-                ), 400
             )
 
         party = Party().delete_party(id)

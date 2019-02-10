@@ -53,6 +53,11 @@ class BaseTestCase(TestCase):
             content_type='application/json',
         )
 
+    def invalid_delete_party(self):
+        return self.client.delete(
+            '/api/v1/parties/0',
+            content_type='application/json',
+        )
 
     # Office test methods
     def create_office(self, data):

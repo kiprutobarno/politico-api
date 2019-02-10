@@ -50,6 +50,8 @@ class PartyTestCase(BaseTestCase):
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 
+    
+
     def tearDown(self):
         return super().tearDown()
 

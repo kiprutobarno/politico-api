@@ -4,47 +4,52 @@ from utils.validations import *
 
 office = Blueprint('office', __name__, url_prefix='/api/v1')
 
+
 class OfficesEndpoint:
     """Office API Endpoints"""
 
     @office.route('/offices', methods=['POST'])
     def post_office():
         """ Create office endpoint """
-        
+
         errors = validate_office_key_pair_values(request)
         if errors:
             return error(400, "{} key missing".format(', '.join(errors)))
 
-
         data = request.get_json()
-        office_type=data.get('type')
-        name=data.get('name')
+        office_type = data.get('type')
+        name = data.get('name')
 
         if name == "":
             return make_response(jsonify({
                 "status": 400,
                 "message": "name cannot be blank",
-        }), 400)
+            }), 400)
 
         if office_type == "":
             return make_response(jsonify({
                 "status": 400,
                 "message": "type cannot be blank",
-        }), 400)
+            }), 400)
 
-        if type(name) != str:
+        if not isinstance(name, str):
             return make_response(jsonify({
                 "status": 400,
                 "message": "name must be a string",
-        }), 400)
+            }), 400)
 
-        if type(office_type) != str:
+        if not isinstance(office_type, str):
             return make_response(jsonify({
                 "status": 400,
                 "message": "type must be a string",
-        }), 400)
+            }), 400)
 
-        
+        if any(office['name'] == name for office in offices):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "That office already exists!",
+            }), 400)
+
         office = Office().create_office(office_type, name)
         return make_response(jsonify({
             "status": 201,
@@ -55,13 +60,12 @@ class OfficesEndpoint:
     @office.route('/offices', methods=["GET"])
     def get_offices():
         """ Get all offices endpoint """
-
-        if len(offices) < 1:
+        if not Office().offices:
             return make_response(jsonify({
                 "status": 404,
                 "message": "Sorry, no government office is currently available, try again later",
-        }), 404)
-
+            }), 404)
+        
         return make_response(jsonify({
             "status": 200,
             "message": "Success",
@@ -72,11 +76,11 @@ class OfficesEndpoint:
     def get_specific_office(id):
         """ Get a specific political office """
 
-        if len(offices) < 1:
+        if not Office().offices or len(Office().offices) < id:
             return make_response(jsonify({
                 "status": 404,
                 "message": "Sorry, no such office exists, try again later!",
-        }), 404)
+            }), 404)
 
         return make_response(jsonify({
             "status": 200,

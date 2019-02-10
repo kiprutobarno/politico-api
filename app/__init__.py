@@ -3,6 +3,7 @@ from instance.config import app_config
 from app.api.v1.views.party import party as party
 from app.api.v1.views.office import office as office
 
+
 def handle_bad_request(e):
     return make_response(
         jsonify(
@@ -13,15 +14,28 @@ def handle_bad_request(e):
         )
     )
 
+
 def handle_method_not_allowed(e):
     return make_response(
         jsonify(
             {
-                "error": "Sorry, method",
+                "error": "Sorry, request method not allowed",
                 "status": 405
             }
         )
     )
+
+
+def handle_not_found(e):
+    return make_response(
+        jsonify(
+            {
+                "error": "The information you are looking for cannot be found",
+                "status": 404
+            }
+        )
+    )
+
 
 def create_app(config_name):
     """ This method creates a flask application """
@@ -31,5 +45,6 @@ def create_app(config_name):
     app.register_blueprint(office)
     app.register_error_handler(400, handle_bad_request)
     app.register_error_handler(405, handle_method_not_allowed)
+    app.register_error_handler(404, handle_not_found)
 
     return app

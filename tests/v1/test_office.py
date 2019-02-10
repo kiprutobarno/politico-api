@@ -8,7 +8,7 @@ class OfficeTestCase(BaseTestCase):
         super().setUp()
 
     def test_create_office(self):
-        """ Test that endpoint can office party """
+        """ Test that endpoint can create office"""
         response = super().create_office(office)
         self.assertEqual(response.status_code, 201)
         response_content =  json.loads(response.data.decode())
@@ -27,24 +27,25 @@ class OfficeTestCase(BaseTestCase):
         self.assertTrue(response_content['status'] == 400)
 
     def test_create_office_missing_name(self):
-        """ Test that endpoint can office party """
+        """ Test that endpoint rejects bodies with missing key-pair values """
         response = super().create_office(office_missing_name_key)
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 
     def test_non_string_name(self):
-        """ Test that endpoint can office party """
+        """ Test that endpoint rejects non string name value """
         response = super().create_office(non_string_office_name)
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 
     def test_non_string_type(self):
-        """ Test that endpoint can office party """
+        """ Test that endpoint rejects non string type value """
         response = super().create_office(non_string_office_type)
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 
     def test_empty_office(self):
+        """ Test that endpoint rejects empty office body """
         response = super().create_office(office_empty_body)
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)

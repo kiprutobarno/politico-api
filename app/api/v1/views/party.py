@@ -160,6 +160,7 @@ class PartiesEndPoint:
                     }
                 ), 400
             )
+            
         if not Party().parties:
             return make_response(
                 jsonify(

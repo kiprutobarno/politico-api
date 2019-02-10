@@ -4,7 +4,6 @@ from utils.validations import *
 
 office = Blueprint('office', __name__, url_prefix='/api/v1')
 
-
 class OfficesEndpoint:
     """Office API Endpoints"""
 

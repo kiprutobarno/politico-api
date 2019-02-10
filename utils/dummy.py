@@ -28,6 +28,13 @@ party_blank_hqAddress = json.dumps(dict(
     logoUrl="logo.png"
 ))
 
+party_blank_logoUrl = json.dumps(dict(
+    id=1,
+    name="Jubilee",
+    hqAddress="Kent",
+    logoUrl=""
+))
+
 empty_data_party = json.dumps(dict(
     
 ))

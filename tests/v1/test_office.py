@@ -59,7 +59,7 @@ class OfficeTestCase(BaseTestCase):
         self.assertTrue(response_content['message'] == "Success")
 
     def test_get_specific_office(self):
-        """ Test that endpoint can fetch a specific political office """
+        """ Test that endpoint can fetch specific political office """
         super().create_office(office)
         response = super().get_specific_office()
         self.assertEqual(response.status_code, 200)

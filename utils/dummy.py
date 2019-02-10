@@ -19,3 +19,7 @@ office = json.dumps(dict(
     type="National",
     name="Presidential"
 ))
+
+empty_data_party = json.dumps(dict(
+    
+))

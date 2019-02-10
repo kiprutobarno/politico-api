@@ -43,6 +43,13 @@ class PartyTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['message'], "Success")
 
+    def test_empty_party(self):
+        """Test that endpoint cannot accept an empty party body"""
+        response = super().create_party(empty_data_party)
+        # self.assertEqual(response.status_code, 200)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 400)
+
     def tearDown(self):
         return super().tearDown()
 

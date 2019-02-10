@@ -1,4 +1,5 @@
 from .base_test import *
+from app.api.v1.models.party import Party
 
 class PartyTestCase(BaseTestCase):
     """ This class represents the party test cases and inherits from BaseTestCase class """
@@ -12,6 +13,7 @@ class PartyTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 201)
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 201)
+        Party().parties.clear()
 
     def test_get_all_parties(self):
         """ Test that endpoint can retrieve all parties """
@@ -20,6 +22,7 @@ class PartyTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == "Success")
+        Party().parties.clear()
 
     def test_get_specific_party(self):
         """ Test that endpoint can retrieve a specific political party """
@@ -74,10 +77,26 @@ class PartyTestCase(BaseTestCase):
         self.assertTrue(response_content['status'] == 400)
 
     def test_non_string_hqAddress(self):
-        """Test that endpoint cannot accept non string name"""
+        """Test that endpoint cannot accept non string hqAddress"""
         response = super().create_party(party_non_string_hqAddress)
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
+
+    def test_create_existing(self):
+        """Test that endpoint cannot create an existing party"""
+        super().create_party(party)
+        response = super().create_party(existing_party)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['message'] == 'That party already exists!')
+        Party().parties.clear()
+
+    def test_get_non_existing_party(self):
+        """Test get non exisiting party"""
+        response = super().get_all_parties()
+        # self.assertEqual(response.status_code, 200)
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['message'] == "No party is currently registered")
+        # Party().parties.clear()
 
     def tearDown(self):
         return super().tearDown()

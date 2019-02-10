@@ -53,6 +53,14 @@ empty_data_party = json.dumps(dict(
     
 ))
 
+existing_party = json.dumps(dict(
+    id=1,
+    name="Blue",
+    hqAddress="Memphis",
+    logoUrl="blue.img"
+))
+
+
 office = json.dumps(dict(
     id=1,
     type="National",

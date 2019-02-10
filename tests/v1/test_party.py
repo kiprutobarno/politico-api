@@ -102,6 +102,12 @@ class PartyTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == "Sorry, no such party exists")
 
+    def test_edit_non_existing(self):
+        """ Test that endpoint can update details of a specific party """
+        # super().create_party(party)
+        response = super().edit_party(party_edit_data)
+        response_content = json.loads(response.data.decode())
+        self.assertEqual(response_content['message'], "You cannot edit a non-existent party")
 
     def tearDown(self):
         return super().tearDown()

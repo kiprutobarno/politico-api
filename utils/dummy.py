@@ -14,6 +14,12 @@ party_edit_data = json.dumps(dict(
     logoUrl="red.img"
 ))
 
+party_missing_name_key = json.dumps(dict(
+    id=1, 
+    hqAddress="Addis", 
+    logoUrl="red.img"
+))
+
 party_blank_name = json.dumps(dict(
     id=1,
     name="",

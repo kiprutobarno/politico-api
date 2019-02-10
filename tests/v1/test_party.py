@@ -10,7 +10,6 @@ class PartyTestCase(BaseTestCase):
     def test_create_party(self):
         """ Test that endpoint can create party """
         response = super().create_party(party)
-        self.assertEqual(response.status_code, 201)
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 201)
         Party().parties.clear()
@@ -19,7 +18,6 @@ class PartyTestCase(BaseTestCase):
         """ Test that endpoint can retrieve all parties """
         super().create_party(party)
         response = super().get_all_parties()
-        self.assertEqual(response.status_code, 200)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == "Success")
         Party().parties.clear()
@@ -28,9 +26,15 @@ class PartyTestCase(BaseTestCase):
         """ Test that endpoint can retrieve a specific political party """
         super().create_party(party)
         response = super().get_specific_party()
-        self.assertEqual(response.status_code, 200)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == "Success")
+
+    def test_get_non_existent_parties(self):
+        """ Test that endpoint can retrieve all parties """
+        response = super().get_all_parties()
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 404)
+        Party().parties.clear()
 
     def test_edit_party(self):
         """ Test that endpoint can update details of a specific party """
@@ -38,6 +42,14 @@ class PartyTestCase(BaseTestCase):
         response = super().edit_party(party_edit_data)
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['message'], "Success")
+
+    def test_edit_without_name(self):
+        """ Test that endpoint can update details of a specific party """
+        Party().parties.clear()
+        super().create_party(party)
+        response = super().edit_party(party_missing_name_key)
+        response_content = json.loads(response.data.decode())
+        self.assertEqual(response_content['message'], "name key missing")
         
     def test_delete_party(self):
         """ Test that endpoint can delete a specific party """
@@ -107,40 +119,58 @@ class PartyTestCase(BaseTestCase):
         response = super().edit_party(party_edit_data)
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['message'], "You cannot edit a non-existent party")
-
-
     
     def test_edit_blank_name(self):
         """Test that endpoint cannot accept a blank name"""
+        super().create_party(party)
         response = super().edit_party(party_blank_name)
         response_content =  json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 404)
+        self.assertTrue(response_content['status'] == 400)
+        Party().parties.clear()
 
     def test_edit_blank_hqAddress(self):
         """Test that endpoint cannot accept a blank hqAddress"""
+        super().create_party(party)
         response = super().edit_party(party_blank_hqAddress)
         response_content =  json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 404)
+        self.assertTrue(response_content['status'] == 400)
+        Party().parties.clear()
 
     def test_edit_blank_logoUrl(self):
         """Test that endpoint cannot accept a logoUrl"""
+        super().create_party(party)
         response = super().edit_party(party_blank_logoUrl)
         response_content =  json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 404)
+        self.assertTrue(response_content['status'] == 400)
+        Party().parties.clear()
 
     def test_edit_non_string_name(self):
         """Test that endpoint cannot accept non string name"""
+        super().create_party(party)
         response = super().edit_party(party_non_string_name)
         response_content =  json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 404)
+        self.assertTrue(response_content['status'] == 400)
+        Party().parties.clear()
 
     def test_edit_non_string_hqAddress(self):
         """Test that endpoint cannot accept non string hqAddress"""
+        super().create_party(party)
         response = super().edit_party(party_non_string_hqAddress)
         response_content =  json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 404)
+        self.assertTrue(response_content['status'] == 400)
+        Party().parties.clear()
 
+    def test_delete_non_existent(self):
+        """Test endpoint will not accept a zero and an id"""
+        response = super().delete_party()
+        response_content = json.loads(response.data.decode())
+        self.assertEqual(response_content['status'], 404)
 
+    def test_delete_invalid_id(self):
+        """Test endpoint will not accept a zero and an id"""
+        response = super().invalid_delete_party()
+        response_content = json.loads(response.data.decode())
+        self.assertEqual(response_content['message'], 'Unacceptable id format')
 
     def tearDown(self):
         return super().tearDown()

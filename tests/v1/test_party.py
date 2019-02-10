@@ -104,10 +104,43 @@ class PartyTestCase(BaseTestCase):
 
     def test_edit_non_existing(self):
         """ Test that endpoint can update details of a specific party """
-        # super().create_party(party)
         response = super().edit_party(party_edit_data)
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['message'], "You cannot edit a non-existent party")
+
+
+    
+    def test_edit_blank_name(self):
+        """Test that endpoint cannot accept a blank name"""
+        response = super().edit_party(party_blank_name)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 404)
+
+    def test_edit_blank_hqAddress(self):
+        """Test that endpoint cannot accept a blank hqAddress"""
+        response = super().edit_party(party_blank_hqAddress)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 404)
+
+    def test_edit_blank_logoUrl(self):
+        """Test that endpoint cannot accept a logoUrl"""
+        response = super().edit_party(party_blank_logoUrl)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 404)
+
+    def test_edit_non_string_name(self):
+        """Test that endpoint cannot accept non string name"""
+        response = super().edit_party(party_non_string_name)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 404)
+
+    def test_edit_non_string_hqAddress(self):
+        """Test that endpoint cannot accept non string hqAddress"""
+        response = super().edit_party(party_non_string_hqAddress)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 404)
+
+
 
     def tearDown(self):
         return super().tearDown()

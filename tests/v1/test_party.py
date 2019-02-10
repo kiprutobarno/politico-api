@@ -73,6 +73,12 @@ class PartyTestCase(BaseTestCase):
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 
+    def test_non_string_hqAddress(self):
+        """Test that endpoint cannot accept non string name"""
+        response = super().create_party(party_non_string_hqAddress)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 400)
+
     def tearDown(self):
         return super().tearDown()
 

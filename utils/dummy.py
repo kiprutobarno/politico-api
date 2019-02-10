@@ -42,6 +42,13 @@ party_non_string_name = json.dumps(dict(
     logoUrl="kent.png"
 ))
 
+party_non_string_hqAddress = json.dumps(dict(
+    id=1,
+    name="Jubilee",
+    hqAddress=7,
+    logoUrl="kent.png"
+))
+
 empty_data_party = json.dumps(dict(
     
 ))

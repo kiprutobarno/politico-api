@@ -22,21 +22,21 @@ while building trust in the process through transparency
 
 ### Step 1
 
-Clone the repository [```HERE```](https://github.com/kipruto/politico-api)
+1. Clone the repository [```HERE```](https://github.com/kipruto/politico-api)
 
-Open terminal application on your local machine
+2. Open terminal application on your local machine
 
-Run ``` git clone https://github.com/kipruto/politico-api.git ```
+3. On the terminal, run ``` git clone https://github.com/kipruto/politico-api.git ``` command
 
 ```$ cd politico-api```
 
-Create and activate virtual environment
+3. Create and activate virtual environment
 
 ```$ virtualenv env```
 
 ```$ source env/bin/activate```
 
-Install project dependencies 
+4. Install project dependencies 
 
 ```$ pip install -r requirements.txt```
 

@@ -14,7 +14,7 @@ while building trust in the process through transparency
 3. The API can get a specific political party.
 4. The API can edit a specific political party.
 5. The API can delete a particular political party.
-6. The API can cch-update-README-163864697reate a political office
+6. The API can create a political office
 7. The API can get all political offices
 
 

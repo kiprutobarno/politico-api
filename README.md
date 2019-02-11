@@ -16,31 +16,29 @@ while building trust in the process through transparency
 5. The API can delete a particular political party.
 6. The API can create a political office
 7. The API can get all political offices
-## Installing
+
+
+## Installation
 
 ### Step 1
 
-Create directory
-```$ mkdir politico-api-v1```
+Clone the repository [```HERE```](https://github.com/kipruto/politico-api)
 
-```$ cd politico-api-v1```
+Open terminal application on your local machine
+
+Run ``` git clone https://github.com/kipruto/politico-api.git ```
+
+```$ cd politico-api```
 
 Create and activate virtual environment
 
 ```$ virtualenv env```
 
-
 ```$ source env/bin/activate```
-
-Clone the repository [```HERE```](https://github.com/kipruto/politico-api-v1) or 
-
-``` git clone https://github.com/kipruto/politico-api-v1.git ```
 
 Install project dependencies 
 
-
 ```$ pip install -r requirements.txt```
-
 
 ### Step 2
 
@@ -70,16 +68,16 @@ export FLASK_DEBUG=1
 
 Method | Endpoint | Functionality
 --- | --- | ---
-POST | ```/parties``` | Create a political party
-GET | ```/parties``` | Get all political parties
-GET | ```/parties/int:id``` | Get a specific political party
-PATCH | ```/parties/int:id/string:name``` | Edit a political party
-DELETE | ```/parties/int:id``` | Delete a particular poliical party
+```POST``` | ```/parties``` | Create a political party
+```GET``` | ```/parties``` | Get all political parties
+```GET | ```/parties/int:id``` | Get a specific political party
+```PATCH``` | ```/parties/int:id/string:name``` | Edit a political party
+```DELETE``` | ```/parties/int:id``` | Delete a particular political party
 
 #### Offices Endpoints : /api/v1/
 
 Method | Endpoint | Functionality
 --- | --- | ---
-POST | ```/offices``` | Create a political office
-GET | ```/offices``` | Get all political offices
-GET | ```/offices/int:id``` | Get a specific political party
+```POST``` | ```/offices``` | Create a political office
+```GET``` | ```/offices``` | Get all political offices
+```GET``` | ```/offices/int:id``` | Get a specific political party

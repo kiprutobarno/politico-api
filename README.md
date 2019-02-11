@@ -72,7 +72,7 @@ Method | Endpoint | Functionality
 ```GET``` | ```/parties``` | Get all political parties
 ```GET | ```/parties/int:id``` | Get a specific political party
 ```PATCH``` | ```/parties/int:id/string:name``` | Edit a political party
-```DELETE``` | ```/parties/int:id``` | Delete a particular political party
+```DELETE``` | ```/parties/int:id``` | Delete particular political party
 
 #### Offices Endpoints : /api/v1/
 

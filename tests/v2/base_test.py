@@ -17,6 +17,15 @@ class BaseTestCase(TestCase):
                 self.client = self.app.test_client(use_cookies=True)
                 with self.app.app_context():
                         create_tables()
+
+
+        def create_user(self, data):
+                """Create user endpoint test methods"""
+                return self.client.post(
+                        'api/v1/auth/signup',
+                        data=data,
+                        content_type='application/json'
+                )
     
         def teardown(self):
                 with self.app.app_context():

@@ -106,3 +106,42 @@ non_string_office_type = json.dumps(dict(
     type=5,
     name="Presidential"
 ))
+
+
+# user dummies
+
+admin_user = json.dumps(dict(
+    id=1,
+    firstName='John',
+    lastName='Doe',
+    otherName='Laurient',
+    email='john@politico.com',
+    phoneNumber='0765234234',
+    passportUrl='image.png',
+    isAdmin=True,
+    isCandidate=False
+))
+
+candidate_user = json.dumps(dict(
+    id=1,
+    firstName='Jane',
+    lastName='Doe',
+    otherName='Laurient',
+    email='jane@politico.com',
+    phoneNumber='0765234234',
+    passportUrl='image.png',
+    isAdmin=False,
+    isCandidate=True
+))
+
+user = json.dumps(dict(
+    id=1,
+    firstName='Collins',
+    lastName='Doe',
+    otherName='Laurient',
+    email='collins@politico.com',
+    phoneNumber='0765234234',
+    passportUrl='image.png',
+    isAdmin=False,
+    isCandidate=False    
+))

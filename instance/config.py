@@ -19,7 +19,6 @@ class DevelopmentConfig(Config):
 
 class TestingConfig(Config):
     """Configurations for Testing, with a separate test database"""
-    APP_SETTINGS = 'testing'
     TESTING = True
     DEBUG = True
     DATABASE_URI = postgres_link + database_name + '_test'

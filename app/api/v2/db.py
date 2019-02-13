@@ -84,31 +84,30 @@ def create_queries():
                     dateCreated TIMESTAMP NULL DEFAULT NOW(),
                     FOREIGN KEY (officeId) REFERENCES offices (id),
                     FOREIGN KEY (partyId) REFERENCES parties (id),
-                    FOREIGN KEY (userId) REFERENCES users (id) ),
-                    ON DELETE CASCADE,
-                    ON UPDATE CASCADE;"""
+                    FOREIGN KEY (userId) REFERENCES users (id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE );"""
 
     votes = """CREATE TABLE IF NOT EXISTS votes(
                     id SERIAL PRIMARY KEY NOT NULL, 
-                    createdOn TIMESTAMP NULL DEFAULT NOW()
-                    createdBy VARCHAR(50) NOT NULL,
+                    createdOn TIMESTAMP NULL DEFAULT NOW(),
+                    createdBy INTEGER NOT NULL,
                     officeId INTEGER NOT NULL, 
-                    candidateId SERIAL PRIMARY KEY NOT NULL 
+                    candidateId INTEGER NOT NULL,
                     FOREIGN KEY (officeId) REFERENCES offices (id),
-                    FOREIGN KEY (candidateId) REFERENCES candidates (id)),
-                    ON DELETE CASCADE,
-                    ON UPDATE CASCADE;"""
+                    FOREIGN KEY (candidateId) REFERENCES candidates (id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE );"""
 
     petitions = """CREATE TABLE IF NOT EXISTS petitions(
                     id SERIAL PRIMARY KEY NOT NULL, 
-                    createdOn TIMESTAMP NULL DEFAULT NOW()
-                    createdBy VARCHAR(50) NOT NULL,
-                    officeId INTEGER NOT NULL, 
-                    type VARCHAR(500) NOT NULL,
+                    createdOn TIMESTAMP NULL DEFAULT NOW(),
+                    createdBy INTEGER NOT NULL,
+                    officeId INTEGER NOT NULL,
                     FOREIGN KEY (createdBy) REFERENCES users (id),
-                    FOREIGN KEY (officeId) REFERENCES offices (id) ),
-                    ON DELETE CASCADE,
-                    ON UPDATE CASCADE;"""
+                    FOREIGN KEY (officeId) REFERENCES offices (id)
+                    ON DELETE CASCADE
+                    ON UPDATE CASCADE );"""
 
     queries = [users, parties, offices, candidates, votes, petitions]
     return queries

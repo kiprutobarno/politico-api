@@ -1,11 +1,12 @@
 import os
 
-postgres_link="postgres://admin:admin123@localhost:5432/politico"
+postgres_link="postgres://admin:admin123@localhost:5432/"
 database_name='politico'
 
 class Config:
     """ Parent configuration class """
     DEBUG = False
+    APP_SETTINGS = os.getenv('development')
 
 
 class DevelopmentConfig(Config):

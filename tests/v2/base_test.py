@@ -2,6 +2,7 @@ from app.api.v2.db import create_tables, destroy_tables
 from utils.dummy import *
 from unittest import TestCase
 from app import create_app
+from utils.dummy import *
 import os
 import unittest
 import sys

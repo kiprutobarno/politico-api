@@ -152,3 +152,30 @@ admin_user_login = json.dumps(dict(
     email='admin@politico.com',
     password='admin123'
 ))
+
+empty_body_login = json.dumps(dict(
+    
+))
+
+wrong_password_login = json.dumps(dict(
+    email='admin@politico.com',
+    password='wrongpassword'
+))
+
+without_email_login = json.dumps(dict(
+    password='admin123'
+))
+
+without_password_login = json.dumps(dict(
+    email='admin@politico.com'
+))
+
+blank_password_login = json.dumps(dict(
+    email='admin@politico.com',
+    password=''
+))
+
+blank_email_login = json.dumps(dict(
+    email='',
+    password='admin123'
+))

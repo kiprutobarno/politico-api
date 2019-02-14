@@ -28,7 +28,7 @@ class UserTestCase(BaseTestCase):
         response = super().login_user(wrong_password_login)
         self.assertEqual(response.status_code, 401)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 401)
+        self.assertTrue(response_content['message'] == 'wrong credentials')
 
     def test_blank_email_login(self):
         """Test that endpoint cannot login a user using blank email"""
@@ -48,19 +48,18 @@ class UserTestCase(BaseTestCase):
 
     def test_unexisting_login(self):
         """Test that endpoint cannot login an unexisting user"""
-        super().create_user(admin_user)
-        response = super().login_user(blank_password_login)
+        response = super().login_user(unregistered_login)
         self.assertEqual(response.status_code, 403)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 401)
+        self.assertTrue(response_content['message'] == 'That email is not registered')
 
     def test_blank_body_login(self):
         """Test that endpoint cannot login a user with empty request body"""
         super().create_user(admin_user)
-        response = super().login_user(blank_password_login)
-        self.assertEqual(response.status_code, 403)
+        response = super().login_user(empty_body_login)
+        self.assertEqual(response.status_code, 400)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 403)
+        self.assertTrue(response_content['status'] == 400)
 
     def tearDown(self):
         return super().tearDown()

@@ -8,7 +8,7 @@ class Blacklist:
         self.db = db()
 
     def revoke_token(self, token, token_type, admin, issued_at, expires_at):
-        """This function revokes and stores the revoked token in the blacklist table when user logs out"""
+        """This function revokes and stores the revoked token in the blacklist table"""
         token = {
             "token": token,
             "token_type": token_type,

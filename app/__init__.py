@@ -41,12 +41,17 @@ def handle_not_found(e):
         )
     )
 
-
 def create_app(config_name):
     """ This method creates a flask application """
     app = Flask(__name__, instance_relative_config=True)
     create_tables()
     app.config.from_pyfile('config.py')
+    app.config['SECRET_KEY'] = "sweet_secret"
+    app.config['JWT_SECRET_KEY'] = "jwt_sweet_secret"
+    app.config['JWT_BLACKLIST_ENABLED'] = True
+    app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
+    app.config['APP_SETTINGS'] = "development"
+
     app.register_blueprint(party)
     app.register_blueprint(office)
     app.register_blueprint(auth)
@@ -56,18 +61,11 @@ def create_app(config_name):
     jwt = JWTManager(app)
 
     @jwt.user_claims_loader
-    def add_admin_claims_to_access_token(admin):
+    def add_claims_to_access_token(identity):
         return {
-            'isAdmin': admin
+            'isAdmin': identity
         }
 
-    @jwt.user_claims_loader
-    def add_candidate_claims_to_access_token(candidate):
-        return {
-            'isCandidate': candidate
-        }
-
-    # check if token exists in blacklist table
     @jwt.token_in_blacklist_loader
     def check_if_token_in_blacklist(decrypted_token):
         jti = decrypted_token['jti']

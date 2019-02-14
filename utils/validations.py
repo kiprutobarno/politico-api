@@ -21,6 +21,15 @@ def validate_office_key_pair_values(request):
             errors.append(key)
     return errors
 
+def validate_login_key_pair_values(request):
+    """Validates key-value pairs of request dictionary body"""
+    keys = ['email', 'password']
+    errors=[]
+    for key in keys:
+        if not key in request.json:
+            errors.append(key)
+    return errors
+
 def error(status, message):
     """Captures error messages"""
   

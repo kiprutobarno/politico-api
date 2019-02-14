@@ -1,9 +1,12 @@
 from flask import Flask, make_response, jsonify
+from flask_jwt_extended import JWTManager
+from functools import wraps
 from instance.config import app_config
 from app.api.v1.views.party import party as party
 from app.api.v1.views.office import office as office
 from app.api.v2.views.user import auth as auth
 from app.api.v2.db import create_tables
+from app.api.v2.models.blacklist import Blacklist
 
 
 def handle_bad_request(e):
@@ -50,5 +53,25 @@ def create_app(config_name):
     app.register_error_handler(400, handle_bad_request)
     app.register_error_handler(405, handle_method_not_allowed)
     app.register_error_handler(404, handle_not_found)
+    jwt = JWTManager(app)
+
+    @jwt.user_claims_loader
+    def add_admin_claims_to_access_token(admin):
+        return {
+            'isAdmin': admin
+        }
+
+    @jwt.user_claims_loader
+    def add_candidate_claims_to_access_token(candidate):
+        return {
+            'isCandidate': candidate
+        }
+
+    # check if token exists in blacklist table
+    @jwt.token_in_blacklist_loader
+    def check_if_token_in_blacklist(decrypted_token):
+        jti = decrypted_token['jti']
+        if Blacklist().search(jti):
+            return jti
 
     return app

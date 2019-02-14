@@ -19,17 +19,6 @@ def admin_required(fn):
         return fn(*args, **kwargs)
     return wrapper
 
-# def candidate_required(fn):
-#     @wraps(fn)
-#     def wrapper(*args, **kwargs):
-#         jwt_holder()
-#         if get_jwt_claims()['isCandidate'] != True:
-#             return make_response(jsonify({"message": "Candidate rights required!"}), 201)
-#             pass
-#         return fn(*args, **kwargs)
-#     return wrapper
-
-
 class SignUp:
 
     @auth.route('/signup', methods=['POST'])

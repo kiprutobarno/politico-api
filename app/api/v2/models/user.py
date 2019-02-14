@@ -7,7 +7,6 @@ class User:
     def __init__(self):
         self.db=db()
 
-    
     def create_user(self, firstName, lastName, otherName, email, phoneNumber, passportUrl, isAdmin, isCandidate, password):
         """Save user details in the users table"""
         user = {
@@ -28,7 +27,22 @@ class User:
         self.db.commit()
         return user
 
-    
+    def search(self, email):
+        """ This function returns True if an email exists in the database."""
+        cursor=self.db.cursor()
+        cursor.execute("""SELECT * FROM users WHERE email='%s'"""%(email))
+        data=cursor.fetchall() #tuple
+        if len(data)>0:
+            return True
+
+    def login(self, email, password):
+        """ This function verifies user password and returns the user's is_admin status """
+        cursor=self.db.cursor()
+        cursor.execute("""SELECT * FROM users  WHERE email='%s'"""%(email))
+        hashes=cursor.fetchone() # returns a tuple
+        if User().verify_hash(password, hashes[9]):
+            return hashes
+
     @staticmethod
     def generate_hash(password):
         return sha256.hash(password)

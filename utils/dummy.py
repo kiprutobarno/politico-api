@@ -179,3 +179,8 @@ blank_email_login = json.dumps(dict(
     email='',
     password='admin123'
 ))
+
+unregistered_login=json.dumps(dict(
+    email='unregistered@politico.com',
+    password='notme'
+))

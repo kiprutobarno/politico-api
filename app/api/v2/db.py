@@ -1,13 +1,15 @@
 import os
 import psycopg2
 from instance.config import app_config
-env = os.environ['ENV']
+# env = os.environ['ENV']
 
-url = app_config[env].DATABASE_URI
+# url = app_config[env].DATABASE_URI
+# # print(url)
 
+url = "postgres://admin:admin123@localhost:5432/politico"
 
 def connection(url):
-    """This function creates a connection to the databse"""
+    """This function creates a connection to the database"""
     return psycopg2.connect(url)
 
 
@@ -24,7 +26,6 @@ def create_tables():
     for query in queries:
         cursor.execute(query)
     conn.commit()
-
 
 def destroy_tables():
     """This function destroys tables in the database"""
@@ -45,8 +46,7 @@ def destroy_queries():
     delete_votes = """DROP TABLE IF EXISTS votes;"""
     delete_petitions = """DROP TABLE IF EXISTS petitions;"""
 
-    statements = [delete_users, delete_parties, delete_offices,
-                  delete_candidates, delete_votes, delete_petitions]
+    statements = [delete_candidates, delete_votes, delete_petitions, delete_users, delete_parties, delete_offices]
     return statements
 
 
@@ -60,8 +60,8 @@ def create_queries():
                     email VARCHAR(50) NOT NULL,
                     phoneNumber VARCHAR(50) NOT NULL,
                     passportUrl VARCHAR(50) NOT NULL,
-                    is_admin BOOLEAN DEFAULT FALSE,
-                    is_candidate BOOLEAN DEFAULT FALSE,
+                    isAdmin BOOLEAN DEFAULT FALSE,
+                    isCandidate BOOLEAN DEFAULT FALSE,
                     password VARCHAR(200) NOT NULL,
                     dateCreated TIMESTAMP NULL DEFAULT NOW() );"""
 
@@ -82,11 +82,10 @@ def create_queries():
                     partyId INTEGER NOT NULL, 
                     userId INTEGER NOT NULL,
                     dateCreated TIMESTAMP NULL DEFAULT NOW(),
-                    FOREIGN KEY (officeId) REFERENCES offices (id),
-                    FOREIGN KEY (partyId) REFERENCES parties (id),
-                    FOREIGN KEY (userId) REFERENCES users (id)
-                    ON DELETE CASCADE
-                    ON UPDATE CASCADE );"""
+                    FOREIGN KEY(officeId) REFERENCES offices(id),
+                    FOREIGN KEY(partyId) REFERENCES parties(id),
+                    FOREIGN KEY(userId) REFERENCES users(id)
+                    ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     votes = """CREATE TABLE IF NOT EXISTS votes(
                     id SERIAL PRIMARY KEY NOT NULL, 
@@ -94,20 +93,19 @@ def create_queries():
                     createdBy INTEGER NOT NULL,
                     officeId INTEGER NOT NULL, 
                     candidateId INTEGER NOT NULL,
-                    FOREIGN KEY (officeId) REFERENCES offices (id),
-                    FOREIGN KEY (candidateId) REFERENCES candidates (id)
-                    ON DELETE CASCADE
-                    ON UPDATE CASCADE );"""
+                    FOREIGN KEY(officeId) REFERENCES offices(id),
+                    FOREIGN KEY(candidateId) REFERENCES candidates(id)
+                    ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     petitions = """CREATE TABLE IF NOT EXISTS petitions(
                     id SERIAL PRIMARY KEY NOT NULL, 
                     createdOn TIMESTAMP NULL DEFAULT NOW(),
                     createdBy INTEGER NOT NULL,
                     officeId INTEGER NOT NULL,
-                    FOREIGN KEY (createdBy) REFERENCES users (id),
-                    FOREIGN KEY (officeId) REFERENCES offices (id)
-                    ON DELETE CASCADE
-                    ON UPDATE CASCADE );"""
+                    FOREIGN KEY(createdBy) REFERENCES users(id),
+                    FOREIGN KEY(officeId) REFERENCES offices(id)
+                    ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     queries = [users, parties, offices, candidates, votes, petitions]
+
     return queries

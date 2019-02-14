@@ -27,6 +27,14 @@ class BaseTestCase(TestCase):
             content_type='application/json'
         )
 
+    def login_user(self, data):
+        """User login endpoint test method"""
+        return self.client.post(
+            'api/v2/auth/login',
+            data=data,
+            content_type='application/json'
+        )
+
     def teardown(self):
         with self.app.app_context():
             destroy_tables()

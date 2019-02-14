@@ -115,12 +115,12 @@ admin_user = json.dumps(dict(
     firstName='John',
     lastName='Doe',
     otherName='Laurient',
-    email='john@politico.com',
+    email='admin@politico.com',
     phoneNumber='0765234234',
     passportUrl='image.png',
     isAdmin=True,
     isCandidate=False,
-    password="aaaaa"
+    password="admin123"
 ))
 
 candidate_user = json.dumps(dict(
@@ -128,12 +128,12 @@ candidate_user = json.dumps(dict(
     firstName='Jane',
     lastName='Doe',
     otherName='Laurient',
-    email='jane@politico.com',
+    email='candidate@politico.com',
     phoneNumber='0765234234',
     passportUrl='image.png',
     isAdmin=False,
     isCandidate=True,
-    password="aaaaa"
+    password="candidate123"
 ))
 
 user = json.dumps(dict(
@@ -141,9 +141,14 @@ user = json.dumps(dict(
     firstName='Collins',
     lastName='Doe',
     otherName='Laurient',
-    email='collins@politico.com',
+    email='user@politico.com',
     phoneNumber='0765234234',
     passportUrl='image.png',
     isAdmin=False,
     isCandidate=False    
+))
+
+admin_user_login = json.dumps(dict(
+    email='admin@politico.com',
+    password='admin123'
 ))

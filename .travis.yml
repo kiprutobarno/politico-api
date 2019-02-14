@@ -3,7 +3,7 @@ python:
   - "3.6.7"
 
 env:
-  - DATABASE_URI="dbname='politico_test' host='127.0.0.1' port='5432' user='admin' password='admin123'"
+  - DATABASE_URI="dbname='politico' host='127.0.0.1' port='5432' user='admin' password='admin123'"
   
 # install dependencies
 install:
@@ -16,7 +16,7 @@ notifications:
   email: false
 
 before_script:
-  - psql -c "CREATE DATABASE politico_test;" -U postgres
+  - psql -c "CREATE DATABASE politico;" -U postgres
   - psql -c "CREATE USER admin WITH PASSWORD 'admin123';" -U postgres
 
 # run pytest

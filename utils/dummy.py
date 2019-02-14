@@ -119,7 +119,8 @@ admin_user = json.dumps(dict(
     phoneNumber='0765234234',
     passportUrl='image.png',
     isAdmin=True,
-    isCandidate=False
+    isCandidate=False,
+    password="aaaaa"
 ))
 
 candidate_user = json.dumps(dict(
@@ -131,7 +132,8 @@ candidate_user = json.dumps(dict(
     phoneNumber='0765234234',
     passportUrl='image.png',
     isAdmin=False,
-    isCandidate=True
+    isCandidate=True,
+    password="aaaaa"
 ))
 
 user = json.dumps(dict(

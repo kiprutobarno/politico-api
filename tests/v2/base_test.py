@@ -2,6 +2,7 @@ from app.api.v2.db import create_tables, destroy_tables
 from utils.dummy import *
 from unittest import TestCase
 from app import create_app
+from utils.dummy import *
 import os
 import unittest
 import sys
@@ -23,6 +24,14 @@ class BaseTestCase(TestCase):
         """Create user endpoint test methods"""
         return self.client.post(
             'api/v2/auth/signup',
+            data=data,
+            content_type='application/json'
+        )
+
+    def login_user(self, data):
+        """User login endpoint test method"""
+        return self.client.post(
+            'api/v2/auth/login',
             data=data,
             content_type='application/json'
         )

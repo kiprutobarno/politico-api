@@ -17,7 +17,7 @@ class Blacklist:
             "expires_at": expires_at
         }
 
-        query = """INSERT INTO blacklist(token, token_type, admin, issued_at, expires_at) VALUES(%(token)s, %(token_type)s, %(admin)s, %(issued_at)s, %(expires_at)s) """
+        query = """INSERT INTO blacklists(token, token_type, admin, issued_at, expires_at) VALUES(%(token)s, %(token_type)s, %(admin)s, %(issued_at)s, %(expires_at)s) """
 
         cursor = self.db.cursor()
         cursor.execute(query, token)
@@ -29,6 +29,6 @@ class Blacklist:
         conn = self.db()
         cursor = conn.cursor()
         cursor.execute(
-            """ SELECT token from blacklist WHERE token='%s'""" % (token), token)
+            """ SELECT token from blacklists WHERE token='%s'""" % (token), token)
         if len(cursor.fetchall()) > 0:
             return True

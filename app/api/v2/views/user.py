@@ -8,7 +8,6 @@ from utils.validations import validate_login_key_pair_values
 
 auth = Blueprint('auth', __name__, url_prefix='/api/v2/auth')
 
-
 def admin_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
@@ -18,6 +17,7 @@ def admin_required(fn):
             pass
         return fn(*args, **kwargs)
     return wrapper
+
 
 class SignUp:
 

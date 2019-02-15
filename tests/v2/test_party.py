@@ -33,7 +33,7 @@ class PartyTestCase(BaseTestCase):
         self.assertTrue(response_content['message'] == "Success")
 
     def test_get_non_existent_parties(self):
-        """ Test that endpoint can retrieve all parties """
+        """ Test that endpoint can retrieve all political parties """
         response = super().get_all_parties()
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 404)

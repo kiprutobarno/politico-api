@@ -41,6 +41,7 @@ def handle_not_found(e):
         )
     )
 
+
 def create_app(config_name):
     """ This method creates a flask application """
     app = Flask(__name__, instance_relative_config=True)
@@ -52,9 +53,9 @@ def create_app(config_name):
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
     app.config['APP_SETTINGS'] = "development"
 
-    app.register_blueprint(party)
-    app.register_blueprint(office)
-    app.register_blueprint(auth)
+    app.register_blueprint(party, url_prefix='/api/v1')
+    app.register_blueprint(office, url_prefix='/api/v1')
+    app.register_blueprint(auth, url_prefix='/api/v2')
     app.register_error_handler(400, handle_bad_request)
     app.register_error_handler(405, handle_method_not_allowed)
     app.register_error_handler(404, handle_not_found)

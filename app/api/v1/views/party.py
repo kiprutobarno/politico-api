@@ -2,7 +2,7 @@ from flask import Blueprint, make_response, request, jsonify
 from app.api.v1.models.party import Party, parties
 from utils.validations import *
 
-party = Blueprint('party', __name__, url_prefix='/api/v1')
+party = Blueprint('party', __name__)
 
 class PartiesEndPoint:
     """Party API Endpoints"""

@@ -26,8 +26,7 @@ class Blacklist:
 
     def search(self, token):
         """This function returns True if a token exists in the blacklist table """
-        conn = self.db()
-        cursor = conn.cursor()
+        cursor = self.db.cursor()
         cursor.execute(
             """ SELECT token from blacklists WHERE token='%s'""" % (token), token)
         if len(cursor.fetchall()) > 0:

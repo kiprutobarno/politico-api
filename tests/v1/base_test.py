@@ -4,8 +4,7 @@ import sys
 sys.path.append('../../')
 from app import create_app
 from unittest import TestCase
-from utils.dummy import *
-   
+from utils.dummy import *   
 
 class BaseTestCase(TestCase):
     """ Base Tests """

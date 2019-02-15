@@ -76,6 +76,26 @@ class PartyTestCase(BaseTestCase):
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 
+    def test_get_all_parties(self):
+        """ Test that endpoint can retrieve all parties """
+        super().create_user(admin_user)
+        login=super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token=[d['token'] for d in login_content['data']][0]
+        response = super().get_all_parties(token)
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == "200")
+
+    def test_get_non_existent_parties(self):
+        """ Test that endpoint can retrieve all political parties """
+        super().create_user(admin_user)
+        login=super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token=[d['token'] for d in login_content['data']][0]
+        response = super().get_all_parties(token)
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 404)
+
 
     def tearDown(self):
         return super().tearDown()

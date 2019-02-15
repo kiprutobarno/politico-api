@@ -87,7 +87,7 @@ class PartyTestCase(BaseTestCase):
         self.assertTrue(response_content['status'] == "200")
 
     def test_get_non_existent_parties(self):
-        """ Test that endpoint can retrieve all political parties """
+        """ Test that endpoint cannot retrieve non existing political parties """
         super().create_user(admin_user)
         login=super().login_user(admin_user_login)
         login_content = json.loads(login.data.decode('utf-8'))

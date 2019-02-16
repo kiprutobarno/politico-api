@@ -84,7 +84,7 @@ class PartyTestCase(BaseTestCase):
         token=[d['token'] for d in login_content['data']][0]
         response = super().get_all_parties(token)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['message'] == "Success")
+        self.assertTrue(response_content['status'] == 200)
 
     def test_get_specific_party(self):
         """ Test that endpoint can retrieve a specific political party """

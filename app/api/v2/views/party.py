@@ -107,4 +107,22 @@ class PartyEndPoint:
                 }
             ), 200
         )
-                
+
+    @party_version_2.route('/parties/<int:id>', methods=["DELETE"])
+    def delete_party(id):
+        """ Delete specific political party """
+        if id <= 0:
+            return make_response(
+                jsonify(
+                    {
+                        "status": 400,
+                        "message": "Unacceptable id format",
+                    }
+                ), 400
+            )
+
+        party = Party().delete_party(id)
+        return make_response(jsonify({
+            "status": 200,
+            "message": "Success"
+        }), 200)                

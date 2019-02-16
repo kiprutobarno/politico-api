@@ -52,6 +52,12 @@ class Party:
             parties.append(party)
         return parties
 
+    def delete_party(self, id):
+        """This function deletes a product entry in the database"""
+        cursor = self.db.cursor()
+        cursor.execute("""DELETE FROM parties WHERE id={}""".format(id))
+        return self.db.commit() 
+
     def search(self, name):
         """ This function returns True if an email exists in the database."""
         cursor=self.db.cursor()

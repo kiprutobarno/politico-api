@@ -105,21 +105,25 @@ class PartyTestCase(BaseTestCase):
         token=[d['token'] for d in login_content['data']][0]
         response = super().delete_party(token)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 400)
+        self.assertTrue(response_content['status'] == 200)
     
-    def test_delete_non_existent(self):
+    # def test_delete_non_existent(self):
+    #     """Test endpoint will not accept a zero and an id"""
+    #     super().create_user(admin_user)
+    #     login=super().login_user(admin_user_login)
+    #     login_content = json.loads(login.data.decode('utf-8'))
+    #     token=[d['token'] for d in login_content['data']][0]
+    #     response = super().invalid_delete_party(token)
+    #     response_content = json.loads(response.data.decode())
+    #     self.assertEqual(response_content['status'], 404)
+
+    def test_delete_invalid_id(self):
         """Test endpoint will not accept a zero and an id"""
         super().create_user(admin_user)
         login=super().login_user(admin_user_login)
         login_content = json.loads(login.data.decode('utf-8'))
         token=[d['token'] for d in login_content['data']][0]
         response = super().invalid_delete_party(token)
-        response_content = json.loads(response.data.decode())
-        self.assertEqual(response_content['status'], 404)
-
-    def test_delete_invalid_id(self):
-        """Test endpoint will not accept a zero and an id"""
-        response = super().invalid_delete_party()
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['message'], 'Unacceptable id format')
 

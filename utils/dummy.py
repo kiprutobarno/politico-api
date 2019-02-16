@@ -71,13 +71,13 @@ existing_party = json.dumps(dict(
 # office dummies
 office = json.dumps(dict(
     id=1,
-    type="National",
+    officeType="National",
     name="Presidential"
 ))
 
 office_missing_name_key = json.dumps(dict(
     id=1, 
-    type="National"
+    officeType="National"
 ))
 office_empty_body = json.dumps(dict(
     
@@ -85,25 +85,25 @@ office_empty_body = json.dumps(dict(
 
 office_empty_type = json.dumps(dict(
     id=1,
-    type="",
+    officeType="",
     name="Presidential"
 ))
 
 office_empty_name = json.dumps(dict(
     id=1,
-    type="National",
+    officeType="National",
     name=""
 ))
 
 non_string_office_name = json.dumps(dict(
     id=1,
-    type="National",
+    officeType="National",
     name=5
 ))
 
 non_string_office_type = json.dumps(dict(
     id=1,
-    type=5,
+    officeType=5,
     name="Presidential"
 ))
 

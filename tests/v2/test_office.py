@@ -47,23 +47,35 @@ class OfficeTestCase(BaseTestCase):
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 
-    # def test_non_string_name(self):
-    #     """ Test that endpoint rejects non string name value """
-    #     response = super().create_office(non_string_office_name)
-    #     response_content =  json.loads(response.data.decode())
-    #     self.assertTrue(response_content['status'] == 400)
+    def test_non_string_name(self):
+        """ Test that endpoint rejects non string name value """
+        super().create_user(admin_user)
+        login=super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token=[d['token'] for d in login_content['data']][0]
+        response = super().create_office(non_string_office_name, token)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 400)
 
-    # def test_non_string_type(self):
-    #     """ Test that endpoint rejects non string type value """
-    #     response = super().create_office(non_string_office_type)
-    #     response_content =  json.loads(response.data.decode())
-    #     self.assertTrue(response_content['status'] == 400)
+    def test_non_string_type(self):
+        """ Test that endpoint rejects non string type value """
+        super().create_user(admin_user)
+        login=super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token=[d['token'] for d in login_content['data']][0]
+        response = super().create_office(non_string_office_type, token)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 400)
 
-    # def test_empty_office(self):
-    #     """ Test that endpoint rejects empty office body """
-    #     response = super().create_office(office_empty_body)
-    #     response_content =  json.loads(response.data.decode())
-    #     self.assertTrue(response_content['status'] == 400)
+    def test_empty_office(self):
+        """ Test that endpoint rejects empty office body """
+        super().create_user(admin_user)
+        login=super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token=[d['token'] for d in login_content['data']][0]
+        response = super().create_office(office_empty_body, token)
+        response_content =  json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 400)
 
     # def test_get_all_offices(self):
     #     """ Test that endpoint can retrieve all offices """

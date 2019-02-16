@@ -95,6 +95,7 @@ class PartyEndPoint:
         )
 
     @party_version_2.route('/parties/<int:id>', methods=["GET"])
+    @jwt_required
     def get_specific_party(id):
         """ Get a specific political party """
         
@@ -109,6 +110,7 @@ class PartyEndPoint:
         )
 
     @party_version_2.route('/parties/<int:id>', methods=["DELETE"])
+    @jwt_required
     def delete_party(id):
         """ Delete specific political party """
         if id <= 0:
@@ -124,5 +126,5 @@ class PartyEndPoint:
         party = Party().delete_party(id)
         return make_response(jsonify({
             "status": 200,
-            "message": "Success"
+            "message": "Party successfull deleted!"
         }), 200)                

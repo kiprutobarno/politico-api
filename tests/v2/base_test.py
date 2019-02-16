@@ -70,17 +70,19 @@ class BaseTestCase(TestCase):
     #         content_type='application/json'
     #     )
 
-    # def delete_party(self):
-    #     return self.client.delete(
-    #         '/api/v1/parties/1',
-    #         content_type='application/json',
-    #     )
+    def delete_party(self, token):
+        return self.client.delete(
+            '/api/v2/parties/1',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
 
-    # def invalid_delete_party(self):
-    #     return self.client.delete(
-    #         '/api/v1/parties/0',
-    #         content_type='application/json',
-    #     )
+    def invalid_delete_party(self, token):
+        return self.client.delete(
+            '/api/v2/parties/0',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
 
     # # Office test methods
     # def create_office(self, data):

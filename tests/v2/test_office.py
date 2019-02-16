@@ -87,13 +87,15 @@ class OfficeTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 200)
 
-    # def test_get_specific_office(self):
-    #     """ Test that endpoint can fetch specific political office """
-    #     super().create_office(office)
-    #     response = super().get_specific_office()
-    #     self.assertEqual(response.status_code, 200)
-    #     response_content = json.loads(response.data.decode())
-    #     self.assertTrue(response_content['message'] == "Success")
+    def test_get_specific_office(self):
+        """ Test that endpoint can fetch specific political office """
+        login=super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token=[d['token'] for d in login_content['data']][0]
+        response = super().get_specific_office(token)
+        self.assertEqual(response.status_code, 200)
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['status'] == 200)
 
     # def test_nonexistent_offices(self):
     #     """ Test that endpoint will not accept retrieving non existent offices """

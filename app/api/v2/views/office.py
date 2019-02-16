@@ -61,3 +61,14 @@ class OfficeEndPoint:
             "message": "Success",
             "data": Office().get_all_offices()
         }), 200)
+
+    @office_version_2.route('/offices/<int:id>', methods=["GET"])
+    @jwt_required
+    def get_specific_party(id):
+        """ Get a specific political office """
+        
+        return make_response(jsonify({
+            "status": 200,
+            "message": "Success",
+            "data": Office().get_specific_office(id)
+        }), 200)

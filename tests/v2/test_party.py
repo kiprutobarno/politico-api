@@ -179,7 +179,7 @@ class PartyTestCase(BaseTestCase):
         Party().parties.clear()
 
     def test_edit_blank_logoUrl(self):
-        """Test that endpoint cannot accept a logoUrl"""
+        """Test that endpoint cannot accept a non existing logoUrl"""
         super().create_user(admin_user)
         login=super().login_user(admin_user_login)
         login_content = json.loads(login.data.decode('utf-8'))

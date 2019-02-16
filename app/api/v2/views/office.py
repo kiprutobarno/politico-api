@@ -50,3 +50,14 @@ class OfficeEndPoint:
             "message": "Success",
             "data": Office().create_office(name, officeType)
         }), 201)
+
+    @office_version_2.route('/offices', methods=["GET"])
+    @jwt_required
+    def get_offices():
+        """ Get all offices endpoint """
+    
+        return make_response(jsonify({
+            "status": 200,
+            "message": "Success",
+            "data": Office().get_all_offices()
+        }), 200)

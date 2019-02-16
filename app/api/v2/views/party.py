@@ -127,4 +127,61 @@ class PartyEndPoint:
         return make_response(jsonify({
             "status": 200,
             "message": "Party successfull deleted!"
-        }), 200)                
+        }), 200)   
+
+    @party_version_2.route('/parties/<int:id>/<string:name>', methods=['PATCH'])
+    def patch_party(id, name):
+        """ Edit specific political party """
+
+        errors = validate_party_key_pair_values(request)
+        if errors:
+            return error(400, "{} key missing".format(', '.join(errors)))
+
+        # if not Party().parties or len(Party().parties) < id:
+        #     return make_response(jsonify({
+        #         "status": 404,
+        #         "message": "You cannot edit a non-existent party",
+        # }), 404)
+            
+        data = request.get_json()
+        name = data.get('name')
+        hqAddress = data.get('hqAddress')
+        logoUrl = data.get('logoUrl')
+
+        if name == "":
+            return make_response(jsonify({
+                "status": 400,
+                "message": "name cannot be blank",
+        }), 400)
+
+        if hqAddress == "":
+            return make_response(jsonify({
+                "status": 400,
+                "message": "hqAddress cannot be blank",
+        }), 400)
+
+        if logoUrl == "":
+            return make_response(jsonify({
+                "status": 400,
+                "message": "logoUrl cannot be blank",
+        }), 400)
+
+        if not isinstance(name, str):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "name must be a string",
+        }), 400)
+
+        if not isinstance(hqAddress, str):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "hqAddress must be a string",
+        }), 400)
+
+        Party().edit_party(id, name, data)
+        
+        return make_response(jsonify({
+            "status": 200,
+            "message": "Success",
+            "data": Party().get_specific_party(id)
+        }), 200)             

@@ -4,11 +4,11 @@ class Office:
     def __init__(self):
         self.db=db()
 
-    def create_office(self, officeType, name):
+    def create_office(self, name, officeType):
         """ Create a office method """
         office = {
-            "officeType": officeType,
-            "name": name
+            "name": name,
+            "officeType": officeType
         }
         
         query = """INSERT INTO offices(name, type) VALUES(%(name)s, %(officeType)s)"""

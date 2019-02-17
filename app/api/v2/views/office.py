@@ -9,7 +9,7 @@ from utils.validations import validate_login_key_pair_values
 office_version_2 = Blueprint('office_version_2', __name__)
 
 class OfficeEndPoint:
-    """Party API Endpoints"""
+    """Office API Endpoints"""
 
     @office_version_2.route('/offices', methods=["POST"])
 

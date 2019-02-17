@@ -15,5 +15,5 @@ class CandidateTestCase(BaseTestCase):
         token=[d['token'] for d in login_content['data']][0]
         response = super().create_office(office, token)
         response=super().register_candidate(candidate, token)
-        response_content =  json.loads(response.data.decode())
+        response_content =  json.loads(response.data.decode('utf-8'))
         self.assertTrue(response_content['status'] == 201)

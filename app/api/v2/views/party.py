@@ -54,13 +54,7 @@ class PartyEndPoint:
                 "status": 400,
                 "message": "hqAddress must be a string",
         }), 400)
-
-        # if Party().search(name):
-        #     return make_response(jsonify({
-        #         "status": 403,
-        #         "message": "That party already exists!",
-        #     }), 403)
-
+        
         return make_response(jsonify({
             "status": 201,
             "message": "Success",
@@ -136,12 +130,6 @@ class PartyEndPoint:
         errors = validate_party_key_pair_values(request)
         if errors:
             return error(400, "{} key missing".format(', '.join(errors)))
-
-        # if not Party().parties or len(Party().parties) < id:
-        #     return make_response(jsonify({
-        #         "status": 404,
-        #         "message": "You cannot edit a non-existent party",
-        # }), 404)
             
         data = request.get_json()
         name = data.get('name')

@@ -10,7 +10,7 @@ auth = Blueprint('auth', __name__)
 
 
 class SignUp:
-
+    """User signup endpoint"""
     @auth.route('/auth/signup', methods=['POST'])
     def signup():
         data = request.get_json()

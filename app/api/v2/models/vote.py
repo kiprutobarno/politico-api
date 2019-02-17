@@ -29,6 +29,5 @@ class Vote:
         cursor.execute(query)
 
         data = cursor.fetchone()
-        print(data)
         return { "voter": data[1]+" "+data[2], "office": data[0], "candidate": data[3]}
         

@@ -8,6 +8,7 @@ from instance.config import app_config
 
 url = "postgres://admin:admin123@localhost:5432/politico"
 
+
 def connection(url):
     """This function creates a connection to the database"""
     return psycopg2.connect(url)
@@ -26,6 +27,7 @@ def create_tables():
     for query in queries:
         cursor.execute(query)
     conn.commit()
+
 
 def destroy_tables():
     """This function destroys tables in the database"""
@@ -47,7 +49,8 @@ def destroy_queries():
     delete_votes = """DROP TABLE IF EXISTS votes;"""
     delete_petitions = """DROP TABLE IF EXISTS petitions;"""
 
-    statements = [delete_candidates, delete_votes, delete_petitions, delete_blacklist, delete_users, delete_parties, delete_offices]
+    statements = [delete_candidates, delete_votes, delete_petitions,
+                  delete_blacklist, delete_users, delete_parties, delete_offices]
     return statements
 
 
@@ -88,34 +91,36 @@ def create_queries():
 
     candidates = """CREATE TABLE IF NOT EXISTS candidates(
                     id SERIAL PRIMARY KEY NOT NULL, 
-                    officeId INTEGER NOT NULL, 
-                    partyId INTEGER NOT NULL, 
-                    userId INTEGER NOT NULL,
+                    office INTEGER NOT NULL, 
+                    party INTEGER NOT NULL, 
+                    candidate INTEGER NOT NULL,
                     dateCreated TIMESTAMP NULL DEFAULT NOW(),
-                    FOREIGN KEY(officeId) REFERENCES offices(id),
-                    FOREIGN KEY(partyId) REFERENCES parties(id),
-                    FOREIGN KEY(userId) REFERENCES users(id)
+                    FOREIGN KEY(office) REFERENCES offices(id),
+                    FOREIGN KEY(party) REFERENCES parties(id),
+                    FOREIGN KEY(candidate) REFERENCES users(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     votes = """CREATE TABLE IF NOT EXISTS votes(
                     id SERIAL PRIMARY KEY NOT NULL, 
                     createdOn TIMESTAMP NULL DEFAULT NOW(),
                     createdBy INTEGER NOT NULL,
-                    officeId INTEGER NOT NULL, 
-                    candidateId INTEGER NOT NULL,
-                    FOREIGN KEY(officeId) REFERENCES offices(id),
-                    FOREIGN KEY(candidateId) REFERENCES candidates(id)
+                    office INTEGER NOT NULL, 
+                    candidate INTEGER NOT NULL,
+                    FOREIGN KEY(office) REFERENCES offices(id),
+                    FOREIGN KEY(candidate) REFERENCES candidates(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     petitions = """CREATE TABLE IF NOT EXISTS petitions(
                     id SERIAL PRIMARY KEY NOT NULL, 
                     createdOn TIMESTAMP NULL DEFAULT NOW(),
                     createdBy INTEGER NOT NULL,
-                    officeId INTEGER NOT NULL,
+                    office INTEGER NOT NULL,
+                    body VARCHAR(500) NOT NULL,
                     FOREIGN KEY(createdBy) REFERENCES users(id),
-                    FOREIGN KEY(officeId) REFERENCES offices(id)
+                    FOREIGN KEY(office) REFERENCES offices(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
-    queries = [users, parties, offices, blacklist, candidates, votes, petitions]
+    queries = [users, parties, offices,
+               blacklist, candidates, votes, petitions]
 
     return queries

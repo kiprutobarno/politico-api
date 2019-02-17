@@ -85,7 +85,7 @@ class BaseTestCase(TestCase):
             headers=dict(Authorization="Bearer " + token)
         )
 
-    # # Office test methods
+    # Office test methods
     def create_office(self, data, token):
         """Create office endpoint test method """
         return self.client.post(
@@ -111,6 +111,15 @@ class BaseTestCase(TestCase):
             headers=dict(Authorization="Bearer " + token)
         )
 
+    # candidate test methods
+    def register_candidate(self, data, token):
+        """Create candidate endpoint test method """
+        return self.client.post(
+            'api/v2/office/1/register',
+            data=data,
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
 
     def teardown(self):
         with self.app.app_context():

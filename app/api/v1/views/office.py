@@ -4,6 +4,7 @@ from utils.validations import *
 
 office = Blueprint('office', __name__)
 
+
 class OfficesEndpoint:
     """Office API Endpoints"""
 
@@ -16,7 +17,7 @@ class OfficesEndpoint:
             return error(400, "{} key missing".format(', '.join(errors)))
 
         data = request.get_json()
-        office_type = data.get('type')
+        officeType = data.get('officeType')
         name = data.get('name')
 
         if name == "":
@@ -25,7 +26,7 @@ class OfficesEndpoint:
                 "message": "name cannot be blank",
             }), 400)
 
-        if office_type == "":
+        if officeType == "":
             return make_response(jsonify({
                 "status": 400,
                 "message": "type cannot be blank",
@@ -37,7 +38,7 @@ class OfficesEndpoint:
                 "message": "name must be a string",
             }), 400)
 
-        if not isinstance(office_type, str):
+        if not isinstance(officeType, str):
             return make_response(jsonify({
                 "status": 400,
                 "message": "type must be a string",
@@ -49,7 +50,7 @@ class OfficesEndpoint:
                 "message": "That office already exists!",
             }), 400)
 
-        office = Office().create_office(office_type, name)
+        office = Office().create_office(name, officeType)
         return make_response(jsonify({
             "status": 201,
             "message": "Success",
@@ -64,7 +65,7 @@ class OfficesEndpoint:
                 "status": 404,
                 "message": "Sorry, no government office is currently available, try again later",
             }), 404)
-        
+
         return make_response(jsonify({
             "status": 200,
             "message": "Success",

@@ -13,7 +13,7 @@ class TestDevelopmentConfig(BaseTestCase):
         self.assertTrue(self.app.config['DEBUG'] is True)
         self.assertTrue(self.app.config['TESTING'] is False)
         self.assertTrue(
-            self.app.config['DATABASE_URI'] == 'postgres://admin:admin123@localhost:5432/politico'
+            self.app.config['DATABASE_URL'] == 'postgres://admin:admin123@localhost:5432/politico'
         )
 
 
@@ -28,7 +28,7 @@ class TestTestingConfig(BaseTestCase):
         self.assertTrue(self.app.config['DEBUG'] is True)
         self.assertTrue(self.app.config['TESTING'] is True)
         self.assertTrue(
-            self.app.config['DATABASE_URI'] == 'postgres://admin:admin123@localhost:5432/politico_test'
+            self.app.config['DATABASE_URL'] == 'postgres://admin:admin123@localhost:5432/politico_test'
         )
 
 

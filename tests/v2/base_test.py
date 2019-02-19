@@ -62,13 +62,14 @@ class BaseTestCase(TestCase):
             headers=dict(Authorization="Bearer " + token)
         )
 
-    # def edit_party(self, data):
-    #     """Edit political party endpoint test method """
-    #     return self.client.patch(
-    #         '/api/v1/parties/1/Red',
-    #         data=data,
-    #         content_type='application/json'
-    #     )
+    def edit_party(self, data, token):
+        """Edit political party endpoint test method """
+        return self.client.patch(
+            '/api/v2/parties/1/Red',
+            data=data,
+            content_type='application/json',
+             headers=dict(Authorization="Bearer " + token)
+        )
 
     def delete_party(self, token):
         return self.client.delete(

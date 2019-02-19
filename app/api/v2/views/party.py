@@ -13,8 +13,8 @@ class PartyEndPoint:
     """Party API Endpoints"""
 
     @party_version_2.route('/parties', methods=["POST"])
-    @jwt_required
     def party():
+        print(get_jwt_claims()['isAdmin'])
         """ Create party endpoint """
         errors = validate_party_key_pair_values(request)
         if errors:
@@ -54,6 +54,12 @@ class PartyEndPoint:
                 "status": 400,
                 "message": "hqAddress must be a string",
         }), 400)
+
+        if Party().search(name):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "Such a party is already registered!",
+        }), 400)
         
         return make_response(jsonify({
             "status": 201,
@@ -63,7 +69,8 @@ class PartyEndPoint:
 
 
     @party_version_2.route('/parties', methods=["GET"])
-    @jwt_required
+
+    @admin_required
     def get_parties():
         """ Get all parties endpoint """
 
@@ -78,30 +85,45 @@ class PartyEndPoint:
                     }
                 ), 200
             )
-        return make_response(jsonify(
-            jsonify(
-                    {
-                        "status": 200,
-                        "message": "Sorry, no party has been currently registered"
-                    }
-                ), 200
+
+        else:
+            return make_response(jsonify(
+                jsonify(
+                        {
+                            "status": 200,
+                            "message": "Sorry, no party has been currently registered"
+                        }
+                    ), 200
+                )
             )
-        )
 
     @party_version_2.route('/parties/<int:id>', methods=["GET"])
     @jwt_required
     def get_specific_party(id):
         """ Get a specific political party """
+
+        if Party().get_specific_party(id):
         
-        return make_response(
-            jsonify(
-                {
-                    "status": 200,
-                    "message": "Success",
-                    "data": Party().get_specific_party(id)
-                }
-            ), 200
-        )
+            return make_response(
+                jsonify(
+                    {
+                        "status": 200,
+                        "message": "Success",
+                        "data": Party().get_specific_party(id)
+                    }
+                ), 200
+            )
+
+        else:
+            return make_response(jsonify(
+                jsonify(
+                        {
+                            "status": 200,
+                            "message": "No such party is registered"
+                        }
+                    ), 200
+                )
+            )
 
     @party_version_2.route('/parties/<int:id>', methods=["DELETE"])
     @jwt_required

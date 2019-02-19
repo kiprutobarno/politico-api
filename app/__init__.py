@@ -35,7 +35,6 @@ def handle_method_not_allowed(e):
         )
     )
 
-
 def handle_not_found(e):
     return make_response(
         jsonify(
@@ -46,10 +45,10 @@ def handle_not_found(e):
         )
     )
 
-
 def create_app(config_name):
     """ This method creates a flask application """
     app = Flask(__name__, instance_relative_config=True)
+    app.app_context().push()
     create_tables()
     app.config.from_pyfile('config.py')
     app.config['SECRET_KEY'] = "sweet_secret"

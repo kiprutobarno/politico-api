@@ -21,6 +21,50 @@ class CandidateEndPoint:
         office = data.get('office')
         party = data.get('party')
         candidate = data.get('candidate')
+
+        if isBlank(office):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "office cannot be blank",
+            }), 400)
+
+        if isBlank(party):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "party cannot be blank",
+            }), 400)
+
+        if isBlank(candidate):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "candidate cannot be blank",
+            }), 400)
+
+        if not isinstance(office, int):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "officeId must be an integer",
+        }), 400)
+
+        if not isinstance(party, int):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "partyId must be an integer",
+        }), 400)
+
+        if not isinstance(candidate, int):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "candidateId must be an integer",
+        }), 400)
+
+        if Candidate().search(candidate):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "Candidate is already registered!",
+        }), 400)
+
+
         Candidate().register(office, party, candidate)
         Candidate().update(candidate)
         return make_response(jsonify({

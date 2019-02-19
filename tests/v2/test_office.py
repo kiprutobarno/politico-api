@@ -79,9 +79,11 @@ class OfficeTestCase(BaseTestCase):
 
     def test_get_all_offices(self):
         """ Test that endpoint can retrieve all offices """
+        super().create_user(admin_user)
         login=super().login_user(admin_user_login)
         login_content = json.loads(login.data.decode('utf-8'))
         token=[d['token'] for d in login_content['data']][0]
+        super().create_office(office, token)
         response = super().get_all_offices(token)
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(response.data.decode())
@@ -89,9 +91,11 @@ class OfficeTestCase(BaseTestCase):
 
     def test_get_specific_office(self):
         """ Test that endpoint can fetch specific political office """
+        super().create_user(admin_user)
         login=super().login_user(admin_user_login)
         login_content = json.loads(login.data.decode('utf-8'))
         token=[d['token'] for d in login_content['data']][0]
+        super().create_office(office, token)
         response = super().get_specific_office(token)
         self.assertEqual(response.status_code, 200)
         response_content = json.loads(response.data.decode())
@@ -99,10 +103,14 @@ class OfficeTestCase(BaseTestCase):
 
     # def test_nonexistent_offices(self):
     #     """ Test that endpoint will not accept retrieving non existent offices """
-    #     Office().offices.clear()
-    #     response = super().get_all_offices()
+    #     super().create_user(admin_user)
+    #     login=super().login_user(admin_user_login)
+    #     login_content = json.loads(login.data.decode('utf-8'))
+    #     token=[d['token'] for d in login_content['data']][0]
+    #     response = super().get_specific_office(token)
+    #     self.assertEqual(response.status_code, 404)
     #     response_content = json.loads(response.data.decode())
-    #     self.assertTrue(response_content['message'] == "Sorry, no government office is currently available, try again later")
+    #     self.assertTrue(response_content['status'] == 404)
 
     # def test_nonexistent_office(self):
     #     """ Test that endpoint will not accept retrieving non existent office """

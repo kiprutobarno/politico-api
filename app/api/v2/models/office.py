@@ -47,3 +47,11 @@ class Office:
             )
             offices.append(office)
         return offices 
+
+    def search(self, name):
+        """ This function returns True if an office exists in the database."""
+        cursor=self.db.cursor()
+        cursor.execute("""SELECT * FROM offices WHERE name='%s'"""%(name))
+        data=cursor.fetchall()
+        if len(data)>0:
+            return True

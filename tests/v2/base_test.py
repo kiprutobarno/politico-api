@@ -54,12 +54,13 @@ class BaseTestCase(TestCase):
             headers=dict(Authorization="Bearer " + token)
         )
 
-    # def get_specific_party(self):
-    #     """Get specific party endpoint test method """
-    #     return self.client.get(
-    #         '/api/v1/parties/1',
-    #         content_type='application/json'
-    #     )
+    def get_specific_party(self, token):
+        """Get specific party endpoint test method """
+        return self.client.get(
+            '/api/v2/parties/1',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
 
     # def edit_party(self, data):
     #     """Edit political party endpoint test method """

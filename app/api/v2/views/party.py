@@ -93,4 +93,18 @@ class PartyEndPoint:
                 ), 200
             )
         )
+
+    @party_version_2.route('/parties/<int:id>', methods=["GET"])
+    def get_specific_party(id):
+        """ Get a specific political party """
+        
+        return make_response(
+            jsonify(
+                {
+                    "status": 200,
+                    "message": "Success",
+                    "data": Party().get_specific_party(id)
+                }
+            ), 200
+        )
                 

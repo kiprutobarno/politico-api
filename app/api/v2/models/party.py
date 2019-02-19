@@ -35,6 +35,23 @@ class Party:
             parties.append(party)
         return parties
 
+    def get_specific_party(self, id):
+        """ Get all parties method """
+        cursor = self.db.cursor()
+        cursor.execute("""SELECT id, name, hqaddress, logourl FROM parties WHERE id={}""".format(id))
+        data=cursor.fetchall()
+        parties=[]
+        for i, items in enumerate(data):
+            id, name, hqaddress, logourl=items
+            party=dict(
+                id=int(id),
+                name=name,
+                hqaddress=hqaddress,
+                logourl=logourl
+            )
+            parties.append(party)
+        return parties
+
     def search(self, name):
         """ This function returns True if an email exists in the database."""
         cursor=self.db.cursor()

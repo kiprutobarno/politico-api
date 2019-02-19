@@ -9,6 +9,7 @@ from utils.validations import validate_login_key_pair_values
 auth = Blueprint('auth', __name__)
 
 
+
 class SignUp:
     """User signup endpoint"""
     @auth.route('/auth/signup', methods=['POST'])

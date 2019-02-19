@@ -4,8 +4,8 @@ from app.api.v1.models.office import Office
 class OfficeTestCase(BaseTestCase):
     """ This class represents the office test cases and inherits from BaseTestCase class """
     
-    def setUp(self):
-        super().setUp()
+    # def setUp(self):
+    #     super().setUp()
 
     def test_create_office(self):
         """ Test that endpoint can create office"""
@@ -80,8 +80,8 @@ class OfficeTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == "Sorry, no such office exists, try again later!")
 
-    def tearDown(self):
-        return super().tearDown()
+    # def tearDown(self):
+    #     return super().tearDown()
         
 if __name__ == "__main__":
     unittest.main()

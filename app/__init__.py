@@ -48,14 +48,15 @@ def handle_not_found(e):
 def create_app(config_name):
     """ This method creates a flask application """
     app = Flask(__name__, instance_relative_config=True)
+    app.config.from_object(app_config[config_name])
     app.app_context().push()
     create_tables()
-    app.config.from_pyfile('config.py')
+    # app.config.from_pyfile('config.py')
     app.config['SECRET_KEY'] = "sweet_secret"
     app.config['JWT_SECRET_KEY'] = "jwt_sweet_secret"
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
-    app.config['APP_SETTINGS'] = "development"
+    # app.config['APP_SETTINGS'] = "development"
 
     app.register_blueprint(party, url_prefix='/api/v1')
     app.register_blueprint(office, url_prefix='/api/v1')

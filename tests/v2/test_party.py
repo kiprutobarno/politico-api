@@ -3,8 +3,8 @@ from .base_test import *
 class PartyTestCase(BaseTestCase):
     """ This class represents the party test cases and inherits from BaseTestCase class """
     
-    def setUp(self):
-        super().setUp()
+    # def setUp(self):
+    #     super().setUp()
 
     def test_create_party(self):
         """ Test that endpoint can create party """
@@ -209,8 +209,8 @@ class PartyTestCase(BaseTestCase):
         self.assertTrue(response_content['status'] == 400)
 
 
-    def tearDown(self):
-        return super().tearDown()
+    # def tearDown(self):
+    #     return super().tearDown()
 
 if __name__ == "__main__":
     unittest.main()

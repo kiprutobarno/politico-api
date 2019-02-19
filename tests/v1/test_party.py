@@ -4,8 +4,8 @@ from app.api.v1.models.party import Party, parties
 class PartyTestCase(BaseTestCase):
     """ This class represents the party test cases and inherits from BaseTestCase class """
     
-    def setUp(self):
-        super().setUp()
+    # def setUp(self):
+    #     super().setUp()
 
     def test_create_party(self):
         """ Test that endpoint can create party """
@@ -175,8 +175,8 @@ class PartyTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['message'], 'Unacceptable id format')
 
-    def tearDown(self):
-        return super().tearDown()
+    # def tearDown(self):
+    #     return super().tearDown()
 
 if __name__ == "__main__":
     unittest.main()

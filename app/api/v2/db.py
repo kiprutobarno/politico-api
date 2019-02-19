@@ -11,7 +11,6 @@ def connection():
         url=os.getenv('DATABASE')
     return psycopg2.connect(url)
 
-
 def db():
     """This function returns a database connection object"""
     return connection()

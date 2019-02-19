@@ -66,3 +66,31 @@ class PartyEndPoint:
             "message": "Success",
             "data": Party().create_party(name, hqAddress, logoUrl)
         }), 201)
+
+
+    @party_version_2.route('/parties', methods=["GET"])
+    @jwt_required
+    def get_parties():
+        """ Get all parties endpoint """
+
+        if Party().get_all_parties():
+    
+            return make_response(
+                jsonify(
+                    {
+                        "status": 200,
+                        "message": "Success",
+                        "data": Party().get_all_parties()
+                    }
+                ), 200
+            )
+        return make_response(jsonify(
+            jsonify(
+                    {
+                        "status": 200,
+                        "message": "Sorry, no party has been currently registered"
+                    }
+                ), 200
+            )
+        )
+                

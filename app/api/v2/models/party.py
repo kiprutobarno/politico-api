@@ -52,6 +52,14 @@ class Party:
             parties.append(party)
         return parties
 
+    def edit_party(self, id, name, data):
+        """Update the details of a political party"""
+        if Party().get_specific_party(id):
+            if data.get('name') and data.get('hqAddress') and data.get('logoUrl'):
+                cursor = self.db.cursor()
+                cursor.execute("UPDATE parties SET name=%s, hqAddress=%s, logoUrl=%s WHERE id={}".format(id, name), (data.get('name'), data.get('hqAddress'), data.get('logoUrl')))
+                return self.db.commit() 
+
     def delete_party(self, id):
         """This function deletes a product entry in the database"""
         cursor = self.db.cursor()

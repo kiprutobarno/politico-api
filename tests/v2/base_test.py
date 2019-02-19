@@ -95,12 +95,13 @@ class BaseTestCase(TestCase):
             headers=dict(Authorization="Bearer " + token)
         )
 
-    # def get_all_offices(self):
-    #     """Get all offices endpoint test method """
-    #     return self.client.get(
-    #         '/api/v1/offices',
-    #         content_type='application/json'
-    #     )
+    def get_all_offices(self, token):
+        """Get all offices endpoint test method """
+        return self.client.get(
+            '/api/v2/offices',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
 
     # def get_specific_office(self):
     #     """Get specific office endpoint test method """

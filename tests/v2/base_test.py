@@ -86,13 +86,14 @@ class BaseTestCase(TestCase):
         )
 
     # # Office test methods
-    # def create_office(self, data):
-    #     """Create office endpoint test method """
-    #     return self.client.post(
-    #         'api/v1/offices',
-    #         data=data,
-    #         content_type='application/json'
-    #     )
+    def create_office(self, data, token):
+        """Create office endpoint test method """
+        return self.client.post(
+            'api/v2/offices',
+            data=data,
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
 
     # def get_all_offices(self):
     #     """Get all offices endpoint test method """

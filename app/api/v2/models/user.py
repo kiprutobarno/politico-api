@@ -7,7 +7,7 @@ class User:
     def __init__(self):
         self.db=db()
 
-    def create_user(self, firstName, lastName, otherName, email, phoneNumber, passportUrl, isAdmin, isCandidate, password):
+    def create_user(self, firstName, lastName, otherName, email, phoneNumber, passportUrl, password):
         """Save user details in the users table"""
         user = {
             "firstName": firstName,
@@ -16,12 +16,10 @@ class User:
             "email": email,
             "phoneNumber": phoneNumber,
             "passportUrl": passportUrl,
-            "isAdmin": isAdmin,
-            "isCandidate": isCandidate,
             "password": User.generate_hash(password)
         }
 
-        query = """INSERT INTO users(firstname, lastname, othername, email, phonenumber, passporturl, isadmin, iscandidate, password) VALUES(%(firstName)s, %(lastName)s, %(otherName)s, %(email)s, %(phoneNumber)s, %(passportUrl)s, %(isAdmin)s, %(isCandidate)s, %(password)s)"""
+        query = """INSERT INTO users(firstname, lastname, othername, email, phonenumber, passporturl, password) VALUES(%(firstName)s, %(lastName)s, %(otherName)s, %(email)s, %(phoneNumber)s, %(passportUrl)s, %(password)s)"""
         cursor = self.db.cursor()
         cursor.execute(query, user)
         self.db.commit()
@@ -31,7 +29,7 @@ class User:
         """ This function returns True if an email exists in the database."""
         cursor=self.db.cursor()
         cursor.execute("""SELECT * FROM users WHERE email='%s'"""%(email))
-        data=cursor.fetchall() #tuple
+        data=cursor.fetchall()
         if len(data)>0:
             return True
 
@@ -39,7 +37,8 @@ class User:
         """ This function verifies user password and returns the user's is_admin status """
         cursor=self.db.cursor()
         cursor.execute("""SELECT * FROM users  WHERE email='%s'"""%(email))
-        hashes=cursor.fetchone() # returns a tuple
+        hashes=cursor.fetchone()
+        print(hashes)
         if User().verify_hash(password, hashes[9]):
             return hashes
 

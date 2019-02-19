@@ -7,6 +7,7 @@ party = Blueprint('party', __name__)
 class PartiesEndPoint:
     """Party API Endpoints"""
 
+
     @party.route('/parties', methods=["POST"])
     def post_party():
         """ Create party endpoint """
@@ -19,23 +20,23 @@ class PartiesEndPoint:
         hqAddress = data.get('hqAddress')
         logoUrl = data.get('logoUrl')
 
-        if name == "":
+        if isBlank(name):
             return make_response(jsonify({
                 "status": 400,
                 "message": "name cannot be blank",
-        }), 400)
+            }), 400)
 
-        if hqAddress == "":
+        if isBlank(hqAddress):
             return make_response(jsonify({
                 "status": 400,
                 "message": "hqAddress cannot be blank",
-        }), 400)
+            }), 400)
 
-        if logoUrl == "":
+        if isBlank(logoUrl):
             return make_response(jsonify({
                 "status": 400,
                 "message": "logoUrl cannot be blank",
-        }), 400)
+            }), 400)
 
         if type(name) != str:
             return make_response(jsonify({
@@ -49,10 +50,16 @@ class PartiesEndPoint:
                 "message": "hqAddress must be a string",
         }), 400)
 
-        if any(party['name'] == name for party in parties):
+        if not validUrl(logoUrl):
             return make_response(jsonify({
                 "status": 400,
-                "message": "That party already exists!",
+                "message": "invalid logo url",
+            }), 400)
+
+        if Party().search(name):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "Such a party is already registered!",
         }), 400)
 
         return make_response(jsonify({
@@ -111,37 +118,42 @@ class PartiesEndPoint:
         hqAddress = data.get('hqAddress')
         logoUrl = data.get('logoUrl')
 
-        if name == "":
+        if isBlank(name):
             return make_response(jsonify({
                 "status": 400,
                 "message": "name cannot be blank",
-        }), 400)
+            }), 400)
 
-        if hqAddress == "":
+        if isBlank(hqAddress):
             return make_response(jsonify({
                 "status": 400,
                 "message": "hqAddress cannot be blank",
-        }), 400)
+            }), 400)
 
-        if logoUrl == "":
+        if isBlank(logoUrl):
             return make_response(jsonify({
                 "status": 400,
                 "message": "logoUrl cannot be blank",
-        }), 400)
+            }), 400)
 
-        if not isinstance(name, str):
+        if type(name) != str:
             return make_response(jsonify({
                 "status": 400,
                 "message": "name must be a string",
         }), 400)
 
-        if not isinstance(hqAddress, str):
+        if type(hqAddress) != str:
             return make_response(jsonify({
                 "status": 400,
                 "message": "hqAddress must be a string",
         }), 400)
 
-        
+        if not validUrl(logoUrl):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "invalid logo url",
+            }), 400)
+
         return make_response(jsonify({
             "status": 200,
             "message": "Success",
@@ -161,15 +173,11 @@ class PartiesEndPoint:
                 ), 400
             )
             
-        if not Party().parties:
-            return make_response(
-                jsonify(
-                    {
-                        "status": 404,
-                        "message": "You cannot delete a non-existent party",
-                    }
-                ), 404
-            )
+        if not Party().get_specific_party(id):
+            return make_response(jsonify({
+                "status": 404,
+                "message": "You cannot delete a non-existent party",
+        }), 404)
 
         party = Party().delete_party(id)
         return make_response(jsonify({

@@ -19,15 +19,15 @@ class OfficeEndPoint:
 
         data = request.get_json()
         name = data.get('name')
-        officeType = data.get('officeType')
+        office = data.get('officeType')
 
-        if name == "":
+        if isBlank(name):
             return make_response(jsonify({
                 "status": 400,
                 "message": "name cannot be blank",
             }), 400)
 
-        if officeType == "":
+        if isBlank(office):
             return make_response(jsonify({
                 "status": 400,
                 "message": "type cannot be blank",
@@ -39,28 +39,41 @@ class OfficeEndPoint:
                 "message": "name must be a string",
             }), 400)
 
-        if not isinstance(officeType, str):
+        if not isinstance(office, str):
             return make_response(jsonify({
                 "status": 400,
                 "message": "type must be a string",
             }), 400)
 
+        if Office().search(name):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "Such an office is already registered!",
+        }), 400)
+
         return make_response(jsonify({
             "status": 201,
             "message": "Success",
-            "data": Office().create_office(name, officeType)
+            "data": Office().create_office(name, office)
         }), 201)
 
     @office_version_2.route('/offices', methods=["GET"])
     @jwt_required
     def get_offices():
         """ Get all offices endpoint """
-    
-        return make_response(jsonify({
-            "status": 200,
-            "message": "Success",
-            "data": Office().get_all_offices()
-        }), 200)
+
+        if not Office().get_all_offices():
+            return make_response(jsonify({
+                "status": 404,
+                "message": "Sorry, no government office is currently available, try again later",
+            }), 404)
+
+        else:
+            return make_response(jsonify({
+                "status": 200,
+                "message": "Success",
+                "data": Office().get_all_offices()
+            }), 200)
 
     @office_version_2.route('/offices/<int:id>', methods=["GET"])
     @jwt_required

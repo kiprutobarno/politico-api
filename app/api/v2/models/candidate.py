@@ -26,6 +26,14 @@ class Candidate:
         cursor.execute(query)
         return self.db.commit()
 
+    def search(self, id):
+        """ This function returns True if a user is already a registered candidate."""
+        cursor=self.db.cursor()
+        cursor.execute("""SELECT * FROM candidates WHERE candidate={}""".format(id))
+        data=cursor.fetchall() #tuple
+        if len(data)>0:
+            return True 
+
     def get(self, id):
         query = """ SELECT users.firstname, users.lastname, offices.name, parties.name
                     FROM candidates INNER JOIN users ON candidates.candidate=users.id 

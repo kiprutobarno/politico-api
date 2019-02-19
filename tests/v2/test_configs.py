@@ -4,7 +4,6 @@ from flask import current_app
 
 class TestDevelopmentConfig(BaseTestCase):
     def setUp(self):
-        super().setUp()
         self.app = create_app('development')
         self.app.config.from_object('instance.config.DevelopmentConfig')
 
@@ -19,7 +18,7 @@ class TestDevelopmentConfig(BaseTestCase):
 
 class TestTestingConfig(BaseTestCase):
     def setUp(self):
-        super().setUp()
+        # super().setUp()
         self.app = create_app('testing')
         self.app.config.from_object('instance.config.TestingConfig')
 

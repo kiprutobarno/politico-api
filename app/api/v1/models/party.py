@@ -43,3 +43,8 @@ class Party:
         for party in self.parties:
             if party['id'] == id:
                 return self.parties.remove(party)
+    
+    def search(self, name):
+        for party in self.parties:
+            if party['name'] == name:
+                return True

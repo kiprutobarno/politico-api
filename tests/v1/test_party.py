@@ -1,15 +1,17 @@
 from .base_test import *
-from app.api.v1.models.party import Party
+from app.api.v1.models.party import Party, parties
 
 class PartyTestCase(BaseTestCase):
     """ This class represents the party test cases and inherits from BaseTestCase class """
     
-    def setUp(self):
-        super().setUp()
+    # def setUp(self):
+    #     super().setUp()
 
     def test_create_party(self):
         """ Test that endpoint can create party """
+        Party().parties.clear()
         response = super().create_party(party)
+        print(response)
         response_content =  json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 201)
         Party().parties.clear()
@@ -97,9 +99,9 @@ class PartyTestCase(BaseTestCase):
     def test_create_existing(self):
         """Test that endpoint cannot create an existing party"""
         super().create_party(party)
-        response = super().create_party(existing_party)
+        response = super().create_party(party)
         response_content =  json.loads(response.data.decode())
-        self.assertTrue(response_content['message'] == 'That party already exists!')
+        self.assertTrue(response_content['message'] == 'Such a party is already registered!')
         Party().parties.clear()
 
     def test_get_non_existing_parties(self):
@@ -162,6 +164,7 @@ class PartyTestCase(BaseTestCase):
 
     def test_delete_non_existent(self):
         """Test endpoint will not accept a zero and an id"""
+        Party().parties.clear()
         response = super().delete_party()
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['status'], 404)
@@ -172,8 +175,8 @@ class PartyTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['message'], 'Unacceptable id format')
 
-    def tearDown(self):
-        return super().tearDown()
+    # def tearDown(self):
+    #     return super().tearDown()
 
 if __name__ == "__main__":
     unittest.main()

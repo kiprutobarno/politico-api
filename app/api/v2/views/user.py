@@ -9,10 +9,15 @@ from utils.validations import validate_login_key_pair_values
 auth = Blueprint('auth', __name__)
 
 
+
 class SignUp:
     """User signup endpoint"""
     @auth.route('/auth/signup', methods=['POST'])
     def signup():
+        errors = validate_user_key_pair_values(request)
+        if errors:
+            return error(400, "{} key missing".format(', '.join(errors)))
+
         data = request.get_json()
         firstName = data.get('firstName')
         lastName = data.get('lastName')
@@ -20,12 +25,88 @@ class SignUp:
         email = data.get('email')
         phoneNumber = data.get('phoneNumber')
         passportUrl = data.get('passportUrl')
-        isAdmin = data.get('isAdmin')
-        isCandidate = data.get('isCandidate')
         password = data.get('password')
 
+        if isBlank(firstName):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "firstName cannot be blank",
+            }), 400)
+
+        if isBlank(lastName):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "lastName cannot be blank",
+            }), 400)
+
+        if isBlank(otherName):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "otherName cannot be blank",
+            }), 400)
+
+        if isBlank(email):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "email cannot be blank",
+            }), 400)
+
+        if isBlank(phoneNumber):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "phoneNumber cannot be blank",
+            }), 400)
+
+        if isBlank(passportUrl):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "passportUrl cannot be blank",
+            }), 400)
+
+        if isBlank(password):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "password cannot be blank",
+            }), 400)
+
+        if not validEmail(email):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "invalid email address",
+            }), 400)
+
+        if not validUrl(passportUrl):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "invalid image url",
+            }), 400)
+
+        if not isinstance(firstName, str):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "firstName must be a string",
+        }), 400)
+
+        if not isinstance(lastName, str):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "lastName must be a string",
+        }), 400)
+
+        if not isinstance(otherName, str):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "otherName must be a string",
+        }), 400)
+
+        if User().search(email):
+            return make_response(jsonify({
+                "status": 400,
+                "message": "A user with such email already exists!",
+        }), 400)
+            
         user = User().create_user(firstName, lastName, otherName, email,
-                                  phoneNumber, passportUrl, isAdmin, isCandidate, password)
+                                  phoneNumber, passportUrl, password)
         return make_response(jsonify({
             "status": 201,
             "message": "Success",
@@ -44,13 +125,13 @@ class Login:
         email = data.get('email')
         password = data.get('password')
 
-        if email == "":
+        if not validEmail(email):
             return make_response(jsonify({
                 "status": 400,
-                "message": "email cannot be blank",
+                "message": "invalid email address",
             }), 400)
 
-        if password == "":
+        if isBlank(password):
             return make_response(jsonify({
                 "status": 400,
                 "message": "password cannot be blank",

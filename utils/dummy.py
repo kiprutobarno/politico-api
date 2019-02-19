@@ -60,14 +60,6 @@ empty_data_party = json.dumps(dict(
 
 ))
 
-existing_party = json.dumps(dict(
-    id=1,
-    name="Blue",
-    hqAddress="Memphis",
-    logoUrl="blue.img"
-))
-
-
 # office dummies
 office = json.dumps(dict(
     id=1,
@@ -118,8 +110,6 @@ admin_user = json.dumps(dict(
     email='admin@politico.com',
     phoneNumber='0765234234',
     passportUrl='image.png',
-    isAdmin=True,
-    isCandidate=False,
     password="admin123"
 ))
 
@@ -131,23 +121,8 @@ user = json.dumps(dict(
     email='user@politico.com',
     phoneNumber='0798344456',
     passportUrl='user.png',
-    isAdmin=False,
-    isCandidate=False,
     password="user123"
 ))
-
-# candidate_user=json.dumps(dict(
-#     id=1,
-#     firstName='Jane',
-#     lastName='Doe',
-#     otherName='Laurient',
-#     email='candidate@politico.com',
-#     phoneNumber='0765234234',
-#     passportUrl='image.png',
-#     isAdmin=False,
-#     isCandidate=True,
-#     password="candidate123"
-# ))
 
 admin_user_login=json.dumps(dict(
     email='admin@politico.com',
@@ -189,7 +164,7 @@ unregistered_login=json.dumps(dict(
 # dummy candidates
 
 candidate=json.dumps(dict(
-    id=2,
+    id=1,
     office=1,
     party=1,
     candidate=1

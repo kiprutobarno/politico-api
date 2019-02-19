@@ -1,27 +1,24 @@
 import os
 import psycopg2
 from instance.config import app_config
-# env = os.environ['ENV']
+from flask import current_app
 
-# url = app_config[env].DATABASE_URI
-# # print(url)
-
-url = "postgres://admin:admin123@localhost:5432/politico"
-
-
-def connection(url):
+def connection():
     """This function creates a connection to the database"""
+    if current_app.config['TESTING']:
+        url=os.getenv('TEST_DATABASE')
+    else:
+        url=os.getenv('DATABASE')
     return psycopg2.connect(url)
-
 
 def db():
     """This function returns a database connection object"""
-    return connection(url)
+    return connection()
 
 
 def create_tables():
     """This function creates tables in the database"""
-    conn = connection(url)
+    conn = connection()
     cursor = conn.cursor()
     queries = create_queries()
     for query in queries:
@@ -31,7 +28,7 @@ def create_tables():
 
 def destroy_tables():
     """This function destroys tables in the database"""
-    conn = connection(url)
+    conn = connection()
     cursor = conn.cursor()
     statements = destroy_queries()
     for statement in statements:
@@ -41,11 +38,11 @@ def destroy_tables():
 
 def destroy_queries():
     """This function returns a list of 'destroy table' queries"""
-    delete_users = """DROP TABLE IF EXISTS users;"""
-    delete_parties = """DROP TABLE IF EXISTS parties;"""
-    delete_offices = """DROP TABLE IF EXISTS offices;"""
-    delete_blacklist = """DROP TABLE IF EXISTS blacklist;"""
-    delete_candidates = """DROP TABLE IF EXISTS candidates;"""
+    delete_users = """DROP TABLE IF EXISTS users CASCADE;"""
+    delete_parties = """DROP TABLE IF EXISTS parties CASCADE;"""
+    delete_offices = """DROP TABLE IF EXISTS offices CASCADE;"""
+    delete_blacklist = """DROP TABLE IF EXISTS blacklists CASCADE;"""
+    delete_candidates = """DROP TABLE IF EXISTS candidates CASCADE;"""
     delete_votes = """DROP TABLE IF EXISTS votes;"""
     delete_petitions = """DROP TABLE IF EXISTS petitions;"""
 
@@ -80,7 +77,7 @@ def create_queries():
                     type VARCHAR(50) NOT NULL,
                     name VARCHAR(50) NOT NULL );"""
 
-    blacklist = """CREATE TABLE IF NOT EXISTS blacklists(
+    blacklists = """CREATE TABLE IF NOT EXISTS blacklists(
                     id SERIAL PRIMARY KEY NOT NULL, 
                     token VARCHAR(500) NOT NULL,
                     token_type VARCHAR(50) NOT NULL,
@@ -121,6 +118,6 @@ def create_queries():
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     queries = [users, parties, offices,
-               blacklist, candidates, votes, petitions]
+               blacklists, candidates, votes, petitions]
 
     return queries

@@ -4,8 +4,8 @@ from .base_test import *
 class UserTestCase(BaseTestCase):
     """ This class represents the user test cases and inherits from BaseTestCase class """
 
-    def setUp(self):
-        super().setUp()
+    # def setUp(self):
+    #     super().setUp()
 
     def test_create_user(self):
         """ Test that endpoint can create user"""
@@ -61,8 +61,8 @@ class UserTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 
-    def tearDown(self):
-        return super().tearDown()
+    # def tearDown(self):
+    #     return super().tearDown()
 
 
 if __name__ == "__main__":

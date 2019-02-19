@@ -39,18 +39,20 @@ class Party:
         """ Get all parties method """
         cursor = self.db.cursor()
         cursor.execute("""SELECT id, name, hqaddress, logourl FROM parties WHERE id={}""".format(id))
-        data=cursor.fetchall()
-        parties=[]
-        for i, items in enumerate(data):
-            id, name, hqaddress, logourl=items
-            party=dict(
-                id=int(id),
-                name=name,
-                hqaddress=hqaddress,
-                logourl=logourl
-            )
-            parties.append(party)
-        return parties
+        data=cursor.fetchone()
+        if data:
+            return data
+        else:
+            return "Nothing!"
+        # for i, items in enumerate(data):
+        #     id, name, hqaddress, logourl=items
+        #     party=dict(
+        #         id=int(id),
+        #         name=name,
+        #         hqaddress=hqaddress,
+        #         logourl=logourl
+        #     )
+            # return party
 
     def edit_party(self, id, name, data):
         """Update the details of a political party"""

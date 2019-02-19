@@ -103,12 +103,13 @@ class BaseTestCase(TestCase):
             headers=dict(Authorization="Bearer " + token)
         )
 
-    # def get_specific_office(self):
-    #     """Get specific office endpoint test method """
-    #     return self.client.get(
-    #         '/api/v1/offices/1',
-    #         content_type='application/json'
-    #     )
+    def get_specific_office(self, token):
+        """Get specific office endpoint test method """
+        return self.client.get(
+            '/api/v2/offices/1',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
 
 
     def teardown(self):

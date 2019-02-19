@@ -21,7 +21,7 @@ before_script:
 
 # run pytest
 script:
-  - pytest --cov=app tests/v2
+  - pytest --cov=app tests
 
 # then post the results to coveralls
 after_success:

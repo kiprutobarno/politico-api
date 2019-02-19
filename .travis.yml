@@ -3,7 +3,7 @@ python:
   - "3.6.7"
 
 env:
-  - TEST_DATABASE="dbname='politico_test' host='127.0.0.1' port='5432' user='admin' password='admin123'"
+  - TEST_DATABASE="postgres://admin:admin123@localhost:5432/politico_test"
   
 # install dependencies
 install:

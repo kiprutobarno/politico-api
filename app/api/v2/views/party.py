@@ -14,7 +14,6 @@ class PartyEndPoint:
 
     @party_version_2.route('/parties', methods=["POST"])
     def party():
-        print(get_jwt_claims()['isAdmin'])
         """ Create party endpoint """
         errors = validate_party_key_pair_values(request)
         if errors:
@@ -69,8 +68,6 @@ class PartyEndPoint:
 
 
     @party_version_2.route('/parties', methods=["GET"])
-
-    @admin_required
     def get_parties():
         """ Get all parties endpoint """
 
@@ -98,7 +95,6 @@ class PartyEndPoint:
             )
 
     @party_version_2.route('/parties/<int:id>', methods=["GET"])
-    @jwt_required
     def get_specific_party(id):
         """ Get a specific political party """
 
@@ -126,7 +122,6 @@ class PartyEndPoint:
             )
 
     @party_version_2.route('/parties/<int:id>', methods=["DELETE"])
-    @jwt_required
     def delete_party(id):
         """ Delete specific political party """
         if id <= 0:

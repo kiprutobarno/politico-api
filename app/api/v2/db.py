@@ -121,3 +121,17 @@ def create_queries():
                blacklists, candidates, votes, petitions]
 
     return queries
+
+
+def default_admin():
+    conn = connection()
+    curr = conn.cursor()
+    query = """SELECT * FROM users WHERE email='admin@politico.com'"""
+    curr.execute(query)
+    admin = curr.fetchone()
+    if not admin:
+        query = """INSERT INTO users(firstName, lastName, otherName, email, phoneNumber, passportUrl, isadmin, password) VALUES(%s,%s,%s,%s,%s, %s,%s,%s)"""
+
+        curr.execute(query, ('Kipruto','Barno', 'Maxwel', 'admin@politico.com', '0721884344', 'admin.png', True, '$pbkdf2-sha256$29000$ndPaWwsBICREiPG.FyLkvA$HZhdbbXke3brKlrPxaGve/uqfwHpM0WhaaPIJu5fPLY'))
+        conn.commit()
+

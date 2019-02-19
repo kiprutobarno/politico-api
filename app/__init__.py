@@ -10,7 +10,7 @@ from app.api.v2.views.office import office_version_2 as office_version_2
 from app.api.v2.views.candidate import candidate as candidate
 from app.api.v2.views.vote import vote as vote
 from app.api.v2.views.result import result as result
-from app.api.v2.db import create_tables
+from app.api.v2.db import create_tables, default_admin
 from app.api.v2.models.blacklist import Blacklist
 
 
@@ -51,6 +51,7 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     app.app_context().push()
     create_tables()
+    default_admin()
     # app.config.from_pyfile('config.py')
     app.config['SECRET_KEY'] = "sweet_secret"
     app.config['JWT_SECRET_KEY'] = "jwt_sweet_secret"

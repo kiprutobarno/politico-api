@@ -9,6 +9,7 @@ from app.api.v2.views.party import party_version_2 as party_version_2
 from app.api.v2.views.office import office_version_2 as office_version_2
 from app.api.v2.views.candidate import candidate as candidate
 from app.api.v2.views.vote import vote as vote
+from app.api.v2.views.result import result as result
 from app.api.v2.db import create_tables
 from app.api.v2.models.blacklist import Blacklist
 
@@ -64,6 +65,7 @@ def create_app(config_name):
     app.register_blueprint(office_version_2, url_prefix='/api/v2')
     app.register_blueprint(candidate, url_prefix='/api/v2')
     app.register_blueprint(vote, url_prefix='/api/v2')
+    app.register_blueprint(result, url_prefix='/api/v2')
 
     app.register_error_handler(400, handle_bad_request)
     app.register_error_handler(405, handle_method_not_allowed)

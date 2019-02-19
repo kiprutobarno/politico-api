@@ -7,11 +7,11 @@ class Office:
         self.offices = offices
 
     
-    def create_office(self, office_type, name):
+    def create_office(self, officeType, name):
         """ Create a office method """
         office = {
             "id": len(self.offices)+1,
-            "type": office_type,
+            "officeType": officeType,
             "name": name
         }
         self.offices.append(office)

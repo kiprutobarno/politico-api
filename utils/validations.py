@@ -14,7 +14,7 @@ def validate_party_key_pair_values(request):
 def validate_office_key_pair_values(request):
     """Validates key-value pairs of request dictionary body"""
 
-    keys = ['type', 'name']
+    keys = ['name', 'officeType']
     errors = []
     for key in keys:
         if not key in request.json:

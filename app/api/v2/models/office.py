@@ -31,3 +31,19 @@ class Office:
             )
             offices.append(office)
         return offices
+
+    def get_specific_office(self, id):
+        """ Get all parties method """
+        cursor = self.db.cursor()
+        cursor.execute("""SELECT id, name, type FROM offices WHERE id={}""".format(id))
+        data=cursor.fetchall()
+        offices=[]
+        for i, items in enumerate(data):
+            id, name, officeType=items
+            office=dict(
+                id=int(id),
+                name=name,
+                officeType=officeType
+            )
+            offices.append(office)
+        return offices 

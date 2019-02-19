@@ -6,22 +6,12 @@ from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_r
                                 jwt_refresh_token_required, get_jwt_identity, verify_jwt_in_request, get_jwt_claims, get_raw_jwt)
 from utils.validations import validate_login_key_pair_values
 
-auth = Blueprint('auth', __name__, url_prefix='/api/v2/auth')
-
-def admin_required(fn):
-    @wraps(fn)
-    def wrapper(*args, **kwargs):
-        jwt_holder()
-        if get_jwt_claims()['isAdmin'] != True:
-            return make_response(jsonify({"message": "Admin rights required!"}), 201)
-            pass
-        return fn(*args, **kwargs)
-    return wrapper
+auth = Blueprint('auth', __name__)
 
 
 class SignUp:
 
-    @auth.route('/signup', methods=['POST'])
+    @auth.route('/auth/signup', methods=['POST'])
     def signup():
         data = request.get_json()
         firstName = data.get('firstName')
@@ -44,7 +34,7 @@ class SignUp:
 
 
 class Login:
-    @auth.route('/login', methods=['POST'])
+    @auth.route('/auth/login', methods=['POST'])
     def login():
         errors = validate_login_key_pair_values(request)
         if errors:

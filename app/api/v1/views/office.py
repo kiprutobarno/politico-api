@@ -2,7 +2,7 @@ from flask import Blueprint, make_response, request, jsonify
 from app.api.v1.models.office import Office, offices
 from utils.validations import *
 
-office = Blueprint('office', __name__, url_prefix='/api/v1')
+office = Blueprint('office', __name__)
 
 class OfficesEndpoint:
     """Office API Endpoints"""

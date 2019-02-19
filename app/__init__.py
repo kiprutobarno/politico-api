@@ -5,6 +5,7 @@ from instance.config import app_config
 from app.api.v1.views.party import party as party
 from app.api.v1.views.office import office as office
 from app.api.v2.views.user import auth as auth
+from app.api.v2.views.party import party_version_2 as party_version_2
 from app.api.v2.db import create_tables
 from app.api.v2.models.blacklist import Blacklist
 
@@ -56,6 +57,7 @@ def create_app(config_name):
     app.register_blueprint(party, url_prefix='/api/v1')
     app.register_blueprint(office, url_prefix='/api/v1')
     app.register_blueprint(auth, url_prefix='/api/v2')
+    app.register_blueprint(party_version_2, url_prefix='/api/v2')
     app.register_error_handler(400, handle_bad_request)
     app.register_error_handler(405, handle_method_not_allowed)
     app.register_error_handler(404, handle_not_found)

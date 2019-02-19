@@ -1,0 +1,27 @@
+from app.api.v2.db import db
+class Party:
+    """ The party model """
+    def __init__(self):
+        self.db=db()
+
+    def create_party(self, name, hqAddress, logoUrl):
+        """ Create a party method """
+        party = {
+            "name": name,
+            "hqAddress": hqAddress,
+            "logoUrl": logoUrl
+        }
+        
+        query = """INSERT INTO parties(name, hqaddress, logourl) VALUES(%(name)s, %(hqAddress)s, %(logoUrl)s)"""
+        cursor = self.db.cursor()
+        cursor.execute(query, party)
+        self.db.commit()
+        return party  
+
+    def search(self, name):
+        """ This function returns True if an email exists in the database."""
+        cursor=self.db.cursor()
+        cursor.execute("""SELECT * FROM parties WHERE name='%s'"""%(name))
+        data=cursor.fetchall() #tuple
+        if len(data)>0:
+            return True       

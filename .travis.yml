@@ -3,7 +3,7 @@ python:
   - "3.6.7"
 
 env:
-  - DATABASE_URI="dbname='politico' host='127.0.0.1' port='5432' user='admin' password='admin123'"
+  - DATABASE_URL="dbname='politico' host='127.0.0.1' port='5432' user='admin' password='admin123'"
   
 # install dependencies
 install:

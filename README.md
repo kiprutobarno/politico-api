@@ -28,7 +28,7 @@ while building trust in the process through transparency
 
 ### Step 1
 
-1. Clone the repository [```HERE```](https://github.com/kipruto/politico-api)
+1. Clone the repository [```here```](https://github.com/kipruto/politico-api)
 
 2. Open terminal application on your local machine
 

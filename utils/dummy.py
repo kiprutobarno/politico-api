@@ -110,7 +110,8 @@ admin_user = json.dumps(dict(
     email='doe@politico.com',
     phoneNumber='0765234234',
     passportUrl='image.png',
-    password="admin123"
+    password="Admin@123",
+    isAdmin=True
 ))
 
 user = json.dumps(dict(
@@ -121,49 +122,49 @@ user = json.dumps(dict(
     email='user@politico.com',
     phoneNumber='0798344456',
     passportUrl='user.png',
-    password="user123"
+    password="User@123"
 ))
 
-admin_user_login=json.dumps(dict(
+admin_user_login = json.dumps(dict(
     email='admin@politico.com',
-    password='admin123'
+    password='Admin@123'
 ))
 
-empty_body_login=json.dumps(dict(
+empty_body_login = json.dumps(dict(
 
 ))
 
-wrong_password_login=json.dumps(dict(
+wrong_password_login = json.dumps(dict(
     email='admin@politico.com',
-    password='wrongpassword'
+    password='Admin@12345'
 ))
 
-without_email_login=json.dumps(dict(
-    password='admin123'
+without_email_login = json.dumps(dict(
+    password='Admin@123'
 ))
 
-without_password_login=json.dumps(dict(
+without_password_login = json.dumps(dict(
     email='admin@politico.com'
 ))
 
-blank_password_login=json.dumps(dict(
+blank_password_login = json.dumps(dict(
     email='admin@politico.com',
     password=''
 ))
 
-blank_email_login=json.dumps(dict(
+blank_email_login = json.dumps(dict(
     email='',
-    password='admin123'
+    password='Admin@123'
 ))
 
-unregistered_login=json.dumps(dict(
+unregistered_login = json.dumps(dict(
     email='unregistered@politico.com',
-    password='notme'
+    password='Admin@12356'
 ))
 
 # dummy candidates
 
-candidate=json.dumps(dict(
+candidate = json.dumps(dict(
     id=1,
     office=1,
     party=1,

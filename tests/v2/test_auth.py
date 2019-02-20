@@ -10,6 +10,7 @@ class UserTestCase(BaseTestCase):
     def test_create_user(self):
         """ Test that endpoint can create user"""
         response = super().create_user(admin_user)
+        print(response)
         self.assertEqual(response.status_code, 201)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 201)
@@ -18,9 +19,9 @@ class UserTestCase(BaseTestCase):
         """Test that endpoint can login a registered user"""
         super().create_user(admin_user)
         response = super().login_user(admin_user_login)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 200)
+        self.assertTrue(response_content['status'] == 201)
 
     def test_wrong_password_login(self):
         """Test that endpoint cannot login a user using wrong password"""
@@ -28,7 +29,8 @@ class UserTestCase(BaseTestCase):
         response = super().login_user(wrong_password_login)
         self.assertEqual(response.status_code, 401)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['message'] == 'wrong credentials')
+        self.assertTrue(response_content['message']
+                        == 'wrong login credentials')
 
     def test_blank_email_login(self):
         """Test that endpoint cannot login a user using blank email"""
@@ -51,7 +53,8 @@ class UserTestCase(BaseTestCase):
         response = super().login_user(unregistered_login)
         self.assertEqual(response.status_code, 403)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['message'] == 'That email is not registered')
+        self.assertTrue(
+            response_content['message'] == 'That email is not registered')
 
     def test_blank_body_login(self):
         """Test that endpoint cannot login a user with empty request body"""

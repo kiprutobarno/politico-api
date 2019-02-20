@@ -1,6 +1,5 @@
-from flask import Flask, make_response, jsonify
+from flask import Flask, make_response
 from flask_jwt_extended import JWTManager
-from functools import wraps
 from instance.config import app_config
 from app.api.v1.views.party import party as party
 from app.api.v1.views.office import office as office
@@ -12,38 +11,20 @@ from app.api.v2.views.vote import vote as vote
 from app.api.v2.views.result import result as result
 from app.api.v2.db import create_tables, default_admin
 from app.api.v2.models.blacklist import Blacklist
+from utils.validations import error
 
 
 def handle_bad_request(e):
-    return make_response(
-        jsonify(
-            {
-                "error": "Sorry, request was not understood!",
-                "status": 400
-            }
-        )
-    )
+    return error(400, "Sorry, request was not understood!")
 
 
 def handle_method_not_allowed(e):
-    return make_response(
-        jsonify(
-            {
-                "error": "Sorry, request method not allowed",
-                "status": 405
-            }
-        )
-    )
+    return error(405, "Sorry, request method not allowed!")
+
 
 def handle_not_found(e):
-    return make_response(
-        jsonify(
-            {
-                "error": "The information you are looking for cannot be found",
-                "status": 404
-            }
-        )
-    )
+    return error(404, "The information you are looking for cannot be found!")
+
 
 def create_app(config_name):
     """ This method creates a flask application """
@@ -52,13 +33,10 @@ def create_app(config_name):
     app.app_context().push()
     create_tables()
     default_admin()
-    # app.config.from_pyfile('config.py')
     app.config['SECRET_KEY'] = "sweet_secret"
     app.config['JWT_SECRET_KEY'] = "jwt_sweet_secret"
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
-    # app.config['APP_SETTINGS'] = "development"
-
     app.register_blueprint(party, url_prefix='/api/v1')
     app.register_blueprint(office, url_prefix='/api/v1')
     app.register_blueprint(auth, url_prefix='/api/v2')

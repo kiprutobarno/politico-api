@@ -11,14 +11,12 @@ class TestDevelopmentConfig(BaseTestCase):
         self.assertFalse(current_app is None)
         self.assertTrue(self.app.config['DEBUG'] is True)
         self.assertTrue(self.app.config['TESTING'] is False)
-        self.assertTrue(
-            self.app.config['DATABASE_URL'] == 'postgres://admin:admin123@localhost:5432/politico'
-        )
+        self.assertTrue(self.app.config['DATABASE_URL'] ==
+                        'postgres://admin:admin123@localhost:5432/politico')
 
 
 class TestTestingConfig(BaseTestCase):
     def setUp(self):
-        # super().setUp()
         self.app = create_app('testing')
         self.app.config.from_object('instance.config.TestingConfig')
 
@@ -26,9 +24,8 @@ class TestTestingConfig(BaseTestCase):
         self.assertFalse(current_app is None)
         self.assertTrue(self.app.config['DEBUG'] is True)
         self.assertTrue(self.app.config['TESTING'] is True)
-        self.assertTrue(
-            self.app.config['DATABASE_URL'] == 'postgres://admin:admin123@localhost:5432/politico_test'
-        )
+        self.assertTrue(self.app.config['DATABASE_URL'] ==
+                        'postgres://admin:admin123@localhost:5432/politico_test')
 
 
 if __name__ == "__main__":

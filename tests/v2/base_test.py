@@ -14,7 +14,7 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         self.app = create_app(config_name='testing')
-        self.app.config['TESTING']=True
+        self.app.config['TESTING'] = True
         self.client = self.app.test_client(use_cookies=True)
         create_tables()
 
@@ -66,7 +66,7 @@ class BaseTestCase(TestCase):
             '/api/v2/parties/1/Red',
             data=data,
             content_type='application/json',
-             headers=dict(Authorization="Bearer " + token)
+            headers=dict(Authorization="Bearer " + token)
         )
 
     def delete_party(self, token):

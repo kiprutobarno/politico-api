@@ -1,15 +1,17 @@
 import os
 import psycopg2
-from instance.config import app_config
 from flask import current_app
+
 
 def connection():
     """This function creates a connection to the database"""
     if current_app.config['TESTING']:
-        url=os.getenv('TEST_DATABASE')
+        url = os.getenv('TEST_DATABASE_URL')
     else:
-        url=os.getenv('DATABASE')
+        url = os.getenv('DATABASE_URL')
+
     return psycopg2.connect(url)
+
 
 def db():
     """This function returns a database connection object"""
@@ -46,15 +48,21 @@ def destroy_queries():
     delete_votes = """DROP TABLE IF EXISTS votes;"""
     delete_petitions = """DROP TABLE IF EXISTS petitions;"""
 
-    statements = [delete_candidates, delete_votes, delete_petitions,
-                  delete_blacklist, delete_users, delete_parties, delete_offices]
+    statements = [
+        delete_candidates,
+        delete_votes,
+        delete_petitions,
+        delete_blacklist,
+        delete_users,
+        delete_parties,
+        delete_offices]
     return statements
 
 
 def create_queries():
     """This function returns a list of 'create table' queries"""
     users = """CREATE TABLE IF NOT EXISTS users(
-                    id SERIAL PRIMARY KEY NOT NULL, 
+                    id SERIAL PRIMARY KEY NOT NULL,
                     firstName VARCHAR(50) NOT NULL,
                     lastName VARCHAR(50) NOT NULL,
                     otherName VARCHAR(50) NOT NULL,
@@ -67,18 +75,18 @@ def create_queries():
                     dateCreated TIMESTAMP NULL DEFAULT NOW() );"""
 
     parties = """CREATE TABLE IF NOT EXISTS parties(
-                    id SERIAL PRIMARY KEY NOT NULL, 
+                    id SERIAL PRIMARY KEY NOT NULL,
                     name VARCHAR(50) NOT NULL,
                     hqAddress VARCHAR(50) NOT NULL,
                     logoUrl VARCHAR(50) NOT NULL );"""
 
     offices = """CREATE TABLE IF NOT EXISTS offices(
-                    id SERIAL PRIMARY KEY NOT NULL, 
+                    id SERIAL PRIMARY KEY NOT NULL,
                     type VARCHAR(50) NOT NULL,
                     name VARCHAR(50) NOT NULL );"""
 
     blacklists = """CREATE TABLE IF NOT EXISTS blacklists(
-                    id SERIAL PRIMARY KEY NOT NULL, 
+                    id SERIAL PRIMARY KEY NOT NULL,
                     token VARCHAR(500) NOT NULL,
                     token_type VARCHAR(50) NOT NULL,
                     admin VARCHAR(50) NOT NULL,
@@ -87,9 +95,9 @@ def create_queries():
                     blacklisted_at TIMESTAMP NULL DEFAULT NOW() );"""
 
     candidates = """CREATE TABLE IF NOT EXISTS candidates(
-                    id SERIAL PRIMARY KEY NOT NULL, 
-                    office INTEGER NOT NULL, 
-                    party INTEGER NOT NULL, 
+                    id SERIAL PRIMARY KEY NOT NULL,
+                    office INTEGER NOT NULL,
+                    party INTEGER NOT NULL,
                     candidate INTEGER NOT NULL,
                     dateCreated TIMESTAMP NULL DEFAULT NOW(),
                     FOREIGN KEY(office) REFERENCES offices(id),
@@ -98,17 +106,17 @@ def create_queries():
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     votes = """CREATE TABLE IF NOT EXISTS votes(
-                    id SERIAL PRIMARY KEY NOT NULL, 
+                    id SERIAL PRIMARY KEY NOT NULL,
                     createdOn TIMESTAMP NULL DEFAULT NOW(),
                     createdBy INTEGER NOT NULL,
-                    office INTEGER NOT NULL, 
+                    office INTEGER NOT NULL,
                     candidate INTEGER NOT NULL,
                     FOREIGN KEY(office) REFERENCES offices(id),
                     FOREIGN KEY(candidate) REFERENCES candidates(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     petitions = """CREATE TABLE IF NOT EXISTS petitions(
-                    id SERIAL PRIMARY KEY NOT NULL, 
+                    id SERIAL PRIMARY KEY NOT NULL,
                     createdOn TIMESTAMP NULL DEFAULT NOW(),
                     createdBy INTEGER NOT NULL,
                     office INTEGER NOT NULL,
@@ -132,6 +140,14 @@ def default_admin():
     if not admin:
         query = """INSERT INTO users(firstName, lastName, otherName, email, phoneNumber, passportUrl, isadmin, password) VALUES(%s,%s,%s,%s,%s, %s,%s,%s)"""
 
-        curr.execute(query, ('Kipruto','Barno', 'Maxwel', 'admin@politico.com', '0721884344', 'admin.png', True, '$pbkdf2-sha256$29000$ndPaWwsBICREiPG.FyLkvA$HZhdbbXke3brKlrPxaGve/uqfwHpM0WhaaPIJu5fPLY'))
+        curr.execute(
+            query,
+            ('Kipruto',
+             'Barno',
+             'Maxwel',
+             'admin@politico.com',
+             '0721884344',
+             'admin.png',
+             True,
+             '$pbkdf2-sha256$29000$gvC.1/q/9x7DGKP0fu/dWw$k5fSiU1MK/XHyMbZofnBxrE.OPd.FScTNntfJGwnt48'))
         conn.commit()
-

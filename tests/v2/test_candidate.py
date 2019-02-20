@@ -2,7 +2,7 @@
 
 # class CandidateTestCase(BaseTestCase):
 #     """ This class represents the party test cases and inherits from BaseTestCase class """
-    
+
 #     def setUp(self):
 #         super().setUp()
 

@@ -28,6 +28,7 @@ class Blacklist:
         """This function returns True if a token exists in the blacklist table """
         cursor = self.db.cursor()
         cursor.execute(
-            """ SELECT token from blacklists WHERE token='%s'""" % (token), token)
+            """ SELECT token from blacklists WHERE token='%s'""" %
+            (token), token)
         if len(cursor.fetchall()) > 0:
             return True

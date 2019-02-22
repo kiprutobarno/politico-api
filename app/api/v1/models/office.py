@@ -1,16 +1,16 @@
 offices = []
 
+
 class Office:
     """The Office model"""
 
     def __init__(self):
         self.offices = offices
 
-    
     def create_office(self, officeType, name):
         """ Create a office method """
         office = {
-            "id": len(self.offices)+1,
+            "id": len(self.offices) + 1,
             "officeType": officeType,
             "name": name
         }

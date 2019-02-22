@@ -1,10 +1,11 @@
+from utils.dummy import *
+from unittest import TestCase
+from app import create_app
 import os
 import unittest
 import sys
 sys.path.append('../../')
-from app import create_app
-from unittest import TestCase
-from utils.dummy import *   
+
 
 class BaseTestCase(TestCase):
     """ Base Tests """
@@ -15,7 +16,6 @@ class BaseTestCase(TestCase):
         self.app_context.push()
         self.client = self.app.test_client(use_cookies=True)
 
-    # Party test methods
     def create_party(self, data):
         """Create party endpoint test method """
         return self.client.post(

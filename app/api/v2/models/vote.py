@@ -1,4 +1,5 @@
 from app.api.v2.db import db
+from utils.helpers import insert, get_all, drop, get_one, delete, search
 
 
 class Vote:
@@ -12,16 +13,42 @@ class Vote:
         vote = {
             "office": office,
             "candidate": candidate,
-            "voter": voter
+            "createdby": voter
         }
-        query = """INSERT INTO votes(office, candidate, createdby) VALUES(%(office)s, %(candidate)s, %(voter)s)"""
         cursor = self.db.cursor()
-        cursor.execute(query, vote)
+        cursor.execute(insert('votes', vote))
         self.db.commit()
         return vote
 
+    def search_office(self, office):
+        cursor = self.db.cursor()
+        cursor.execute("""SELECT * FROM offices WHERE id={}""".format(office))
+        # cursor.execute(search('candidates', id))
+        data = cursor.fetchall()
+        if len(data) > 0:
+            return True
+
+    def search_candidate(self, candidate):
+        """This function returns True if a user is already a registered candidate."""
+        cursor = self.db.cursor()
+        cursor.execute("""SELECT * FROM candidates WHERE candidate={}""".format(candidate))
+        # cursor.execute(search('candidates', id))
+        data = cursor.fetchall()
+        if len(data) > 0:
+            return True
+
+    def search(self, createdby):
+        """ This function returns True if a user is already voted"""
+        cursor = self.db.cursor()
+        cursor.execute(
+            """SELECT * FROM votes WHERE createdby={}""".format(createdby))
+        # cursor.execute(search('votes', createdby))
+        data = cursor.fetchall()  # tuple
+        if len(data) > 0:
+            return True
+
     def get(self, id):
-        query = """ SELECT offices.name, users.firstname, users.lastname, candidates.candidate FROM votes 
+        query = """ SELECT offices.name, users.firstname, users.lastname, candidates.candidate FROM votes
                     INNER JOIN offices ON votes.office=offices.id
                     INNER JOIN candidates ON votes.candidate=candidates.candidate
                     INNER JOIN users ON votes.createdby=users.id""".format(id)
@@ -29,5 +56,9 @@ class Vote:
         cursor.execute(query)
 
         data = cursor.fetchone()
-        return { "voter": data[1]+" "+data[2], "office": data[0], "candidate": data[3]}
-        
+        return {
+            "voter": data[1] +
+            " " +
+            data[2],
+            "office": data[0],
+            "candidate": data[3]}

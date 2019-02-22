@@ -1,10 +1,9 @@
 from flask import Blueprint, make_response, request, jsonify
 from app.api.v2.models.party import Party
-from utils.validations import *
-from functools import wraps
-from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required,
-                                jwt_refresh_token_required, get_jwt_identity, verify_jwt_in_request, get_jwt_claims, get_raw_jwt)
-from utils.validations import validate_login_key_pair_values
+from utils.validations import isBlank,  validate_party_key_pair_values, \
+    error, validUrl, check_for_blanks, check_for_non_strings, success, response
+from utils.helpers import admin_required, jwt_required
+
 
 party_version_2 = Blueprint('party_version_2', __name__)
 
@@ -13,7 +12,7 @@ class PartyEndPoint:
     """Party API Endpoints"""
 
     @party_version_2.route('/parties', methods=["POST"])
-    @jwt_required
+    @admin_required
     def party():
         """ Create party endpoint """
         errors = validate_party_key_pair_values(request)
@@ -21,155 +20,84 @@ class PartyEndPoint:
             return error(400, "{} key missing".format(', '.join(errors)))
 
         data = request.get_json()
+        if check_for_blanks(data):
+            return error(400, "{} cannot be blank".format(', '.join(check_for_blanks(data))))
+
         name = data.get('name')
         hqAddress = data.get('hqAddress')
         logoUrl = data.get('logoUrl')
 
-        if name == "":
-            return make_response(jsonify({
-                "status": 400,
-                "message": "name cannot be blank",
-        }), 400)
+        if check_for_non_strings(data):
+            return error(400, "{} must be a string".format(', '.join(check_for_non_strings(data))))
 
-        if hqAddress == "":
-            return make_response(jsonify({
-                "status": 400,
-                "message": "hqAddress cannot be blank",
-        }), 400)
+        if not validUrl(logoUrl):
+            return error(400, "Invalid logo url")
 
-        if logoUrl == "":
-            return make_response(jsonify({
-                "status": 400,
-                "message": "logoUrl cannot be blank",
-        }), 400)
-
-        if type(name) != str:
-            return make_response(jsonify({
-                "status": 400,
-                "message": "name must be a string",
-        }), 400)
-
-        if type(hqAddress) != str:
-            return make_response(jsonify({
-                "status": 400,
-                "message": "hqAddress must be a string",
-        }), 400)
-        
-        return make_response(jsonify({
-            "status": 201,
-            "message": "Success",
-            "data": Party().create_party(name, hqAddress, logoUrl)
-        }), 201)
-
+        if Party().search(name):
+            return error(400, "Such a party is already registered!")
+        return success(201, "Success", Party().create_party(name, hqAddress, logoUrl)), 201
 
     @party_version_2.route('/parties', methods=["GET"])
     @jwt_required
     def get_parties():
         """ Get all parties endpoint """
 
-        if Party().get_all_parties():
-    
-            return make_response(
-                jsonify(
-                    {
-                        "status": 200,
-                        "message": "Success",
-                        "data": Party().get_all_parties()
-                    }
-                ), 200
-            )
-        return make_response(jsonify(
-            jsonify(
-                    {
-                        "status": 200,
-                        "message": "Sorry, no party has been currently registered"
-                    }
-                ), 200
-            )
-        )
+        if not Party().get_all_parties():
+            return error(404, "No party is currently registered")
+
+        return success(200, "Success", Party().get_all_parties())
 
     @party_version_2.route('/parties/<int:id>', methods=["GET"])
     @jwt_required
     def get_specific_party(id):
         """ Get a specific political party """
-        
-        return make_response(
-            jsonify(
-                {
-                    "status": 200,
-                    "message": "Success",
-                    "data": Party().get_specific_party(id)
-                }
-            ), 200
-        )
-
-    @party_version_2.route('/parties/<int:id>', methods=["DELETE"])
-    @jwt_required
-    def delete_party(id):
-        """ Delete specific political party """
         if id <= 0:
-            return make_response(
-                jsonify(
-                    {
-                        "status": 400,
-                        "message": "Unacceptable id format",
-                    }
-                ), 400
-            )
+            return error(400, "Unacceptable id format")
+        if not Party().get_specific_party(id):
+            return error(404, "Sorry, no such party exists")
+        return success(200, "Success", Party().get_specific_party(id))
 
-        party = Party().delete_party(id)
-        return make_response(jsonify({
-            "status": 200,
-            "message": "Party successfull deleted!"
-        }), 200)   
-
-    @party_version_2.route('/parties/<int:id>/<string:name>', methods=['PATCH'])
+    @party_version_2.route(
+        '/parties/<int:id>/<string:name>',
+        methods=['PATCH'])
+    @admin_required
     def patch_party(id, name):
         """ Edit specific political party """
+        if id <= 0:
+            return error(400, "Unacceptable id format")
 
         errors = validate_party_key_pair_values(request)
         if errors:
             return error(400, "{} key missing".format(', '.join(errors)))
-            
+
         data = request.get_json()
+
+        if check_for_blanks(data):
+            return error(400, "{} cannot be blank".format(', '.join(check_for_blanks(data))))
+
         name = data.get('name')
         hqAddress = data.get('hqAddress')
         logoUrl = data.get('logoUrl')
 
-        if name == "":
-            return make_response(jsonify({
-                "status": 400,
-                "message": "name cannot be blank",
-        }), 400)
+        if not validUrl(logoUrl):
+            return error(400, "Invalid logo url")
 
-        if hqAddress == "":
-            return make_response(jsonify({
-                "status": 400,
-                "message": "hqAddress cannot be blank",
-        }), 400)
-
-        if logoUrl == "":
-            return make_response(jsonify({
-                "status": 400,
-                "message": "logoUrl cannot be blank",
-        }), 400)
-
-        if not isinstance(name, str):
-            return make_response(jsonify({
-                "status": 400,
-                "message": "name must be a string",
-        }), 400)
-
-        if not isinstance(hqAddress, str):
-            return make_response(jsonify({
-                "status": 400,
-                "message": "hqAddress must be a string",
-        }), 400)
+        if check_for_non_strings(data):
+            return error(400, "{} must be a string".format(', '.join(check_for_non_strings(data))))
 
         Party().edit_party(id, name, data)
-        
-        return make_response(jsonify({
-            "status": 200,
-            "message": "Success",
-            "data": Party().get_specific_party(id)
-        }), 200)             
+        return success(201, "Party details successfully updated!", Party().get_specific_party(id)), 201
+        # return response(400, "Same data, nothing to update!")
+
+    @party_version_2.route('/parties/<int:id>', methods=["DELETE"])
+    @admin_required
+    def delete_party(id):
+        """ Delete specific political party """
+        if id <= 0:
+            return error(400, "Unacceptable id format")
+
+        if not Party().get_specific_party(id):
+            return error(404, "You cannot delete a non-existent party")
+
+        Party().delete_party(id)
+        return response(200, "Party successfully deleted!")

@@ -14,11 +14,9 @@ class BaseTestCase(TestCase):
 
     def setUp(self):
         self.app = create_app(config_name='testing')
-        self.app_context = self.app.app_context()
-        self.app_context.push()
+        self.app.config['TESTING'] = True
         self.client = self.app.test_client(use_cookies=True)
-        with self.app.app_context():
-            create_tables()
+        create_tables()
 
     def create_user(self, data):
         """Create user endpoint test methods"""
@@ -68,7 +66,7 @@ class BaseTestCase(TestCase):
             '/api/v2/parties/1/Red',
             data=data,
             content_type='application/json',
-             headers=dict(Authorization="Bearer " + token)
+            headers=dict(Authorization="Bearer " + token)
         )
 
     def delete_party(self, token):
@@ -121,7 +119,7 @@ class BaseTestCase(TestCase):
             headers=dict(Authorization="Bearer " + token)
         )
 
-    def teardown(self):
+    def tearDown(self):
         with self.app.app_context():
             destroy_tables()
 

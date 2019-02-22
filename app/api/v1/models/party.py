@@ -1,18 +1,21 @@
 parties = []
+
+
 class Party:
     """ The party model """
+
     def __init__(self):
-        self.parties=parties
+        self.parties = parties
 
     def create_party(self, name, hqAddress, logoUrl):
         """ Create a party method """
         party = {
-            "id": len(parties)+1,
+            "id": len(parties) + 1,
             "name": name,
             "hqAddress": hqAddress,
             "logoUrl": logoUrl
         }
-        
+
         self.parties.append(party)
         return party
 
@@ -43,3 +46,8 @@ class Party:
         for party in self.parties:
             if party['id'] == id:
                 return self.parties.remove(party)
+
+    def search(self, name):
+        for party in self.parties:
+            if party['name'] == name:
+                return True

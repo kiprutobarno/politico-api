@@ -4,9 +4,6 @@ from .base_test import *
 class OfficeTestCase(BaseTestCase):
     """ This class represents the party test cases and inherits from BaseTestCase class """
 
-    # def setUp(self):
-    #     super().setUp()
-
     def test_create_office(self):
         """ Test that endpoint can create office"""
         super().create_user(admin_user)
@@ -112,7 +109,6 @@ class OfficeTestCase(BaseTestCase):
         self.assertEqual(response.status_code, 404)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 404)
-
     
     def test_get_nonexistent_office(self):
         """ Test that endpoint will not accept retrieving non existent offices """

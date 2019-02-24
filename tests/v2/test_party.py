@@ -14,6 +14,7 @@ class PartyTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['status'], 201)
 
+
     def test_empty_party(self):
         """Test that endpoint cannot accept an empty party body"""
         super().create_user(admin_user)
@@ -98,16 +99,7 @@ class PartyTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 200)
 
-    # def test_delete_party(self):
-    #     """ Test that endpoint can delete a specific party """
-    #     super().create_user(admin_user)
-    #     login = super().login_user(admin_user_login)
-    #     login_content = json.loads(login.data.decode('utf-8'))
-    #     token = [d['token'] for d in login_content['data']][0]
-    #     response = super().delete_party(token)
-    #     response_content = json.loads(response.data.decode())
-    #     self.assertTrue(response_content['status'] == 200)
-
+   
     # def test_delete_non_existent(self):
     #     """Test endpoint will not accept a zero and an id"""
     #     super().create_user(admin_user)

@@ -29,6 +29,8 @@ class PartyTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == "Success")
 
+ 
+
     def test_get_non_existent_parties(self):
         """ Test that endpoint can retrieve all parties """
         response = super().get_all_parties()
@@ -36,12 +38,12 @@ class PartyTestCase(BaseTestCase):
         self.assertTrue(response_content['status'] == 404)
         Party().parties.clear()
 
-    def test_edit_party(self):
-        """ Test that endpoint can update details of a specific party """
-        super().create_party(party)
-        response = super().edit_party(party_edit_data)
-        response_content = json.loads(response.data.decode())
-        self.assertEqual(response_content['message'], "Success")
+    # def test_edit_party(self):
+    #     """ Test that endpoint can update details of a specific party """
+    #     super().create_party(party)
+    #     response = super().edit_party(party_edit_data)
+    #     response_content = json.loads(response.data.decode())
+    #     self.assertEqual(response_content['message'], "Success")
 
     def test_edit_without_name(self):
         """ Test that endpoint can update details of a specific party """
@@ -88,7 +90,7 @@ class PartyTestCase(BaseTestCase):
         """Test that endpoint cannot accept non string name"""
         response = super().create_party(party_non_string_name)
         response_content = json.loads(response.data.decode())
-        print(response_content)
+
         self.assertTrue(response_content['status'] == 400)
 
     def test_non_string_hqAddress(self):
@@ -127,7 +129,7 @@ class PartyTestCase(BaseTestCase):
         self.assertEqual(
             response_content['message'],
             "You cannot edit a non-existent party")
-
+        
     def test_edit_blank_name(self):
         """Test that endpoint cannot accept a blank name"""
         super().create_party(party)
@@ -168,6 +170,8 @@ class PartyTestCase(BaseTestCase):
         self.assertTrue(response_content['status'] == 400)
         Party().parties.clear()
 
+  
+
     def test_delete_non_existent(self):
         """Test endpoint will not accept a zero and an id"""
         Party().parties.clear()
@@ -183,6 +187,7 @@ class PartyTestCase(BaseTestCase):
 
     def tearDown(self):
         return super().tearDown()
+
 
 
 if __name__ == "__main__":

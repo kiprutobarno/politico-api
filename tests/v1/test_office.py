@@ -3,6 +3,7 @@ from utils.dummy import *
 from app.api.v1.models.office import Office, offices
 
 
+
 class OfficeTestCase(BaseTestCase):
     """ This class represents the office test cases and "\
         " inherits from BaseTestCase class """
@@ -15,6 +16,7 @@ class OfficeTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         print(response_content)
         self.assertTrue(response_content['status'] == 201)
+
 
     def test_create_office_empty_name(self):
         """ Test that endpoint rejects blank name value """
@@ -52,21 +54,21 @@ class OfficeTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 
-    def test_get_all_offices(self):
-        """ Test that endpoint can retrieve all offices """
-        super().create_office(office)
-        response = super().get_all_offices()
-        self.assertEqual(response.status_code, 200)
-        response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['message'] == "Success")
+    # def test_get_all_offices(self):
+    #     """ Test that endpoint can retrieve all offices """
+    #     super().create_office(office)
+    #     response = super().get_all_offices()
+    #     self.assertEqual(response.status_code, 200)
+    #     response_content = json.loads(response.data.decode())
+    #     self.assertTrue(response_content['message'] == "Success")
 
-    def test_get_specific_office(self):
-        """ Test that endpoint can fetch specific political office """
-        super().create_office(office)
-        response = super().get_specific_office()
-        self.assertEqual(response.status_code, 200)
-        response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['message'] == "Success")
+    # def test_get_specific_office(self):
+    #     """ Test that endpoint can fetch specific political office """
+    #     super().create_office(office)
+    #     response = super().get_specific_office()
+    #     self.assertEqual(response.status_code, 200)
+    #     response_content = json.loads(response.data.decode())
+    #     self.assertTrue(response_content['message'] == "Success")
 
     def test_nonexistent_offices(self):
         """ Test that endpoint will not accept retrieving non existent offices """

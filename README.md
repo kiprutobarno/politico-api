@@ -97,7 +97,7 @@ Method | Endpoint | Functionality
 --- | --- | ---
 ```POST``` | ```/parties``` | Create a political party
 ```GET``` | ```/parties``` | Get all political parties
-```GET | ```/parties/int:id``` | Get a specific political party
+```GET``` | ```/parties/int:id``` | Get a specific political party
 ```PATCH``` | ```/parties/int:id/string:name``` | Edit a political party
 ```DELETE``` | ```/parties/int:id``` | Delete particular political party
 

@@ -33,12 +33,10 @@ def create_app(config_name):
     app.app_context().push()
     create_tables()
     default_admin()
-    # app.config.from_pyfile('config.py')
     app.config['SECRET_KEY'] = "sweet_secret"
     app.config['JWT_SECRET_KEY'] = "jwt_sweet_secret"
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
-    # app.config['APP_SETTINGS'] = "development"
     app.register_blueprint(party, url_prefix='/api/v1')
     app.register_blueprint(office, url_prefix='/api/v1')
     app.register_blueprint(auth, url_prefix='/api/v2')

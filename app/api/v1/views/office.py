@@ -29,7 +29,8 @@ class OfficesEndpoint:
         if any(office['name'] == name for office in offices):
             return error(400, "That office already exists!")
 
-        return success(201, "Success", Office().create_office(name, officeType))
+        return success(201, "Success", Office().create_office(name, officeType)), 201
+
 
     @office.route('/offices', methods=["GET"])
     def get_offices():

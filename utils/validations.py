@@ -106,7 +106,8 @@ def check_for_blanks(data):
 def check_for_non_strings(data):
     non_strings=[]
     for key, value in data.items():
-        if not isinstance(value, str):
+        if key != 'id' and not isinstance(value, str):
+
             non_strings.append(key)
     return non_strings
 

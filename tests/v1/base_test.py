@@ -1,4 +1,3 @@
-from utils.dummy import *
 from unittest import TestCase
 from app import create_app
 import os

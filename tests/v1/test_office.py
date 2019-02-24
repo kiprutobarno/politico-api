@@ -1,17 +1,22 @@
 from .base_test import *
-from app.api.v1.models.office import Office
+from utils.dummy import *
+from app.api.v1.models.office import Office, offices
+
 
 
 class OfficeTestCase(BaseTestCase):
     """ This class represents the office test cases and "\
         " inherits from BaseTestCase class """
 
-    # def test_create_office(self):
-    #     """ Test that endpoint can create office"""
-    #     response = super().create_office(office)
-    #     self.assertEqual(response.status_code, 201)
-    #     response_content = json.loads(response.data.decode())
-    #     self.assertTrue(response_content['status'] == 201)
+    def test_create_office(self):
+        """ Test that endpoint can create office"""
+        Office().offices.clear()
+        response = super().create_office(office)
+        self.assertEqual(response.status_code, 201)
+        response_content = json.loads(response.data.decode())
+        print(response_content)
+        self.assertTrue(response_content['status'] == 201)
+
 
     def test_create_office_empty_name(self):
         """ Test that endpoint rejects blank name value """

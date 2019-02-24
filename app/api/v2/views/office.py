@@ -32,7 +32,7 @@ class OfficeEndPoint:
         if Office().search(name):
             return error(400, "Such an office is already registered!")
 
-        return success(201, "Office successfully created!", Office().create_office(name, office))
+        return success(201, "Office successfully created!", Office().create_office(name, office)), 201
 
 
     @office_version_2.route('/offices', methods=["GET"])

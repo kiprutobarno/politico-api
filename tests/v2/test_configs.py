@@ -17,7 +17,6 @@ class TestDevelopmentConfig(BaseTestCase):
 
 class TestTestingConfig(BaseTestCase):
     def setUp(self):
-        # super().setUp()
         self.app = create_app('testing')
         self.app.config.from_object('instance.config.TestingConfig')
 

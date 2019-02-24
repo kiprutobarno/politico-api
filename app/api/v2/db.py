@@ -6,9 +6,10 @@ from flask import current_app
 def connection():
     """This function creates a connection to the database"""
     if current_app.config['TESTING']:
-        url = os.getenv('TEST_DATABASE')
+        url = os.getenv('TEST_DATABASE_URL')
     else:
         url = os.getenv('DATABASE_URL')
+
     return psycopg2.connect(url)
 
 

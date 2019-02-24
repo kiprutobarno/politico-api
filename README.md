@@ -5,7 +5,7 @@ the season and help build a platform which both the politicians and citizens can
 Politico enables citizens give their mandate to politicians running for different government offices
 while building trust in the process through transparency
 
-[![Build Status](https://travis-ci.com/kipruto/politico-api.svg?branch=develop)](https://travis-ci.com/kipruto/politico-api) [![Coverage Status](https://coveralls.io/repos/github/kipruto/politico-api-v1/badge.svg?branch=develop)](https://coveralls.io/github/kipruto/politico-api-v1?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/3f1a8deeeeab4a8fa0f4/maintainability)](https://codeclimate.com/github/kipruto/politico-api-v1/maintainability)
+[![Build Status](https://travis-ci.com/kipruto/politico-api.svg?branch=develop)](https://travis-ci.com/kipruto/politico-api) [![Coverage Status](https://coveralls.io/repos/github/kipruto/politico-api/badge.svg?branch=ch-heroku-deployment-164099744)](https://coveralls.io/github/kipruto/politico-api?branch=ch-heroku-deployment-164099744) [![Maintainability](https://api.codeclimate.com/v1/badges/3f1a8deeeeab4a8fa0f4/maintainability)](https://codeclimate.com/github/kipruto/politico-api-v1/maintainability)
 
 ## Features
 1. The API can register users
@@ -126,6 +126,5 @@ Method | Endpoint | Functionality
 Method | Endpoint | Functionality
 --- | --- | ---
 ```POST``` | ```/votes/``` | Enables a user vote for a candidate
-```GET``` | ```/auth/login``` | User login
 ```GET``` | ```/offices/int:id``` | Get a specific political party
 ```POST``` | ```/petitions/``` | Enables a user challenge an election's outcome

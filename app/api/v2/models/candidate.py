@@ -10,15 +10,17 @@ class Candidate:
 
     def register(self, office, party, candidate):
         """ Create a office method """
-        candidate = {
+        candidates = {
             "office": office,
             "party": party,
             "candidate": candidate
         }
         cursor = self.db.cursor()
-        cursor.execute(insert('candidates', candidate))
+        # SELECT isadmin FROM users WHERE NOT isadmin=TRUE
+        cursor.execute("""INSERT INTO candidates(office, party, candidate) VALUES({}, {}, {}) """.format(
+            office, party, candidate))
         self.db.commit()
-        return candidate
+        return candidates
 
     def update(self, candidate):
         query = """UPDATE users SET iscandidate=TRUE WHERE id={}""".format(
@@ -29,7 +31,8 @@ class Candidate:
 
     def party_has_candidate(self, office, party):
         cursor = self.db.cursor()
-        cursor.execute("""SELECT * FROM candidates WHERE office={} AND party={}""".format(office, party))
+        cursor.execute(
+            """SELECT * FROM candidates WHERE office={} AND party={}""".format(office, party))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
@@ -37,7 +40,6 @@ class Candidate:
     def search_party(self, party):
         cursor = self.db.cursor()
         cursor.execute("""SELECT * FROM parties WHERE id={}""".format(party))
-        # cursor.execute(search('candidates', id))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
@@ -45,7 +47,6 @@ class Candidate:
     def search_office(self, office):
         cursor = self.db.cursor()
         cursor.execute("""SELECT * FROM offices WHERE id={}""".format(office))
-        # cursor.execute(search('candidates', id))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
@@ -55,7 +56,6 @@ class Candidate:
         cursor = self.db.cursor()
         cursor.execute(
             """SELECT * FROM candidates WHERE candidate={}""".format(candidate))
-        # cursor.execute(search('candidates', id))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
@@ -70,7 +70,7 @@ class Candidate:
 
         data = cursor.fetchone()
         return {
-            "candidate": data[0],
+            "candidate": data[0]+" "+data[1],
             "office": data[2],
-            "party": data[3]}
-        return data
+            "party": data[3],
+        }

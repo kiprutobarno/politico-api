@@ -23,7 +23,6 @@ class Vote:
     def search_office(self, office):
         cursor = self.db.cursor()
         cursor.execute("""SELECT * FROM offices WHERE id={}""".format(office))
-        # cursor.execute(search('candidates', id))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
@@ -33,7 +32,6 @@ class Vote:
         cursor = self.db.cursor()
         cursor.execute(
             """SELECT * FROM candidates WHERE candidate={}""".format(candidate))
-        # cursor.execute(search('candidates', id))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
@@ -43,8 +41,7 @@ class Vote:
         cursor = self.db.cursor()
         cursor.execute(
             """SELECT * FROM votes WHERE office={} AND createdby={}""".format(office, createdby))
-        # cursor.execute(search('votes', createdby))
-        data = cursor.fetchall()  # tuple
+        data = cursor.fetchall()
         if len(data) > 0:
             return True
 
@@ -52,7 +49,6 @@ class Vote:
         cursor = self.db.cursor()
         cursor.execute(
             """SELECT users.firstname, users.lastname FROM users INNER JOIN candidates ON candidates.candidate=users.id WHERE candidate={}""".format(id))
-        # cursor.execute(search('votes', createdby))
         data = cursor.fetchone()
         return data
 

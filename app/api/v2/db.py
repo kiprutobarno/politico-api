@@ -112,7 +112,7 @@ def create_queries():
                     office INTEGER NOT NULL,
                     candidate INTEGER NOT NULL,
                     FOREIGN KEY(office) REFERENCES offices(id),
-                    FOREIGN KEY(candidate) REFERENCES candidates(id)
+                    FOREIGN KEY(candidate) REFERENCES users(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     petitions = """CREATE TABLE IF NOT EXISTS petitions(

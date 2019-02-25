@@ -27,6 +27,13 @@ class Candidate:
         cursor.execute(query)
         return self.db.commit()
 
+    def party_has_candidate(self, office, party):
+        cursor = self.db.cursor()
+        cursor.execute("""SELECT * FROM candidates WHERE office={} AND party={}""".format(office, party))
+        data = cursor.fetchall()
+        if len(data) > 0:
+            return True
+
     def search_party(self, party):
         cursor = self.db.cursor()
         cursor.execute("""SELECT * FROM parties WHERE id={}""".format(party))

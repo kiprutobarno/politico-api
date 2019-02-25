@@ -31,27 +31,37 @@ class Vote:
     def search_candidate(self, candidate):
         """This function returns True if a user is already a registered candidate."""
         cursor = self.db.cursor()
-        cursor.execute("""SELECT * FROM candidates WHERE candidate={}""".format(candidate))
+        cursor.execute(
+            """SELECT * FROM candidates WHERE candidate={}""".format(candidate))
         # cursor.execute(search('candidates', id))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
 
-    def search(self, createdby):
+    def search(self, office, createdby):
         """ This function returns True if a user is already voted"""
         cursor = self.db.cursor()
         cursor.execute(
-            """SELECT * FROM votes WHERE createdby={}""".format(createdby))
+            """SELECT * FROM votes WHERE office={} AND createdby={}""".format(office, createdby))
         # cursor.execute(search('votes', createdby))
         data = cursor.fetchall()  # tuple
         if len(data) > 0:
             return True
 
+    def get_candidate(self, id):
+        cursor = self.db.cursor()
+        cursor.execute(
+            """SELECT users.firstname, users.lastname FROM users INNER JOIN candidates ON candidates.candidate=users.id WHERE candidate={}""".format(id))
+        # cursor.execute(search('votes', createdby))
+        data = cursor.fetchone()
+        return data
+
     def get(self, id):
         query = """ SELECT offices.name, users.firstname, users.lastname, candidates.candidate FROM votes
                     INNER JOIN offices ON votes.office=offices.id
+                    INNER JOIN users ON votes.createdby=users.id
                     INNER JOIN candidates ON votes.candidate=candidates.candidate
-                    INNER JOIN users ON votes.createdby=users.id""".format(id)
+                    """.format(id)
         cursor = self.db.cursor()
         cursor.execute(query)
 
@@ -61,4 +71,5 @@ class Vote:
             " " +
             data[2],
             "office": data[0],
-            "candidate": data[3]}
+            "candidate": Vote().get_candidate(data[3])[0] + " "+Vote().get_candidate(data[3])[1],
+        }

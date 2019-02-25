@@ -31,7 +31,7 @@ class VoteEndPoint:
         if not Vote().search_candidate(candidate):
             return error(400, "Sorry, such a candidate is not registered!")
 
-        if Vote().search(voter):
+        if Vote().search(office, voter):
             return error(400, "Sorry, you have already voted!")
         Vote().vote(office, candidate, voter)
         return success(201, "Thanks for voting, your vote will count!", Vote().get(voter)), 201

@@ -56,3 +56,7 @@ def search(table, parameter):
 def delete(table, id):
         """ Get specific item """
         return """DELETE FROM {} WHERE id = {}""".format(table, id)
+
+
+allowed_offices = ['Presidential', 'Gubernatorial', 'Senatorial']
+allowed_office_types = ['National', 'County']

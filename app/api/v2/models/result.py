@@ -8,19 +8,19 @@ class Result:
         self.db = db()
 
     def get(self, id):
-        query = """SELECT offices.name, users.firstname, COUNT(*) as votes FROM votes
+        query = """SELECT offices.name, users.firstname, users.lastname, COUNT(*) as votes FROM votes
                    INNER JOIN offices ON offices.id=votes.office
                    INNER JOIN users ON users.id=votes.candidate WHERE office={}
-                   GROUP BY offices.name, users.firstname;""".format(id)
+                   GROUP BY offices.name, users.firstname, users.lastname;""".format(id)
         cursor = self.db.cursor()
         cursor.execute(query)
         data = cursor.fetchall()
         rows = []
         for i, items in enumerate(data):
-            office, candidate, results = items
+            office, firstname, lastname, results = items
             result = dict(
                 office=office,
-                candidate=candidate,
+                candidate=firstname+" "+lastname,
                 results=results
             )
             rows.append(result)
@@ -32,7 +32,7 @@ class Result:
         cursor = self.db.cursor()
         cursor.execute(
             """SELECT * FROM offices WHERE id={}""".format(office))
-        # cursor.execute(search('votes', createdby))
-        data = cursor.fetchall()  # tuple
+        # cursor.execute(search('votes', createdby))print(Vote().get_candidate(candidate)[0][0])
+        data = cursor.fetchall()
         if len(data) > 0:
             return True

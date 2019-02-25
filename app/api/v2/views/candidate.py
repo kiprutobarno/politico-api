@@ -23,7 +23,7 @@ class CandidateEndPoint:
 
         if check_for_non_ints(data):
             return error(400, "{} must be an integer".format(', '.join(check_for_non_ints(data))))
-        
+
         office = data.get('office')
         party = data.get('party')
         candidate = data.get('candidate')
@@ -36,6 +36,9 @@ class CandidateEndPoint:
 
         if Candidate().search(candidate):
             return error(400, "The candidate is already registered!")
+
+        if Candidate().party_has_candidate(office, party):
+            return error(400, "This party has already fielded a candidate for this office!")
 
         Candidate().register(office, party, candidate)
         Candidate().update(candidate)

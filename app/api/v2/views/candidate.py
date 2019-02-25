@@ -43,3 +43,9 @@ class CandidateEndPoint:
         Candidate().register(office, party, candidate)
         Candidate().update(candidate)
         return success(201, "Candidate registration successfull!", Candidate().get(candidate)), 201
+
+    @candidate.route('/office/<int:office>/candidates', methods=["GET"])
+    @admin_required
+    def get_candidates(office):
+        """ Get specific office candidates endpoint """
+        return success(200, "Success", Candidate().get_politicians_specific_office(office))

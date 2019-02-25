@@ -16,7 +16,6 @@ class Candidate:
             "candidate": candidate
         }
         cursor = self.db.cursor()
-        # SELECT isadmin FROM users WHERE NOT isadmin=TRUE
         cursor.execute("""INSERT INTO candidates(office, party, candidate) VALUES({}, {}, {}) """.format(
             office, party, candidate))
         self.db.commit()
@@ -28,6 +27,27 @@ class Candidate:
         cursor = self.db.cursor()
         cursor.execute(query)
         return self.db.commit()
+
+    def get_politicians_specific_office(self, id):
+        query = """ SELECT users.firstname, users.lastname, offices.name, parties.name
+                    FROM candidates INNER JOIN users ON candidates.candidate=users.id
+                    INNER JOIN offices ON candidates.office=offices.id
+                    INNER JOIN parties ON candidates.party=parties.id WHERE offices.id={}""".format(id)
+        cursor = self.db.cursor()
+        cursor.execute(query)
+
+        data = cursor.fetchall()
+        rows = []
+        for i, items in enumerate(data):
+            firstname, lastname, office, party = items
+            result = dict(
+                office=office,
+                candidate=firstname+" "+lastname,
+                party=party
+            )
+            rows.append(result)
+
+        return rows
 
     def party_has_candidate(self, office, party):
         cursor = self.db.cursor()

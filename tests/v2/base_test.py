@@ -60,10 +60,27 @@ class BaseTestCase(TestCase):
             headers=dict(Authorization="Bearer " + token)
         )
 
+    def get_specific_party_invalid(self, token):
+        """Get specific party endpoint test method """
+        return self.client.get(
+            '/api/v2/parties/0',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
+
     def edit_party(self, data, token):
         """Edit political party endpoint test method """
         return self.client.patch(
             '/api/v2/parties/1/Red',
+            data=data,
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
+
+    def edit_party_invalid(self, data, token):
+        """Edit political party endpoint test method """
+        return self.client.patch(
+            '/api/v2/parties/0/Red',
             data=data,
             content_type='application/json',
             headers=dict(Authorization="Bearer " + token)
@@ -109,11 +126,53 @@ class BaseTestCase(TestCase):
             headers=dict(Authorization="Bearer " + token)
         )
 
+    def get_specific_office_invalid(self, token):
+        """Get specific office endpoint test method """
+        return self.client.get(
+            '/api/v2/offices/0',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
+
     # candidate test methods
     def register_candidate(self, data, token):
         """Create candidate endpoint test method """
         return self.client.post(
             'api/v2/office/1/register',
+            data=data,
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
+
+    def get_specifc_office_candidates(self, token):
+        """Create candidate endpoint test method """
+        return self.client.get(
+            'api/v2/office/1/candidates',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
+
+    # result test methods
+    def get_results_specific_office(self, token):
+        """Create candidate endpoint test method """
+        return self.client.get(
+            'api/v2/office/1/result',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
+
+    def get_results_unavailable_office(self, token):
+        """Create candidate endpoint test method """
+        return self.client.get(
+            'api/v2/office/2/result',
+            content_type='application/json',
+            headers=dict(Authorization="Bearer " + token)
+        )
+
+    # vote test methods
+    def vote(self, data, token):
+        return self.client.post(
+            'api/v2/votes/',
             data=data,
             content_type='application/json',
             headers=dict(Authorization="Bearer " + token)

@@ -26,3 +26,9 @@ class Office:
         for office in self.offices:
             if office['id'] == id:
                 return office
+
+    def search(self, id):
+        """ Search a specific office by name"""
+        for office in self.offices:
+            if office['id'] == id:
+                return True

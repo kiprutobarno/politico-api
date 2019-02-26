@@ -9,7 +9,6 @@ def connection():
         url = os.getenv('TEST_DATABASE_URL')
     else:
         url = os.getenv('DATABASE_URL')
-
     return psycopg2.connect(url)
 
 
@@ -43,7 +42,6 @@ def destroy_queries():
     delete_users = """DROP TABLE IF EXISTS users CASCADE;"""
     delete_parties = """DROP TABLE IF EXISTS parties CASCADE;"""
     delete_offices = """DROP TABLE IF EXISTS offices CASCADE;"""
-    delete_blacklist = """DROP TABLE IF EXISTS blacklists CASCADE;"""
     delete_candidates = """DROP TABLE IF EXISTS candidates CASCADE;"""
     delete_votes = """DROP TABLE IF EXISTS votes;"""
     delete_petitions = """DROP TABLE IF EXISTS petitions;"""
@@ -52,7 +50,6 @@ def destroy_queries():
         delete_candidates,
         delete_votes,
         delete_petitions,
-        delete_blacklist,
         delete_users,
         delete_parties,
         delete_offices]
@@ -85,15 +82,6 @@ def create_queries():
                     type VARCHAR(50) NOT NULL,
                     name VARCHAR(50) NOT NULL );"""
 
-    blacklists = """CREATE TABLE IF NOT EXISTS blacklists(
-                    id SERIAL PRIMARY KEY NOT NULL,
-                    token VARCHAR(500) NOT NULL,
-                    token_type VARCHAR(50) NOT NULL,
-                    admin VARCHAR(50) NOT NULL,
-                    issued_at VARCHAR(50) NOT NULL,
-                    expires_at VARCHAR(50) NOT NULL,
-                    blacklisted_at TIMESTAMP NULL DEFAULT NOW() );"""
-
     candidates = """CREATE TABLE IF NOT EXISTS candidates(
                     id SERIAL PRIMARY KEY NOT NULL,
                     office INTEGER NOT NULL,
@@ -125,8 +113,7 @@ def create_queries():
                     FOREIGN KEY(office) REFERENCES offices(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
-    queries = [users, parties, offices,
-               blacklists, candidates, votes, petitions]
+    queries = [users, parties, offices, candidates, votes, petitions]
 
     return queries
 

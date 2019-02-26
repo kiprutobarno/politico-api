@@ -1,5 +1,5 @@
 from flask import Blueprint, make_response, request, jsonify
-from app.api.v1.models.office import Office, offices
+from app.api.v1.models.office import Office
 from utils.validations import validate_office_key_pair_values, error, check_for_blanks, check_for_non_strings, success
 
 office = Blueprint('office', __name__)
@@ -16,21 +16,19 @@ class OfficesEndpoint:
             return error(400, "{} key missing".format(', '.join(validate_office_key_pair_values(request))))
 
         data = request.get_json()
-       
+        officeType = data.get('officeType')
+        name = data.get('name')
+        id = data.get('id')
+
         if check_for_blanks(data):
             return error(400, "{} cannot be blank".format(', '.join(check_for_blanks(data))))
 
         if check_for_non_strings(data):
             return error(400, "{} must be a string".format(', '.join(check_for_non_strings(data))))
+        if Office().search(id):
+            return error(400, "That office already exists!"), 400
 
-        officeType = data.get('officeType')
-        name = data.get('name')
-
-        if any(office['name'] == name for office in offices):
-            return error(400, "That office already exists!")
-
-        return success(201, "Success", Office().create_office(name, officeType)), 201
-
+        return success(201, "Office successfully created!", Office().create_office(name, officeType)), 201
 
     @office.route('/offices', methods=["GET"])
     def get_offices():

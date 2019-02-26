@@ -68,4 +68,5 @@ class Vote:
             data[2],
             "office": data[0],
             "candidate": Vote().get_candidate(data[3])[0] + " "+Vote().get_candidate(data[3])[1],
+            "message": "Success"
         }

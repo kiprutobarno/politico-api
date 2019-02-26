@@ -65,7 +65,6 @@ class Party:
                 cursor.execute(
                     "UPDATE parties SET name=%s, hqAddress=%s, logoUrl=%s WHERE id={}".format(
                         id, name), (data.get('name'), data.get('hqAddress'), data.get('logoUrl')))
-
                 return self.db.commit()
 
     def delete_party(self, id):

@@ -87,7 +87,6 @@ class PartyEndPoint:
 
         Party().edit_party(id, name, data)
         return success(201, "Party details successfully updated!", Party().get_specific_party(id)), 201
-        # return response(400, "Same data, nothing to update!")
 
     @party_version_2.route('/parties/<int:id>', methods=["DELETE"])
     @admin_required

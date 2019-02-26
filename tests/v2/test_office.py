@@ -11,9 +11,21 @@ class OfficeTestCase(BaseTestCase):
         login_content = json.loads(login.data.decode('utf-8'))
         token = [d['token'] for d in login_content['data']][0]
         response = super().create_office(office, token)
-        self.assertEqual(response.status_code, 201)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 201)
+        self.assertTrue(response_content['message']
+                        == "Office successfully created!")
+
+    def test_create_existing_office(self):
+        """ Test that endpoint can create office"""
+        super().create_user(admin_user)
+        login = super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token = [d['token'] for d in login_content['data']][0]
+        super().create_office(office, token)
+        response = super().create_office(office, token)
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['message']
+                        == "Such an office is already registered!")
 
     def test_create_office_empty_name(self):
         """ Test that endpoint rejects blank name value """
@@ -83,9 +95,8 @@ class OfficeTestCase(BaseTestCase):
         token = [d['token'] for d in login_content['data']][0]
         super().create_office(office, token)
         response = super().get_all_offices(token)
-        self.assertEqual(response.status_code, 200)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 200)
+        self.assertTrue(response_content['message'] == "Success")
 
     def test_get_specific_office(self):
         """ Test that endpoint can fetch specific political office """
@@ -95,27 +106,38 @@ class OfficeTestCase(BaseTestCase):
         token = [d['token'] for d in login_content['data']][0]
         super().create_office(office, token)
         response = super().get_specific_office(token)
-        self.assertEqual(response.status_code, 200)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 200)
+        self.assertTrue(response_content['message'] == "Success")
+
+    def test_get_specific_office_invalid(self):
+        """ Test that endpoint can fetch specific political office """
+        super().create_user(admin_user)
+        login = super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token = [d['token'] for d in login_content['data']][0]
+        super().create_office(office, token)
+        response = super().get_specific_office_invalid(token)
+        response_content = json.loads(response.data.decode())
+        self.assertTrue(response_content['message']
+                        == "Unacceptable id format")
 
     def test_get_nonexistent_offices(self):
         """ Test that endpoint will not accept retrieving non existent offices """
         super().create_user(admin_user)
-        login=super().login_user(admin_user_login)
+        login = super().login_user(admin_user_login)
         login_content = json.loads(login.data.decode('utf-8'))
-        token=[d['token'] for d in login_content['data']][0]
+        token = [d['token'] for d in login_content['data']][0]
         response = super().get_all_offices(token)
         self.assertEqual(response.status_code, 404)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 404)
-    
+
     def test_get_nonexistent_office(self):
         """ Test that endpoint will not accept retrieving non existent offices """
         super().create_user(admin_user)
-        login=super().login_user(admin_user_login)
+        login = super().login_user(admin_user_login)
         login_content = json.loads(login.data.decode('utf-8'))
-        token=[d['token'] for d in login_content['data']][0]
+        token = [d['token'] for d in login_content['data']][0]
         response = super().get_specific_office(token)
         self.assertEqual(response.status_code, 404)
         response_content = json.loads(response.data.decode())

@@ -15,6 +15,13 @@ party_edit_data = json.dumps(dict(
     logoUrl="red.img"
 ))
 
+party_edit_invalid_logo = json.dumps(dict(
+    id=1,
+    name="Red",
+    hqAddress="Addis",
+    logoUrl="red"
+))
+
 party_missing_name_key = json.dumps(dict(
     id=1,
     hqAddress="Addis",
@@ -27,6 +34,7 @@ party_blank_name = json.dumps(dict(
     hqAddress="Belgrade",
     logoUrl="logo.png"
 ))
+
 
 party_blank_hqAddress = json.dumps(dict(
     id=1,
@@ -42,6 +50,13 @@ party_blank_logoUrl = json.dumps(dict(
     logoUrl=""
 ))
 
+party_invalid_logoUrl = json.dumps(dict(
+    id=1,
+    name="Jubilee",
+    hqAddress="Kent",
+    logoUrl="invalid"
+))
+
 party_non_string_name = json.dumps(dict(
     id=1,
     name=5,
@@ -55,6 +70,7 @@ party_non_string_hqAddress = json.dumps(dict(
     hqAddress=7,
     logoUrl="kent.png"
 ))
+
 
 empty_data_party = json.dumps(dict(
 
@@ -115,11 +131,79 @@ admin_user = json.dumps(dict(
 ))
 
 user = json.dumps(dict(
-    id=2,
-    firstName='Jane',
-    lastName='Doe',
-    otherName='Daniel',
+    firstName='Wayne',
+    lastName='Rooney',
+    otherName='Timothy',
     email='user@politico.com',
+    phoneNumber='0798344456',
+    passportUrl='user.png',
+    password="User@123"
+))
+
+weak_password_user = json.dumps(dict(
+    firstName='Wayne',
+    lastName='Rooney',
+    otherName='Timothy',
+    email='user@politico.com',
+    phoneNumber='0798344456',
+    passportUrl='user.png',
+    password="user123"
+))
+
+blank_user = json.dumps(dict(
+    firstName='',
+    lastName='Rooney',
+    otherName='Timothy',
+    email='user@politico.com',
+    phoneNumber='0798344456',
+    passportUrl='user.png',
+    password="User@123"
+))
+
+user1 = json.dumps(dict(
+    firstName='George',
+    lastName='Harrison',
+    otherName='Herbert',
+    email='user1@politico.com',
+    phoneNumber='0798344456',
+    passportUrl='user.png',
+    password="User@123"
+))
+
+int_user = json.dumps(dict(
+    firstName=8,
+    lastName='Harrison',
+    otherName='Herbert',
+    email='user1@politico.com',
+    phoneNumber='0798344456',
+    passportUrl='user.png',
+    password="User@123"
+))
+
+invalid_image_user = json.dumps(dict(
+    firstName='George',
+    lastName='Harrison',
+    otherName='Herbert',
+    email='user1@politico.com',
+    phoneNumber='0798344456',
+    passportUrl='user',
+    password="User@123"
+))
+
+invalid_email_user = json.dumps(dict(
+    firstName='George',
+    lastName='Harrison',
+    otherName='Herbert',
+    email='politico.com',
+    phoneNumber='0798344456',
+    passportUrl='user.png',
+    password="User@123"
+))
+
+missing_key_user = json.dumps(dict(
+    lastName='Harrison',
+    otherName='Herbert',
+    email='user4@politico.com',
     phoneNumber='0798344456',
     passportUrl='user.png',
     password="User@123"
@@ -157,16 +241,45 @@ blank_email_login = json.dumps(dict(
     password='Admin@123'
 ))
 
+invalid_email_login = json.dumps(dict(
+    email='email',
+    password='Admin@123'
+))
+
 unregistered_login = json.dumps(dict(
     email='unregistered@politico.com',
     password='Admin@12356'
 ))
 
 # dummy candidates
-
 candidate = json.dumps(dict(
-    id=1,
     office=1,
     party=1,
-    candidate=1
+    candidate=2
+))
+
+candidate1 = json.dumps(dict(
+    office=1,
+    party=1,
+    candidate=3
+))
+
+# vote
+
+ballot = json.dumps(dict(
+    office=1,
+    candidate=2,
+    voter=2
+))
+
+no_office_ballot = json.dumps(dict(
+    office=3,
+    candidate=2,
+    voter=2
+))
+
+no_candidate_ballot = json.dumps(dict(
+    office=1,
+    candidate=5,
+    voter=2
 ))

@@ -28,7 +28,7 @@ class Result:
         return rows
 
     def search(self, office):
-        """ This function returns True if a user is already voted"""
+        """ This function returns True if an office is available for election"""
         cursor = self.db.cursor()
         cursor.execute(
             """SELECT * FROM offices WHERE id={}""".format(office))

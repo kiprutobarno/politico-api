@@ -11,7 +11,6 @@ from app.api.v2.views.candidate import candidate as candidate
 from app.api.v2.views.vote import vote as vote
 from app.api.v2.views.result import result as result
 from app.api.v2.db import create_tables, default_admin
-from app.api.v2.models.blacklist import Blacklist
 from utils.validations import error
 
 
@@ -36,8 +35,6 @@ def create_app(config_name):
     default_admin()
     app.config['SECRET_KEY'] = "sweet_secret"
     app.config['JWT_SECRET_KEY'] = "jwt_sweet_secret"
-    app.config['JWT_BLACKLIST_ENABLED'] = True
-    app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access', 'refresh']
     app.register_blueprint(party, url_prefix='/api/v1')
     app.register_blueprint(office, url_prefix='/api/v1')
     app.register_blueprint(auth, url_prefix='/api/v2')
@@ -58,11 +55,5 @@ def create_app(config_name):
         return {
             'isAdmin': identity
         }
-
-    @jwt.token_in_blacklist_loader
-    def check_if_token_in_blacklist(decrypted_token):
-        jti = decrypted_token['jti']
-        if Blacklist().search(jti):
-            return jti
 
     return app

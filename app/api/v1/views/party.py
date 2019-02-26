@@ -33,7 +33,7 @@ class PartiesEndPoint:
         if Party().search(name):
             return error(400, "Such a party is already registered!")
 
-        return success(201, "Success", Party().create_party(name, hqAddress, logoUrl))
+        return success(201, "Party successfully created!", Party().create_party(name, hqAddress, logoUrl))
 
     @party.route('/parties', methods=["GET"])
     def get_parties():
@@ -76,15 +76,14 @@ class PartiesEndPoint:
 
         if check_for_non_strings(data):
             return error(400, "{} must be a string".format(', '.join(check_for_non_strings(data))))
-
-        return success(201, "Success", Party().get_specific_party(id))
+        Party().edit_party(id, name, data)
+        return success(201, "Party successfully edited!", Party().get_specific_party(id))
 
     @party.route('/parties/<int:id>', methods=["DELETE"])
     def delete_party(id):
         """ Delete specific political party """
         if id <= 0:
             return error(400, "Unacceptable id format")
-
 
         if not Party().get_specific_party(id):
             return error(404, "You cannot delete a non-existent party")

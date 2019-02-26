@@ -3,9 +3,10 @@ from flask_jwt_extended import JWTManager
 from instance.config import app_config
 from app.api.v1.views.party import party as party
 from app.api.v1.views.office import office as office
-from app.api.v2.views.user import auth as auth
+from app.api.v2.views.auth import auth as auth
 from app.api.v2.views.party import party_version_2 as party_version_2
 from app.api.v2.views.office import office_version_2 as office_version_2
+from app.api.v2.views.documentation import documentation as documentation
 from app.api.v2.views.candidate import candidate as candidate
 from app.api.v2.views.vote import vote as vote
 from app.api.v2.views.result import result as result
@@ -45,6 +46,7 @@ def create_app(config_name):
     app.register_blueprint(candidate, url_prefix='/api/v2')
     app.register_blueprint(vote, url_prefix='/api/v2')
     app.register_blueprint(result, url_prefix='/api/v2')
+    app.register_blueprint(documentation, url_prefix='/')
 
     app.register_error_handler(400, handle_bad_request)
     app.register_error_handler(405, handle_method_not_allowed)

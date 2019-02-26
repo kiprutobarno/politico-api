@@ -1,5 +1,5 @@
 from flask import Blueprint, make_response, request, jsonify
-from app.api.v2.models.user import User
+from app.api.v2.models.auth import User
 from utils.validations import error, validEmail, validUrl, validate_login_key_pair_values,\
     isBlank, validate_user_key_pair_values, check_for_blanks, success, validPassword
 from utils.helpers import jwt_required, create_access_token

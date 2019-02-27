@@ -282,7 +282,6 @@ class PartyTestCase(BaseTestCase):
         response = super().edit_party(party_non_string_hqAddress, token)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
-message
 
 if __name__ == "__main__":
     unittest.main()

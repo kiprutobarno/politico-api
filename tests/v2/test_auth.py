@@ -91,7 +91,7 @@ class AuthTestCase(BaseTestCase):
                         == "password cannot be blank")
 
     def test_unexisting_login(self):
-        """Test that endpoint cannot login an unexisting user"""
+        """Test that endpoint cannot login unexisting user"""
         response = super().login_user(unregistered_login)
         response_content = json.loads(response.data.decode())
         self.assertTrue(

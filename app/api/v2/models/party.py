@@ -1,12 +1,8 @@
-from app.api.v2.db import db
-from utils.helpers import insert, select, drop, select_one, search, delete
+from app.api.v2.database.db import insert, fetch_all_items, fetch_single_item, delete, search_by_name, connection
 
 
 class Party:
     """ The party model """
-
-    def __init__(self):
-        self.db = db()
 
     def create_party(self, name, hqAddress, logoUrl):
         """ Create a party method """
@@ -15,17 +11,12 @@ class Party:
             "hqAddress": hqAddress,
             "logoUrl": logoUrl
         }
-
-        cursor = self.db.cursor()
-        cursor.execute(insert('parties', party))
-        self.db.commit()
+        insert('parties', party)
         return party
 
     def get_all_parties(self):
         """ Get all parties method """
-        cursor = self.db.cursor()
-        cursor.execute(select('parties'))
-        data = cursor.fetchall()
+        data = fetch_all_items('parties')
         parties = []
         for i, items in enumerate(data):
             id, name, hqaddress, logourl = items
@@ -40,9 +31,7 @@ class Party:
 
     def get_specific_party(self, id):
         """ Get all parties method """
-        cursor = self.db.cursor()
-        cursor.execute(select_one('parties', id))
-        data = cursor.fetchall()
+        data = fetch_single_item('parties', id)
         parties = []
         for i, items in enumerate(data):
             id, name, hqAddress, logourl, = items
@@ -61,22 +50,18 @@ class Party:
         if Party().get_specific_party(id):
             if data.get('name') and data.get(
                     'hqAddress') and data.get('logoUrl'):
-                cursor = self.db.cursor()
+                cursor = connection().cursor()
                 cursor.execute(
                     "UPDATE parties SET name=%s, hqAddress=%s, logoUrl=%s WHERE id={}".format(
                         id, name), (data.get('name'), data.get('hqAddress'), data.get('logoUrl')))
-                return self.db.commit()
+                return connection().commit()
 
     def delete_party(self, id):
         """This function deletes a product entry in the database"""
-        cursor = self.db.cursor()
-        cursor.execute(delete('parties', id))
-        return self.db.commit()
+        delete('parties', id)
 
     def search(self, name):
         """ This function returns True if an email exists in the database."""
-        cursor = self.db.cursor()
-        cursor.execute(search('parties', name))
-        data = cursor.fetchall()
+        data = search_by_name('parties', name)
         if len(data) > 0:
             return True

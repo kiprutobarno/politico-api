@@ -1,5 +1,5 @@
 from app.api.v2.db import db
-from utils.helpers import drop, insert, get_all, get_one, search
+from utils.helpers import drop, insert, select, select_one, search, select_multiple_conditions, get_candidates
 
 
 class Candidate:
@@ -16,8 +16,7 @@ class Candidate:
             "candidate": candidate
         }
         cursor = self.db.cursor()
-        cursor.execute("""INSERT INTO candidates(office, party, candidate) VALUES({}, {}, {}) """.format(
-            office, party, candidate))
+        cursor.execute(insert('candidates', candidates))
         self.db.commit()
         return candidates
 
@@ -29,12 +28,8 @@ class Candidate:
         return self.db.commit()
 
     def get_politicians_specific_office(self, id):
-        query = """ SELECT users.firstname, users.lastname, offices.name, parties.name
-                    FROM candidates INNER JOIN users ON candidates.candidate=users.id
-                    INNER JOIN offices ON candidates.office=offices.id
-                    INNER JOIN parties ON candidates.party=parties.id WHERE offices.id={}""".format(id)
         cursor = self.db.cursor()
-        cursor.execute(query)
+        cursor.execute(get_candidates('offices.id', id))
 
         data = cursor.fetchall()
         rows = []
@@ -51,22 +46,21 @@ class Candidate:
 
     def party_has_candidate(self, office, party):
         cursor = self.db.cursor()
-        cursor.execute(
-            """SELECT * FROM candidates WHERE office={} AND party={}""".format(office, party))
+        cursor.execute(select_multiple_conditions('candidates', office, party))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
 
     def search_party(self, party):
         cursor = self.db.cursor()
-        cursor.execute("""SELECT * FROM parties WHERE id={}""".format(party))
+        cursor.execute(select_one('parties', party))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
 
     def search_office(self, office):
         cursor = self.db.cursor()
-        cursor.execute("""SELECT * FROM offices WHERE id={}""".format(office))
+        cursor.execute(select_one('offices', office))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
@@ -74,19 +68,14 @@ class Candidate:
     def search(self, candidate):
         """This function returns True if a user is already a registered candidate."""
         cursor = self.db.cursor()
-        cursor.execute(
-            """SELECT * FROM candidates WHERE candidate={}""".format(candidate))
+        cursor.execute(select_one('candidates', candidate))
         data = cursor.fetchall()
         if len(data) > 0:
             return True
 
     def get(self, id):
-        query = """ SELECT users.firstname, users.lastname, offices.name, parties.name
-                    FROM candidates INNER JOIN users ON candidates.candidate=users.id
-                    INNER JOIN offices ON candidates.office=offices.id
-                    INNER JOIN parties ON candidates.party=parties.id WHERE candidates.candidate={}""".format(id)
         cursor = self.db.cursor()
-        cursor.execute(query)
+        cursor.execute(get_candidates('candidates.candidate', id))
 
         data = cursor.fetchone()
         return {

@@ -54,7 +54,6 @@ class AuthTestCase(BaseTestCase):
         """Test that endpoint can login a registered user"""
         super().create_user(admin_user)
         response = super().login_user(admin_user_login)
-        self.assertEqual(response.status_code, 201)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 201)
 
@@ -92,7 +91,7 @@ class AuthTestCase(BaseTestCase):
                         == "password cannot be blank")
 
     def test_unexisting_login(self):
-        """Test that endpoint cannot login an unexisting user"""
+        """Test that endpoint cannot login unexisting user"""
         response = super().login_user(unregistered_login)
         response_content = json.loads(response.data.decode())
         self.assertTrue(
@@ -101,7 +100,7 @@ class AuthTestCase(BaseTestCase):
     def test_blank_body_login(self):
         """Test that endpoint cannot login a user with empty request body"""
         super().create_user(admin_user)
-        response = super().login_user(empty_body_login)             
+        response = super().login_user(empty_body_login)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
 

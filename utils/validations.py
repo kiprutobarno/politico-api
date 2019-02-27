@@ -58,12 +58,14 @@ def error(status, message):
         "message": message
     }), status)
 
+
 def response(status, message):
     """Captures success responses that do not return data"""
     return make_response(jsonify({
         "status": status,
         "message": message
     }), status)
+
 
 def success(status, message, data):
     """Captures success messages"""
@@ -72,6 +74,7 @@ def success(status, message, data):
         "message": message,
         "data": data
     }))
+
 
 def validEmail(email):
     """Regex to validate email address"""
@@ -88,34 +91,36 @@ def validUrl(url):
 
 
 def validPassword(password):
-        if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password):
-                return True
+    if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password):
+        return True
+
 
 def isBlank(variable):
     """check if variable is empty"""
     if variable == "":
         return True
 
+
 def check_for_blanks(data):
-    blanks=[]
+    blanks = []
     for key, value in data.items():
         if value == "":
             blanks.append(key)
     return blanks
 
+
 def check_for_non_strings(data):
-    non_strings=[]
+    non_strings = []
     for key, value in data.items():
         if key != 'id' and not isinstance(value, str):
 
             non_strings.append(key)
     return non_strings
 
+
 def check_for_non_ints(data):
-    non_ints=[]
+    non_ints = []
     for key, value in data.items():
         if not isinstance(value, int):
             non_ints.append(key)
     return non_ints
-
-    

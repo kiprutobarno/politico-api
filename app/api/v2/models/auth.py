@@ -1,6 +1,6 @@
 from passlib.hash import pbkdf2_sha256 as sha256
 from app.api.v2.db import db
-from utils.helpers import insert, get_all, drop, get_one, delete, search
+from utils.helpers import insert, select, drop, select_one, delete, search
 
 
 class User:
@@ -28,7 +28,7 @@ class User:
             "passportUrl": passportUrl,
             "password": User.generate_hash(password)
         }
-        
+
         cursor = self.db.cursor()
         cursor.execute(insert('users', user))
         self.db.commit()
@@ -48,7 +48,6 @@ class User:
         cursor = self.db.cursor()
         cursor.execute("""SELECT * FROM users  WHERE email='%s'""" % (email))
         hashes = cursor.fetchone()
-        print(hashes)
         if User().verify_hash(password, hashes[9]):
             return hashes
 

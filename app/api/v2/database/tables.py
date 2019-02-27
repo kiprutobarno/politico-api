@@ -1,42 +1,3 @@
-import os
-import psycopg2
-from flask import current_app
-
-
-def connection():
-    """This function creates a connection to the database"""
-    if current_app.config['TESTING']:
-        url = os.getenv('TEST_DATABASE_URL')
-    else:
-        url = os.getenv('DATABASE_URL')
-    return psycopg2.connect(url)
-
-
-def db():
-    """This function returns a database connection object"""
-    return connection()
-
-
-def create_tables():
-    """This function creates tables in the database"""
-    conn = connection()
-    cursor = conn.cursor()
-    queries = create_queries()
-    for query in queries:
-        cursor.execute(query)
-    conn.commit()
-
-
-def destroy_tables():
-    """This function destroys tables in the database"""
-    conn = connection()
-    cursor = conn.cursor()
-    statements = destroy_queries()
-    for statement in statements:
-        cursor.execute(statement)
-    conn.commit()
-
-
 def destroy_queries():
     """This function returns a list of 'destroy table' queries"""
     delete_users = """DROP TABLE IF EXISTS users CASCADE;"""
@@ -116,25 +77,3 @@ def create_queries():
     queries = [users, parties, offices, candidates, votes, petitions]
 
     return queries
-
-
-def default_admin():
-    conn = connection()
-    curr = conn.cursor()
-    query = """SELECT * FROM users WHERE email='admin@politico.com'"""
-    curr.execute(query)
-    admin = curr.fetchone()
-    if not admin:
-        query = """INSERT INTO users(firstName, lastName, otherName, email, phoneNumber, passportUrl, isadmin, password) VALUES(%s,%s,%s,%s,%s, %s,%s,%s)"""
-
-        curr.execute(
-            query,
-            ('Kipruto',
-             'Barno',
-             'Maxwel',
-             'admin@politico.com',
-             '0721884344',
-             'admin.png',
-             True,
-             '$pbkdf2-sha256$29000$gvC.1/q/9x7DGKP0fu/dWw$k5fSiU1MK/XHyMbZofnBxrE.OPd.FScTNntfJGwnt48'))
-        conn.commit()

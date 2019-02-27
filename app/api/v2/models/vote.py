@@ -1,12 +1,11 @@
-from app.api.v2.db import db
-from utils.helpers import insert, select, drop, select_one, delete, search
+from app.api.v2.database.db import Connection
 
 
 class Vote:
     """ The candidate model """
 
     def __init__(self):
-        self.db = db()
+        self.db = Connection()
 
     def vote(self, office, candidate, voter):
         """ Create a office method """
@@ -15,41 +14,31 @@ class Vote:
             "candidate": candidate,
             "createdby": voter
         }
-        cursor = self.db.cursor()
-        cursor.execute(insert('votes', vote))
-        self.db.commit()
+        self.db.insert('votes', vote)
         return vote
 
     def search_office(self, office):
-        cursor = self.db.cursor()
-        cursor.execute("""SELECT * FROM offices WHERE id={}""".format(office))
-        data = cursor.fetchall()
-        if len(data) > 0:
+        if self.db.fetch_single_item('offices', office):
             return True
 
     def search_candidate(self, candidate):
         """This function returns True if a user is already a registered candidate."""
-        cursor = self.db.cursor()
-        cursor.execute(
-            """SELECT * FROM candidates WHERE candidate={}""".format(candidate))
-        data = cursor.fetchall()
-        if len(data) > 0:
+
+        if self.db.fetch_single_item('candidates', candidate):
             return True
 
     def search(self, office, createdby):
         """ This function returns True if a user is already voted"""
-        cursor = self.db.cursor()
-        cursor.execute(
+        self.db.cursor.execute(
             """SELECT * FROM votes WHERE office={} AND createdby={}""".format(office, createdby))
-        data = cursor.fetchall()
+        data = self.db.cursor.fetchall()
         if len(data) > 0:
             return True
 
     def get_candidate(self, id):
-        cursor = self.db.cursor()
-        cursor.execute(
+        self.db.cursor.execute(
             """SELECT users.firstname, users.lastname FROM users INNER JOIN candidates ON candidates.candidate=users.id WHERE candidate={}""".format(id))
-        data = cursor.fetchone()
+        data = self.db.cursor.fetchone()
         return data
 
     def get(self, id):
@@ -58,10 +47,9 @@ class Vote:
                     INNER JOIN users ON votes.createdby=users.id
                     INNER JOIN candidates ON votes.candidate=candidates.candidate
                     """.format(id)
-        cursor = self.db.cursor()
-        cursor.execute(query)
+        self.db.cursor.execute(query)
 
-        data = cursor.fetchone()
+        data = self.db.cursor.fetchone()
         return {
             "voter": data[1] +
             " " +

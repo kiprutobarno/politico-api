@@ -1,20 +1,14 @@
-from app.api.v2.db import db
+from app.api.v2.database.db import Connection
 
 
 class Result:
     """ The candidate model """
 
     def __init__(self):
-        self.db = db()
+        self.db = Connection()
 
     def get(self, id):
-        query = """SELECT offices.name, users.firstname, users.lastname, COUNT(*) as votes FROM votes
-                   INNER JOIN offices ON offices.id=votes.office
-                   INNER JOIN users ON users.id=votes.candidate WHERE office={}
-                   GROUP BY offices.name, users.firstname, users.lastname;""".format(id)
-        cursor = self.db.cursor()
-        cursor.execute(query)
-        data = cursor.fetchall()
+        data = self.db.fetch_all_results(id)
         rows = []
         for i, items in enumerate(data):
             office, firstname, lastname, results = items
@@ -28,11 +22,6 @@ class Result:
         return rows
 
     def search(self, office):
-        """ This function returns True if an office is available for election"""
-        cursor = self.db.cursor()
-        cursor.execute(
-            """SELECT * FROM offices WHERE id={}""".format(office))
-        # cursor.execute(search('votes', createdby))print(Vote().get_candidate(candidate)[0][0])
-        data = cursor.fetchall()
-        if len(data) > 0:
+        """ This function returns True if an office was available for election"""
+        if self.db.fetch_single_item('offices', office):
             return True

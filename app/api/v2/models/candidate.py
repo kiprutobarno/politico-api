@@ -1,12 +1,11 @@
-from app.api.v2.db import db
-from utils.helpers import drop, insert, select, select_one, search, select_multiple_conditions, get_candidates
+from app.api.v2.database.db import Connection
 
 
 class Candidate:
     """ The candidate model """
 
     def __init__(self):
-        self.db = db()
+        self.db = Connection()
 
     def register(self, office, party, candidate):
         """ Create a office method """
@@ -15,23 +14,19 @@ class Candidate:
             "party": party,
             "candidate": candidate
         }
-        cursor = self.db.cursor()
-        cursor.execute(insert('candidates', candidates))
-        self.db.commit()
+
+        self.db.insert('candidates', candidates)
         return candidates
 
     def update(self, candidate):
         query = """UPDATE users SET iscandidate=TRUE WHERE id={}""".format(
             candidate)
-        cursor = self.db.cursor()
-        cursor.execute(query)
-        return self.db.commit()
+
+        self.db.cursor.execute(query)
+        return self.db.connection.commit()
 
     def get_politicians_specific_office(self, id):
-        cursor = self.db.cursor()
-        cursor.execute(get_candidates('offices.id', id))
-
-        data = cursor.fetchall()
+        data = self.db.fetch_all_candidates('offices.id', id)
         rows = []
         for i, items in enumerate(data):
             firstname, lastname, office, party = items
@@ -45,39 +40,24 @@ class Candidate:
         return rows
 
     def party_has_candidate(self, office, party):
-        cursor = self.db.cursor()
-        cursor.execute(select_multiple_conditions('candidates', office, party))
-        data = cursor.fetchall()
-        if len(data) > 0:
+        if self.db.fetch_item_multiple_conditions('candidates', office, party):
             return True
 
     def search_party(self, party):
-        cursor = self.db.cursor()
-        cursor.execute(select_one('parties', party))
-        data = cursor.fetchall()
-        if len(data) > 0:
+        if self.db.fetch_single_item('parties', party):
             return True
 
     def search_office(self, office):
-        cursor = self.db.cursor()
-        cursor.execute(select_one('offices', office))
-        data = cursor.fetchall()
-        if len(data) > 0:
+        if self.db.fetch_single_item('offices', office):
             return True
 
     def search(self, candidate):
         """This function returns True if a user is already a registered candidate."""
-        cursor = self.db.cursor()
-        cursor.execute(select_one('candidates', candidate))
-        data = cursor.fetchall()
-        if len(data) > 0:
+        if self.db.fetch_single_item('candidates', candidate):
             return True
 
     def get(self, id):
-        cursor = self.db.cursor()
-        cursor.execute(get_candidates('candidates.candidate', id))
-
-        data = cursor.fetchone()
+        data = self.db.fetch_candidate('candidates.candidate', id)
         return {
             "candidate": data[0]+" "+data[1],
             "office": data[2],

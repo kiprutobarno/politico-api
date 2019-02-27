@@ -127,7 +127,8 @@ admin_user = json.dumps(dict(
     phoneNumber='0765234234',
     passportUrl='image.png',
     password="Admin@123",
-    isAdmin=True
+    isAdmin=True,
+    isCandidate=False
 ))
 
 user = json.dumps(dict(
@@ -137,7 +138,8 @@ user = json.dumps(dict(
     email='user@politico.com',
     phoneNumber='0798344456',
     passportUrl='user.png',
-    password="User@123"
+    password="User@123",
+    isCandidate=False
 ))
 
 weak_password_user = json.dumps(dict(

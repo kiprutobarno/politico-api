@@ -26,7 +26,6 @@ class VoteTestCase(BaseTestCase):
         login_content = json.loads(login.data.decode('utf-8'))
         token = [d['token'] for d in login_content['data']][0]
         super().create_party(party, token)
-        super().create_office(office, token)
         super().register_candidate(candidate, token)
         response = super().vote(no_office_ballot, token)
         response_content = json.loads(response.data.decode('utf-8'))
@@ -41,7 +40,6 @@ class VoteTestCase(BaseTestCase):
         token = [d['token'] for d in login_content['data']][0]
         super().create_party(party, token)
         super().create_office(office, token)
-        super().register_candidate(candidate, token)
         response = super().vote(no_candidate_ballot, token)
         response_content = json.loads(response.data.decode('utf-8'))
         self.assertEqual(

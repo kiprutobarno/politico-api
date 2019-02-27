@@ -10,7 +10,8 @@ from app.api.v2.views.documentation import documentation as documentation
 from app.api.v2.views.candidate import candidate as candidate
 from app.api.v2.views.vote import vote as vote
 from app.api.v2.views.result import result as result
-from app.api.v2.db import create_tables, default_admin
+# from app.api.v2.db import create_tables, default_admin
+from app.api.v2.database.db import create_tables, default_admin
 from utils.validations import error
 
 

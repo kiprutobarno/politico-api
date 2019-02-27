@@ -156,7 +156,6 @@ class PartyTestCase(BaseTestCase):
         self.assertEqual(
             response_content['message'], "Party successfully deleted!")
 
-
     def test_delete_non_existent(self):
         """Test endpoint will not accept a zero and an id"""
         super().create_user(admin_user)
@@ -167,8 +166,6 @@ class PartyTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['message'], "You cannot delete a non-existent party")
         self.assertEqual(response_content['status'], 404)
-
-
 
     def test_delete_invalid_id(self):
         """Test endpoint will not accept a zero and an id"""

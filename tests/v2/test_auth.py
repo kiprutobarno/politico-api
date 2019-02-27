@@ -79,6 +79,7 @@ class AuthTestCase(BaseTestCase):
         """Test that endpoint cannot login a user using blank email"""
         super().create_user(admin_user)
         response = super().login_user(invalid_email_login)
+        self.assertEqual(response.status_code, 400)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['message'] == "invalid email address")
 

@@ -85,6 +85,12 @@ class PartyEndPoint:
         if check_for_non_strings(data):
             return error(400, "{} must be a string".format(', '.join(check_for_non_strings(data))))
 
+        if id <= 0:
+            return error(400, "Unacceptable id format")
+
+        if not Party().get_specific_party(id):
+            return error(404, "You cannot edit a non-existent party"), 404
+
         Party().edit_party(id, name, data)
         return success(201, "Party details successfully updated!", Party().get_specific_party(id)), 201
 
@@ -96,7 +102,7 @@ class PartyEndPoint:
             return error(400, "Unacceptable id format")
 
         if not Party().get_specific_party(id):
-            return error(404, "You cannot delete a non-existent party")
+            return error(404, "You cannot delete a non-existent party"), 404
 
         Party().delete_party(id)
         return response(200, "Party successfully deleted!")

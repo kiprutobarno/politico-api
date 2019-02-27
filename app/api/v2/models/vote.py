@@ -1,5 +1,5 @@
 from app.api.v2.db import db
-from utils.helpers import insert, get_all, drop, get_one, delete, search
+from utils.helpers import insert, select, drop, select_one, delete, search
 
 
 class Vote:

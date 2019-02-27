@@ -1,5 +1,6 @@
 from app.api.v2.db import db
-from utils.helpers import insert, get_all, drop, get_one, search
+from utils.helpers import insert, select, drop, select_one, search
+
 
 class Office:
     """ The office model """
@@ -22,7 +23,7 @@ class Office:
     def get_all_offices(self):
         """ Get all parties method """
         cursor = self.db.cursor()
-        cursor.execute(get_all('offices'))
+        cursor.execute(select('offices'))
         data = cursor.fetchall()
         offices = []
         for i, items in enumerate(data):
@@ -38,7 +39,7 @@ class Office:
     def get_specific_office(self, id):
         """ Get all parties method """
         cursor = self.db.cursor()
-        cursor.execute(get_one('offices', id))
+        cursor.execute(select_one('offices', id))
         data = cursor.fetchall()
         offices = []
         for i, items in enumerate(data):

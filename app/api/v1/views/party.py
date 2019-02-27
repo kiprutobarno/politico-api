@@ -20,20 +20,22 @@ class PartiesEndPoint:
         name = data.get('name')
         hqAddress = data.get('hqAddress')
         logoUrl = data.get('logoUrl')
-
-        if check_for_blanks(data):
-            return error(400, "{} cannot be blank".format(', '.join(check_for_blanks(data))))
+        blanks = check_for_blanks(data)
+        if blanks:
+            return error(400, "{} cannot be blank".format(', '.join(blanks)))
 
         if not validUrl(logoUrl):
             return error(400, "Invalid logo url")
 
-        if check_for_non_strings(data):
-            return error(400, "{} must be a string".format(', '.join(check_for_non_strings(data))))
+        non_strings = check_for_non_strings(data)
+        if non_strings:
+            return error(400, "{} must be a string".format(', '.join(non_strings)))
 
         if Party().search(name):
             return error(400, "Such a party is already registered!")
 
-        return success(201, "Party successfully created!", Party().create_party(name, hqAddress, logoUrl))
+        party = Party().create_party(name, hqAddress, logoUrl)
+        return success(201, "Party successfully created!", party)
 
     @party.route('/parties', methods=["GET"])
     def get_parties():
@@ -68,14 +70,16 @@ class PartiesEndPoint:
         hqAddress = data.get('hqAddress')
         logoUrl = data.get('logoUrl')
 
-        if check_for_blanks(data):
-            return error(400, "{} cannot be blank".format(', '.join(check_for_blanks(data))))
+        blanks = check_for_blanks(data)
+        if blanks:
+            return error(400, "{} cannot be blank".format(', '.join(blanks)))
 
         if not validUrl(logoUrl):
             return error(400, "Invalid logo url")
 
-        if check_for_non_strings(data):
-            return error(400, "{} must be a string".format(', '.join(check_for_non_strings(data))))
+        non_strings = check_for_non_strings(data)
+        if non_strings:
+            return error(400, "{} must be a string".format(', '.join(non_strings)))
         Party().edit_party(id, name, data)
         return success(201, "Party successfully edited!", Party().get_specific_party(id))
 

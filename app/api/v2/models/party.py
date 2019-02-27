@@ -1,5 +1,5 @@
 from app.api.v2.db import db
-from utils.helpers import insert, get_all, drop, get_one, search, delete
+from utils.helpers import insert, select, drop, select_one, search, delete
 
 
 class Party:
@@ -24,7 +24,7 @@ class Party:
     def get_all_parties(self):
         """ Get all parties method """
         cursor = self.db.cursor()
-        cursor.execute(get_all('parties'))
+        cursor.execute(select('parties'))
         data = cursor.fetchall()
         parties = []
         for i, items in enumerate(data):
@@ -41,7 +41,7 @@ class Party:
     def get_specific_party(self, id):
         """ Get all parties method """
         cursor = self.db.cursor()
-        cursor.execute(get_one('parties', id))
+        cursor.execute(select_one('parties', id))
         data = cursor.fetchall()
         parties = []
         for i, items in enumerate(data):

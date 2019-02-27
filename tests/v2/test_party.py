@@ -156,15 +156,16 @@ class PartyTestCase(BaseTestCase):
         self.assertEqual(
             response_content['message'], "Party successfully deleted!")
 
-    # def test_delete_non_existent(self):
-    #     """Test endpoint will not accept a zero and an id"""
-    #     super().create_user(admin_user)
-    #     login=super().login_user(admin_user_login)
-    #     login_content = json.loads(login.data.decode('utf-8'))
-    #     token=[d['token'] for d in login_content['data']][0]
-    #     response = super().invalid_delete_party(token)
-    #     response_content = json.loads(response.data.decode())
-    #     self.assertEqual(response_content['status'], 404)
+    def test_delete_non_existent(self):
+        """Test endpoint will not accept a zero and an id"""
+        super().create_user(admin_user)
+        login=super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token=[d['token'] for d in login_content['data']][0]
+        response = super().delete_party(token)
+        response_content = json.loads(response.data.decode())
+        self.assertEqual(response_content['message'], "You cannot delete a non-existent party")
+        self.assertEqual(response_content['status'], 404)
 
     def test_delete_invalid_id(self):
         """Test endpoint will not accept a zero and an id"""
@@ -182,6 +183,7 @@ class PartyTestCase(BaseTestCase):
         login = super().login_user(admin_user_login)
         login_content = json.loads(login.data.decode('utf-8'))
         token = [d['token'] for d in login_content['data']][0]
+        super().create_party(party, token)
         response = super().edit_party(party_edit_data, token)
         response_content = json.loads(response.data.decode())
         self.assertEqual(
@@ -219,15 +221,17 @@ class PartyTestCase(BaseTestCase):
         response_content = json.loads(response.data.decode())
         self.assertEqual(response_content['message'], "name key missing")
 
-    # def test_edit_non_existing(self):
-    #     """ Test that endpoint can update details of a specific party """
-    #     super().create_user(admin_user)
-    #     login=super().login_user(admin_user_login)
-    #     login_content = json.loads(login.data.decode('utf-8'))
-    #     token=[d['token'] for d in login_content['data']][0]
-    #     response = super().edit_party(party_edit_data, token)
-    #     response_content = json.loads(response.data.decode())
-    #     self.assertEqual(response_content['message'], "You cannot edit a non-existent party")
+
+    def test_edit_non_existing(self):
+        """ Test that endpoint can update details of a specific party """
+        super().create_user(admin_user)
+        login=super().login_user(admin_user_login)
+        login_content = json.loads(login.data.decode('utf-8'))
+        token=[d['token'] for d in login_content['data']][0]
+        response = super().edit_party(party_edit_data, token)
+        response_content = json.loads(response.data.decode())
+        self.assertEqual(response_content['message'], "You cannot edit a non-existent party")
+
 
     def test_edit_blank_name(self):
         """Test that endpoint cannot accept a blank name"""
@@ -278,7 +282,7 @@ class PartyTestCase(BaseTestCase):
         response = super().edit_party(party_non_string_hqAddress, token)
         response_content = json.loads(response.data.decode())
         self.assertTrue(response_content['status'] == 400)
-
+message
 
 if __name__ == "__main__":
     unittest.main()

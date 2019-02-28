@@ -1,4 +1,5 @@
 from flask import Flask, make_response
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from instance.config import app_config
 from app.api.v1.views.party import party as party
@@ -33,6 +34,7 @@ def create_app(config_name):
     app.app_context().push()
     Connection().create_tables()
     Connection().default_admin()
+    CORS(app)
     app.config['SECRET_KEY'] = "sweet_secret"
     app.config['JWT_SECRET_KEY'] = "jwt_sweet_secret"
     app.register_blueprint(party, url_prefix='/api/v1')

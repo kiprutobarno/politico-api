@@ -1,8 +1,11 @@
-from app.api.v2.database.db import insert, fetch_all_items, fetch_single_item, delete, search_by_name, connection
+from app.api.v2.database.db import Connection
 
 
 class Vote:
     """ The candidate model """
+
+    def __init__(self):
+        self.db = Connection()
 
     def vote(self, office, candidate, voter):
         """ Create a office method """
@@ -11,33 +14,31 @@ class Vote:
             "candidate": candidate,
             "createdby": voter
         }
-        insert('votes', vote)
+        self.db.insert('votes', vote)
         return vote
 
     def search_office(self, office):
-        if fetch_single_item('offices', office):
+        if self.db.fetch_single_item('offices', office):
             return True
 
     def search_candidate(self, candidate):
         """This function returns True if a user is already a registered candidate."""
 
-        if fetch_single_item('candidates', candidate):
+        if self.db.fetch_single_item('candidates', candidate):
             return True
 
     def search(self, office, createdby):
         """ This function returns True if a user is already voted"""
-        cursor = connection().cursor()
-        cursor.execute(
+        self.db.cursor.execute(
             """SELECT * FROM votes WHERE office={} AND createdby={}""".format(office, createdby))
-        data = cursor.fetchall()
+        data = self.db.cursor.fetchall()
         if len(data) > 0:
             return True
 
     def get_candidate(self, id):
-        cursor = connection().cursor()
-        cursor.execute(
+        self.db.cursor.execute(
             """SELECT users.firstname, users.lastname FROM users INNER JOIN candidates ON candidates.candidate=users.id WHERE candidate={}""".format(id))
-        data = cursor.fetchone()
+        data = self.db.cursor.fetchone()
         return data
 
     def get(self, id):
@@ -46,10 +47,9 @@ class Vote:
                     INNER JOIN users ON votes.createdby=users.id
                     INNER JOIN candidates ON votes.candidate=candidates.candidate
                     """.format(id)
-        cursor = connection().cursor()
-        cursor.execute(query)
+        self.db.cursor.execute(query)
 
-        data = cursor.fetchone()
+        data = self.db.cursor.fetchone()
         return {
             "voter": data[1] +
             " " +

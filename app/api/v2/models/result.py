@@ -1,11 +1,14 @@
-from app.api.v2.database.db import search_by_name, fetch_all_results, fetch_single_item
+from app.api.v2.database.db import Connection
 
 
 class Result:
     """ The candidate model """
 
+    def __init__(self):
+        self.db = Connection()
+
     def get(self, id):
-        data = fetch_all_results(id)
+        data = self.db.fetch_all_results(id)
         rows = []
         for i, items in enumerate(data):
             office, firstname, lastname, results = items
@@ -19,7 +22,6 @@ class Result:
         return rows
 
     def search(self, office):
-        """ This function returns True if an office is available for election"""
-        data = fetch_single_item('offices', office)
-        if len(data) > 0:
+        """ This function returns True if an office was available for election"""
+        if self.db.fetch_single_item('offices', office):
             return True

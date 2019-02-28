@@ -10,8 +10,7 @@ from app.api.v2.views.documentation import documentation as documentation
 from app.api.v2.views.candidate import candidate as candidate
 from app.api.v2.views.vote import vote as vote
 from app.api.v2.views.result import result as result
-# from app.api.v2.db import create_tables, default_admin
-from app.api.v2.database.db import create_tables, default_admin
+from app.api.v2.database.db import Connection
 from utils.validations import error
 
 
@@ -32,8 +31,8 @@ def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object(app_config[config_name])
     app.app_context().push()
-    create_tables()
-    default_admin()
+    Connection().create_tables()
+    Connection().default_admin()
     app.config['SECRET_KEY'] = "sweet_secret"
     app.config['JWT_SECRET_KEY'] = "jwt_sweet_secret"
     app.register_blueprint(party, url_prefix='/api/v1')

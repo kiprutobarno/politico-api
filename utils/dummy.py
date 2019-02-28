@@ -260,6 +260,18 @@ candidate = json.dumps(dict(
     candidate=2
 ))
 
+string_candidate = json.dumps(dict(
+    office=1,
+    party="democrat",
+    candidate=2
+))
+
+candidate_blank = json.dumps(dict(
+    office="",
+    party=1,
+    candidate=2
+))
+
 candidate1 = json.dumps(dict(
     office=1,
     party=1,

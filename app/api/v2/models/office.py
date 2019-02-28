@@ -1,8 +1,11 @@
-from app.api.v2.database.db import insert, fetch_all_items, fetch_single_item, delete, search_by_name
+from app.api.v2.database.db import Connection
 
 
 class Office:
     """ The office model """
+
+    def __init__(self):
+        self.db = Connection()
 
     def create_office(self, name, officeType):
         """ Create a office method """
@@ -10,12 +13,12 @@ class Office:
             "name": name,
             "type": officeType
         }
-        insert('offices', office)
+        self.db.insert('offices', office)
         return office
 
     def get_all_offices(self):
         """ Get all offices method """
-        data = fetch_all_items('offices')
+        data = self.db.fetch_all_items('offices')
         offices = []
         for i, items in enumerate(data):
             id, name, officeType = items
@@ -29,7 +32,7 @@ class Office:
 
     def get_specific_office(self, id):
         """ Get specific office method """
-        data = fetch_single_item('offices', id)
+        data = self.db.fetch_single_item('offices', id)
         offices = []
         for i, items in enumerate(data):
             id, name, officeType = items
@@ -43,5 +46,5 @@ class Office:
 
     def search(self, name):
         """ This function returns True if an office name already exists in the database."""
-        if search_by_name('offices', name):
+        if self.db.search_by_name('offices', name):
             return True

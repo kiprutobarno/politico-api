@@ -1,4 +1,4 @@
-from app.api.v2.db import create_tables, destroy_tables
+from app.api.v2.database.db import Connection
 from utils.dummy import *
 from unittest import TestCase
 from app import create_app
@@ -16,7 +16,7 @@ class BaseTestCase(TestCase):
         self.app = create_app(config_name='testing')
         self.app.config['TESTING'] = True
         self.client = self.app.test_client(use_cookies=True)
-        create_tables()
+        Connection().create_tables()
 
     def create_user(self, data):
         """Create user endpoint test methods"""
@@ -180,9 +180,8 @@ class BaseTestCase(TestCase):
 
     def tearDown(self):
         with self.app.app_context():
-            destroy_tables()
+            Connection().drop_tables()
 
 
-# Make the tests conveniently executable
 if __name__ == "__main__":
     unittest.main()

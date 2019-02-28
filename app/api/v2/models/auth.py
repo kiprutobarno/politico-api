@@ -1,9 +1,13 @@
 from passlib.hash import pbkdf2_sha256 as sha256
-from app.api.v2.database.db import insert, search_by_email
+# from app.api.v2.database.db import insert, search_by_email
+from app.api.v2.database.db import Connection
 
 
 class User:
     """User Model"""
+
+    def __init__(self):
+        self.db = Connection()
 
     def create_user(
             self,
@@ -24,18 +28,18 @@ class User:
             "passportUrl": passportUrl,
             "password": User.generate_hash(password)
         }
-        insert('users', user)
+        self.db.insert('users', user)
 
     def search(self, email):
         """ This function returns True if an email exists in the database."""
-        if search_by_email('users', email):
+        if self.db.search_by_email('users', email):
             return True
 
     def login(self, email, password):
         """ This function verifies user password and returns "\
             "the user's isAdmin status """
-        search_by_email('users', email)
-        hashes = search_by_email('users', email)
+        self.db.search_by_email('users', email)
+        hashes = self.db.search_by_email('users', email)
         if User().verify_hash(password, hashes[9]):
             return hashes
 

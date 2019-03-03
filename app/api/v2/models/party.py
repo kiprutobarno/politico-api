@@ -35,8 +35,8 @@ class Party:
     def get_specific_party(self, id):
         """ Get all parties method """
         data = self.db.fetch_single_item('parties', id)
-        parties = []
         for i, items in enumerate(data):
+            parties = []
             id, name, hqAddress, logourl, = items
             party = dict(
                 id=int(id),

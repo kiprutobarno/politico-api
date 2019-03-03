@@ -81,6 +81,13 @@ class Connection:
         item = self.cursor.fetchone()
         return item
 
+    def search_by_id(self, table, id):
+        """ Search specific item """
+        self.cursor.execute(
+            """SELECT * FROM {} WHERE id={}""".format(table, id))
+        item = self.cursor.fetchall()
+        return item
+
     def delete(self, table, id):
         """ Delete a specific item from table """
         self.cursor.execute(

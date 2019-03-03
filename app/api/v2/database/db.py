@@ -54,7 +54,7 @@ class Connection:
         return items
 
     def fetch_single_item(self, table, id):
-        """ Fetch single item """
+        """ Fetches a single item from a table"""
         self.cursor.execute(
             """SELECT * FROM {} WHERE id = {}""".format(table, id))
         item = self.cursor.fetchall()

@@ -56,7 +56,7 @@ class Connection:
     def fetch_single_item(self, table, id):
         """ Fetch single item """
         self.cursor.execute(
-            """SELECT * FROM {} WHERE id = {}""".format(table, id))
+            """SELECT * FROM {} WHERE {} = {}""".format(table, id, id))
         item = self.cursor.fetchall()
         return item
 
@@ -79,6 +79,13 @@ class Connection:
         self.cursor.execute(
             """SELECT * FROM {} WHERE email='%s'""".format(table) % (email))
         item = self.cursor.fetchone()
+        return item
+
+    def search_by_id(self, table, id):
+        """ Search specific item """
+        self.cursor.execute(
+            """SELECT * FROM {} WHERE id={}""".format(table, id))
+        item = self.cursor.fetchall()
         return item
 
     def delete(self, table, id):

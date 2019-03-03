@@ -32,7 +32,7 @@ class Office:
 
     def get_specific_office(self, id):
         """ Get specific office method """
-        data = self.db.fetch_single_item('offices', id)
+        data = self.db.search_by_id('offices', id)
         for i, items in enumerate(data):
             id, name, officeType = items
             office = dict(

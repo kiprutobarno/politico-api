@@ -33,7 +33,6 @@ class Office:
     def get_specific_office(self, id):
         """ Get specific office method """
         data = self.db.fetch_single_item('offices', id)
-        offices = []
         for i, items in enumerate(data):
             id, name, officeType = items
             office = dict(
@@ -41,8 +40,7 @@ class Office:
                 name=name,
                 officeType=officeType
             )
-            offices.append(office)
-        return offices
+            return office
 
     def search(self, name):
         """ This function returns True if an office name already exists in the database."""

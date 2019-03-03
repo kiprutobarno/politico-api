@@ -35,7 +35,6 @@ class Party:
     def get_specific_party(self, id):
         """ Get all parties method """
         data = self.db.fetch_single_item('parties', id)
-        parties = []
         for i, items in enumerate(data):
             id, name, hqAddress, logourl, = items
             party = dict(
@@ -44,8 +43,7 @@ class Party:
                 hqAddress=hqAddress,
                 logourl=logourl
             )
-            parties.append(party)
-        return parties
+            return party
 
     def edit_party(self, id, name, data):
         """Update the details of a political party"""

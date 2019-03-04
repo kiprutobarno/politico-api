@@ -96,6 +96,7 @@ class OfficeTestCase(BaseTestCase):
         super().create_office(office, token)
         response = super().get_all_offices(token)
         response_content = json.loads(response.data.decode())
+        print(response_content)
         self.assertTrue(response_content['message'] == "Success")
 
     def test_get_specific_office(self):

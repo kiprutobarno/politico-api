@@ -36,19 +36,21 @@ def create_queries():
                     id SERIAL PRIMARY KEY NOT NULL,
                     name VARCHAR(50) NOT NULL,
                     hqAddress VARCHAR(50) NOT NULL,
-                    logoUrl VARCHAR(50) NOT NULL );"""
+                    logoUrl VARCHAR(50) NOT NULL,
+                    dateCreated TIMESTAMP NULL DEFAULT NOW() );"""
 
     offices = """CREATE TABLE IF NOT EXISTS offices(
                     id SERIAL PRIMARY KEY NOT NULL,
                     type VARCHAR(50) NOT NULL,
-                    name VARCHAR(50) NOT NULL );"""
+                    name VARCHAR(50) NOT NULL,
+                    dateCreated TIMESTAMP NULL DEFAULT NOW() );"""
 
     candidates = """CREATE TABLE IF NOT EXISTS candidates(
                     id SERIAL PRIMARY KEY NOT NULL,
                     office INTEGER NOT NULL,
                     party INTEGER NOT NULL,
                     candidate INTEGER NOT NULL,
-                    dateCreated TIMESTAMP NULL DEFAULT NOW(),
+                    dateRegistered TIMESTAMP NULL DEFAULT NOW(),
                     FOREIGN KEY(office) REFERENCES offices(id),
                     FOREIGN KEY(party) REFERENCES parties(id),
                     FOREIGN KEY(candidate) REFERENCES users(id)
@@ -60,6 +62,7 @@ def create_queries():
                     createdBy INTEGER NOT NULL,
                     office INTEGER NOT NULL,
                     candidate INTEGER NOT NULL,
+                    timeVoted TIMESTAMP NULL DEFAULT NOW(),
                     FOREIGN KEY(office) REFERENCES offices(id),
                     FOREIGN KEY(candidate) REFERENCES users(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""

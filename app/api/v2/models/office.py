@@ -21,11 +21,12 @@ class Office:
         data = self.db.fetch_all_items('offices')
         offices = []
         for i, items in enumerate(data):
-            id, name, officeType = items
+            id, officeType, name, dateCreated = items
             office = dict(
                 id=int(id),
+                officeType=officeType,
                 name=name,
-                officeType=officeType
+                dateCreated=dateCreated
             )
             offices.append(office)
         return offices
@@ -34,11 +35,12 @@ class Office:
         """ Get specific office method """
         data = self.db.search_by_id('offices', id)
         for i, items in enumerate(data):
-            id, name, officeType = items
+            id, officeType, name, dateCreated = items
             office = dict(
                 id=int(id),
                 name=name,
-                officeType=officeType
+                officeType=officeType,
+                dateCreated=dateCreated
             )
             return office
 

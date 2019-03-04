@@ -6,6 +6,7 @@ def destroy_queries():
     delete_candidates = """DROP TABLE IF EXISTS candidates CASCADE;"""
     delete_votes = """DROP TABLE IF EXISTS votes;"""
     delete_petitions = """DROP TABLE IF EXISTS petitions;"""
+    delete_nominations = """DROP TABLE IF EXISTS nominations"""
 
     statements = [
         delete_candidates,
@@ -13,7 +14,8 @@ def destroy_queries():
         delete_petitions,
         delete_users,
         delete_parties,
-        delete_offices]
+        delete_offices,
+        delete_nominations]
     return statements
 
 
@@ -77,6 +79,18 @@ def create_queries():
                     FOREIGN KEY(office) REFERENCES offices(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
-    queries = [users, parties, offices, candidates, votes, petitions]
+    nominations = """CREATE TABLE IF NOT EXISTS nominations(
+                    id SERIAL PRIMARY KEY NOT NULL,
+                    usr INTEGER NOT NULL,
+                    office INTEGER NOT NULL,
+                    party INTEGER NOT NULL,
+                    dateExpressed TIMESTAMP NULL DEFAULT NOW(),
+                    FOREIGN KEY(office) REFERENCES offices(id),
+                    FOREIGN KEY(party) REFERENCES parties(id),
+                    FOREIGN KEY(usr) REFERENCES users(id)
+                    ON DELETE CASCADE ON UPDATE CASCADE );"""
+
+    queries = [users, parties, offices,
+               candidates, votes, petitions, nominations]
 
     return queries

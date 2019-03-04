@@ -7,6 +7,7 @@ from utils.validations import validate_office_key_pair_values, error, check_for_
 
 office_version_2 = Blueprint('office_version_2', __name__)
 
+
 class OfficeEndPoint:
     """Office API Endpoints"""
 
@@ -34,7 +35,6 @@ class OfficeEndPoint:
 
         return success(201, "Office successfully created!", Office().create_office(name, office)), 201
 
-
     @office_version_2.route('/offices', methods=["GET"])
     @jwt_required
     def get_offices():
@@ -43,6 +43,7 @@ class OfficeEndPoint:
         if not Office().get_all_offices():
             return error(404, "Sorry, no government office is currently available, try again later")
 
+        print(Office().get_all_offices())
         return success(200, "Success", Office().get_all_offices())
 
     @office_version_2.route('/offices/<int:id>', methods=["GET"])

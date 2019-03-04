@@ -22,12 +22,13 @@ class Party:
         data = self.db.fetch_all_items('parties')
         parties = []
         for i, items in enumerate(data):
-            id, name, hqaddress, logourl = items
+            id, name, hqaddress, logourl, dateCreated = items
             party = dict(
                 id=int(id),
                 name=name,
                 hqaddress=hqaddress,
-                logourl=logourl
+                logourl=logourl,
+                dateCreated=dateCreated
             )
             parties.append(party)
         return parties
@@ -36,12 +37,13 @@ class Party:
         """ Get all parties method """
         data = self.db.search_by_id('parties', id)
         for i, items in enumerate(data):
-            id, name, hqAddress, logourl, = items
+            id, name, hqAddress, logourl, dateCreated = items
             party = dict(
                 id=int(id),
                 name=name,
                 hqAddress=hqAddress,
-                logourl=logourl
+                logourl=logourl,
+                dateCreated=dateCreated
             )
             return party
 

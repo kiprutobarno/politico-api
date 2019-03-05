@@ -12,6 +12,7 @@ class selfNomination:
     """Express interest endpoint"""
 
     @nomination.route('/self_nomination', methods=['POST'])
+    @admin_required	
     def self_nomination():
         """Self nominations endpoint"""
 

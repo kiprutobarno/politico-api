@@ -2,7 +2,7 @@ from flask import Blueprint, make_response, request, jsonify
 from app.api.v2.models.nomination import Nomination
 from utils.validations import validate_party_key_pair_values, \
     error, validUrl, check_for_blanks, check_for_non_ints, success
-from utils.helpers import admin_required
+from utils.helpers import jwt_required
 from utils.validations import validate_login_key_pair_values
 
 nomination = Blueprint('nomination', __name__)
@@ -12,7 +12,7 @@ class selfNomination:
     """Express interest endpoint"""
 
     @nomination.route('/self_nomination', methods=['POST'])
-    @jwt_required	
+    @jwt_required
     def self_nomination():
         """Self nominations endpoint"""
 

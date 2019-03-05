@@ -17,6 +17,6 @@ class Nomination:
         self.db.insert('nominations', interest)
         return interest
 
-    def alreadyExpressed(self, usr):
-        if self.db.fetch_single_item('nominations', usr):
+    def alreadyExpressed(self, user):
+        if self.db.search_by_user('nominations', user):
             return True

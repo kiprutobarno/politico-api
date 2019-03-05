@@ -48,8 +48,8 @@ class SignUp:
         if not validPassword(password):
             return error(400, "Weak password!")
 
-        return success(201, "Success", User().create_user(firstName, lastName, otherName, email,
-                                                          phoneNumber, passportUrl, password)), 201
+        return success(201, "Registration successful!", User().create_user(firstName, lastName, otherName, email,
+                                                                           phoneNumber, passportUrl, password)), 201
 
 
 class Login:

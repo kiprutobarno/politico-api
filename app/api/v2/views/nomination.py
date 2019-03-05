@@ -30,4 +30,4 @@ class selfNomination:
         if Nomination().alreadyExpressed(user):
             return error(400, "You have already expressed interest in an office!")
 
-        return success(201, "Candidate registration successfull!", Nomination().expressInterest(user, party, office)), 201
+        return success(201, "Request successfully submitted!", Nomination().expressInterest(user, party, office)), 201

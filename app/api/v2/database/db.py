@@ -74,6 +74,13 @@ class Connection:
         item = self.cursor.fetchall()
         return item
 
+    def search_by_user(self, table, usr):
+        """ Search specific item """
+        self.cursor.execute(
+            """SELECT * FROM {} WHERE usr={}""".format(table, usr))
+        item = self.cursor.fetchall()
+        return item
+
     def search_by_email(self, table, email):
         """ Search specific item """
         self.cursor.execute(

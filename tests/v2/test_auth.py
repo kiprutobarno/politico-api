@@ -8,7 +8,8 @@ class AuthTestCase(BaseTestCase):
         """ Test that endpoint can create user"""
         response = super().create_user(admin_user)
         response_content = json.loads(response.data.decode())
-        self.assertTrue(response_content['status'] == 201)
+        self.assertTrue(response_content['message']
+                        == "Registration successful!")
 
     def test_create_missingkey_user(self):
         """ Test that endpoint can create user"""

@@ -54,8 +54,10 @@ class Candidate:
         data = self.db.fetch_all_candidates()
         rows = []
         for i, items in enumerate(data):
-            firstname, lastname, othername, office, party, dateapplied, approved, dateapproved = items
+            id, user, firstname, lastname, othername, office, party, dateapplied, approved, dateapproved = items
             result = dict(
+                id=id,
+                usr=user,
                 office=office,
                 firstname=firstname,
                 othername=othername,

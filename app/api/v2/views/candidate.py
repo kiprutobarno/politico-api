@@ -63,4 +63,4 @@ class CandidateEndPoint:
     @admin_required
     def get_candidates(office):
         """ Get specific office candidates endpoint """
-        return success(200, "Success", Candidate().get_politicians_specific_office(office))
+        return success(200, "Success", Candidate().get_all_politicians())

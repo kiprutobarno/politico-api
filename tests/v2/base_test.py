@@ -138,7 +138,7 @@ class BaseTestCase(TestCase):
     def register_candidate(self, data, token):
         """Create candidate endpoint test method """
         return self.client.post(
-            'api/v2/office/1/register',
+            '/api/v2/office/1/nomination',
             data=data,
             content_type='application/json',
             headers=dict(Authorization="Bearer " + token)

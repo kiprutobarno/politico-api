@@ -24,25 +24,40 @@ class CandidateEndPoint:
         if check_for_non_ints(data):
             return error(400, "{} must be an integer".format(', '.join(check_for_non_ints(data))))
 
-        office = data.get('office')
-        party = data.get('party')
         candidate = data.get('candidate')
+        office = Candidate().getOffice(candidate)
+        party = Candidate().getParty(candidate)
 
-        if not Candidate().search_office(office):
-            return error(400, "Such an office is not available, please confirm again!")
+        if Candidate().checkApproved(candidate):
+            return error(400, "This aspirant is already approved!")
 
-        if not Candidate().search_party(party):
-            return error(400, "Such a party is not registered, please confirm again!")
+        if Candidate().party_has_candidate(candidate):
+            return error(400, "This party has an already approved candidate!")
 
-        if Candidate().search(candidate):
-            return error(400, "The candidate is already registered!")
-
-        if Candidate().party_has_candidate(office, party):
-            return error(400, "This party has already fielded a candidate for this office!")
-
-        Candidate().register(office, party, candidate)
-        Candidate().update(candidate)
+        Candidate().approve(candidate)
         return success(201, "Candidate registration successfull!", Candidate().get(candidate)), 201
+
+    @candidate.route('/office/<int:office>/deregister', methods=["POST"])
+    @admin_required
+    def deregister(office):
+        """ Deregister candidate endpoint """
+
+        data = request.get_json()
+
+        if check_for_blanks(data):
+            return error(400, "{} cannot be blank".format(', '.join(check_for_blanks(data))))
+
+        if check_for_non_ints(data):
+            return error(400, "{} must be an integer".format(', '.join(check_for_non_ints(data))))
+
+        candidate = data.get('candidate')
+        office = Candidate().getOffice(candidate)
+        party = Candidate().getParty(candidate)
+
+        if not Candidate().checkApproved(candidate):
+            return error(400, "This politician had not been approved!")
+        Candidate().unApprove(candidate)
+        return success(201, "This candidates registration has been revoked!", Candidate().get(candidate)), 201
 
     @candidate.route('/office/<int:office>/candidates', methods=["GET"])
     @admin_required

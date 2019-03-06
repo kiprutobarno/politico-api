@@ -126,9 +126,8 @@ admin_user = json.dumps(dict(
     email='doe@politico.com',
     phoneNumber='0765234234',
     passportUrl='image.png',
-    password="Admin@123",
-    isAdmin=True,
-    isCandidate=False
+    password="admin@123",
+    isAdmin=True
 ))
 
 user = json.dumps(dict(
@@ -138,8 +137,7 @@ user = json.dumps(dict(
     email='user@politico.com',
     phoneNumber='0798344456',
     passportUrl='user.png',
-    password="User@123",
-    isCandidate=False
+    password="User@123"
 ))
 
 weak_password_user = json.dumps(dict(
@@ -213,7 +211,7 @@ missing_key_user = json.dumps(dict(
 
 admin_user_login = json.dumps(dict(
     email='admin@politico.com',
-    password='Admin@123'
+    password='admin@123'
 ))
 
 empty_body_login = json.dumps(dict(
@@ -257,25 +255,25 @@ unregistered_login = json.dumps(dict(
 candidate = json.dumps(dict(
     office=1,
     party=1,
-    candidate=2
+    user=2
 ))
 
 string_candidate = json.dumps(dict(
     office=1,
     party="democrat",
-    candidate=2
+    user=2
 ))
 
 candidate_blank = json.dumps(dict(
     office="",
     party=1,
-    candidate=2
+    user=2
 ))
 
 candidate1 = json.dumps(dict(
     office=1,
     party=1,
-    candidate=3
+    user=3
 ))
 
 # vote

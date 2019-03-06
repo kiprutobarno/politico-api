@@ -86,8 +86,7 @@ class Login:
                     "email":user[4],
                     "phoneNumber":user[5],
                     "passportUrl":user[6],
-                    "isAdmin": user[7],
-                    "isCandidate": user[8]
+                    "isAdmin": user[7]
                 }
             }]), 201
         return error(401, "wrong login credentials"), 401

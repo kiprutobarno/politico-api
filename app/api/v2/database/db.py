@@ -101,19 +101,43 @@ class Connection:
             """DELETE FROM {} WHERE id = {}""".format(table, id))
         return self.connection.commit()
 
+    def fetch_approved_candidate(self, selector):
+        self.cursor.execute(
+            """SELECT * FROM nominations WHERE usr={} AND approved=TRUE""".format(selector))
+        item = self.cursor.fetchone()
+        return item
+
+    def fetch_party_approved_candidate(self, party, office):
+        self.cursor.execute(
+            """SELECT * FROM nominations WHERE party={} AND office={} AND approved=TRUE""".format(party, office))
+        item = self.cursor.fetchone()
+        return item
+
+    def fetch_party(self, selector):
+        self.cursor.execute(
+            """(SELECT party FROM nominations WHERE usr={}) """.format(selector))
+        item = self.cursor.fetchone()
+        return item
+
+    def fetch_office(self, selector):
+        self.cursor.execute(
+            """(SELECT office FROM nominations WHERE usr={}) """.format(selector))
+        item = self.cursor.fetchone()
+        return item
+
     def fetch_candidate(self, selector, value):
         self.cursor.execute(""" SELECT users.firstname, users.lastname, offices.name, parties.name
-                        FROM candidates INNER JOIN users ON candidates.candidate=users.id
-                        INNER JOIN offices ON candidates.office=offices.id
-                        INNER JOIN parties ON candidates.party=parties.id WHERE {}={}""".format(selector, value))
+                        FROM nominations INNER JOIN users ON nominations.usr=users.id
+                        INNER JOIN offices ON nominations.office=offices.id
+                        INNER JOIN parties ON nominations.party=parties.id WHERE {}={}""".format(selector, value))
         item = self.cursor.fetchone()
         return item
 
     def fetch_all_candidates(self, selector, value):
         self.cursor.execute(""" SELECT users.firstname, users.lastname, offices.name, parties.name
-                        FROM candidates INNER JOIN users ON candidates.candidate=users.id
-                        INNER JOIN offices ON candidates.office=offices.id
-                        INNER JOIN parties ON candidates.party=parties.id WHERE {}={}""".format(selector, value))
+                        FROM nominations INNER JOIN users ON nominations.usr=users.id
+                        INNER JOIN offices ON nominations.office=offices.id
+                        INNER JOIN parties ON nominations.party=parties.id WHERE {}={}""".format(selector, value))
         item = self.cursor.fetchall()
         return item
 
@@ -134,7 +158,7 @@ class Connection:
             "phoneNumber": "0708344488",
             "passportUrl": "admin.png",
             "isAdmin": True,
-            "password": "$pbkdf2-sha256$29000$gvC.1/q/9x7DGKP0fu/dWw$k5fSiU1MK/XHyMbZofnBxrE.OPd.FScTNntfJGwnt48"
+            "password": "$pbkdf2-sha256$29000$ldLau3du7Z3z3vu/t5Yy5g$k0Yis/nwagdNd.kLd3uds3xjwIPHlOjfZwqcdVRc0oI"
         }
         self.cursor.execute(
             """SELECT * FROM users WHERE email='admin@politico.com'""")

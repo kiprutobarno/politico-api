@@ -24,7 +24,7 @@ class Vote:
     def search_candidate(self, candidate):
         """This function returns True if a user is already a registered candidate."""
 
-        if self.db.fetch_single_item('candidates', candidate):
+        if self.db.fetch_single_item('nominations', candidate):
             return True
 
     def search(self, office, createdby):
@@ -37,15 +37,15 @@ class Vote:
 
     def get_candidate(self, id):
         self.db.cursor.execute(
-            """SELECT users.firstname, users.lastname FROM users INNER JOIN candidates ON candidates.candidate=users.id WHERE candidate={}""".format(id))
+            """SELECT users.firstname, users.lastname FROM users INNER JOIN nominations ON nominations.usr=users.id WHERE usr={}""".format(id))
         data = self.db.cursor.fetchone()
         return data
 
     def get(self, id):
-        query = """ SELECT offices.name, users.firstname, users.lastname, candidates.candidate FROM votes
+        query = """ SELECT offices.name, users.firstname, users.lastname, nominations.usr FROM votes
                     INNER JOIN offices ON votes.office=offices.id
                     INNER JOIN users ON votes.createdby=users.id
-                    INNER JOIN candidates ON votes.candidate=candidates.candidate
+                    INNER JOIN nominations ON votes.candidate=nominations.usr
                     """.format(id)
         self.db.cursor.execute(query)
 

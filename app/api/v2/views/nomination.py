@@ -11,9 +11,9 @@ nomination = Blueprint('nomination', __name__)
 class selfNomination:
     """Express interest endpoint"""
 
-    @nomination.route('/self_nomination', methods=['POST'])
+    @nomination.route('office/<int:office>/nomination', methods=['POST'])
     @jwt_required
-    def self_nomination():
+    def self_nomination(office):
         """Self nominations endpoint"""
 
         data = request.get_json()
@@ -27,6 +27,12 @@ class selfNomination:
         user = data.get('user')
         party = data.get('party')
         office = data.get('office')
+        if not Nomination().search(office):
+            return error(400, "Such an office is not available, please confirm again!")
+
+        if not Nomination().search(party):
+            return error(400, "Such a party is not registered, please confirm again!")
+
         if Nomination().alreadyExpressed(user):
             return error(400, "You have already expressed interest in an office!")
 

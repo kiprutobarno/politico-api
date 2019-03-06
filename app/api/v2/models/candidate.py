@@ -7,23 +7,34 @@ class Candidate:
     def __init__(self):
         self.db = Connection()
 
-    def register(self, office, party, candidate):
-        """ Create a office method """
-        candidates = {
-            "office": office,
-            "party": party,
-            "candidate": candidate
-        }
-
-        self.db.insert('candidates', candidates)
-        return candidates
-
-    def update(self, candidate):
-        query = """UPDATE users SET iscandidate=TRUE WHERE id={}""".format(
+    def approve(self, candidate):
+        query = """UPDATE nominations SET approved=TRUE, dateapproved=NOW() WHERE usr={}""".format(
             candidate)
 
         self.db.cursor.execute(query)
         return self.db.connection.commit()
+
+    def checkApproved(self, candidate):
+        if self.db.fetch_approved_candidate(candidate):
+            return True
+
+    def unApprove(self, candidate):
+        if self.checkApproved(candidate):
+            query = """UPDATE nominations SET approved=FALSE, dateapproved=NOW() WHERE usr={}""".format(
+                candidate)
+
+            self.db.cursor.execute(query)
+            return self.db.connection.commit()
+
+    def getParty(self, candidate):
+        data = self.db.fetch_party(candidate)
+        party = data[0]
+        return party
+
+    def getOffice(self, candidate):
+        data = self.db.fetch_office(candidate)
+        party = data[0]
+        return party
 
     def get_politicians_specific_office(self, id):
         data = self.db.fetch_all_candidates('offices.id', id)
@@ -39,16 +50,8 @@ class Candidate:
 
         return rows
 
-    def party_has_candidate(self, office, party):
-        if self.db.fetch_item_multiple_conditions('candidates', office, party):
-            return True
-
-    def search_party(self, party):
-        if self.db.fetch_single_item('parties', party):
-            return True
-
-    def search_office(self, office):
-        if self.db.fetch_single_item('offices', office):
+    def party_has_candidate(self, candidate):
+        if self.db.fetch_party_approved_candidate(self.getParty(candidate), self.getOffice(candidate)):
             return True
 
     def search(self, candidate):
@@ -57,7 +60,7 @@ class Candidate:
             return True
 
     def get(self, id):
-        data = self.db.fetch_candidate('candidates.candidate', id)
+        data = self.db.fetch_candidate('nominations.usr', id)
         return {
             "candidate": data[0]+" "+data[1],
             "office": data[2],

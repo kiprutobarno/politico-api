@@ -3,13 +3,11 @@ def destroy_queries():
     delete_users = """DROP TABLE IF EXISTS users CASCADE;"""
     delete_parties = """DROP TABLE IF EXISTS parties CASCADE;"""
     delete_offices = """DROP TABLE IF EXISTS offices CASCADE;"""
-    delete_candidates = """DROP TABLE IF EXISTS candidates CASCADE;"""
     delete_votes = """DROP TABLE IF EXISTS votes;"""
     delete_petitions = """DROP TABLE IF EXISTS petitions;"""
     delete_nominations = """DROP TABLE IF EXISTS nominations"""
 
     statements = [
-        delete_candidates,
         delete_votes,
         delete_petitions,
         delete_users,
@@ -30,7 +28,6 @@ def create_queries():
                     phoneNumber VARCHAR(50) NOT NULL,
                     passportUrl VARCHAR(50) NOT NULL,
                     isAdmin BOOLEAN DEFAULT FALSE,
-                    isCandidate BOOLEAN DEFAULT FALSE,
                     password VARCHAR(200) NOT NULL,
                     dateCreated TIMESTAMP NULL DEFAULT NOW() );"""
 
@@ -46,17 +43,6 @@ def create_queries():
                     type VARCHAR(50) NOT NULL,
                     name VARCHAR(50) NOT NULL,
                     dateCreated TIMESTAMP NULL DEFAULT NOW() );"""
-
-    candidates = """CREATE TABLE IF NOT EXISTS candidates(
-                    id SERIAL PRIMARY KEY NOT NULL,
-                    office INTEGER NOT NULL,
-                    party INTEGER NOT NULL,
-                    candidate INTEGER NOT NULL,
-                    dateRegistered TIMESTAMP NULL DEFAULT NOW(),
-                    FOREIGN KEY(office) REFERENCES offices(id),
-                    FOREIGN KEY(party) REFERENCES parties(id),
-                    FOREIGN KEY(candidate) REFERENCES users(id)
-                    ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     votes = """CREATE TABLE IF NOT EXISTS votes(
                     id SERIAL PRIMARY KEY NOT NULL,
@@ -84,13 +70,14 @@ def create_queries():
                     usr INTEGER NOT NULL,
                     office INTEGER NOT NULL,
                     party INTEGER NOT NULL,
-                    dateExpressed TIMESTAMP NULL DEFAULT NOW(),
+                    dateApplied TIMESTAMP NULL DEFAULT NOW(),
+                    approved BOOLEAN DEFAULT FALSE,
+                    dateApproved TIMESTAMP NULL DEFAULT NOW(),
                     FOREIGN KEY(office) REFERENCES offices(id),
                     FOREIGN KEY(party) REFERENCES parties(id),
                     FOREIGN KEY(usr) REFERENCES users(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
-    queries = [users, parties, offices,
-               candidates, votes, petitions, nominations]
+    queries = [users, parties, offices, votes, petitions, nominations]
 
     return queries

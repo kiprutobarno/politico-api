@@ -1,5 +1,4 @@
 from passlib.hash import pbkdf2_sha256 as sha256
-# from app.api.v2.database.db import insert, search_by_email
 from app.api.v2.database.db import Connection
 
 
@@ -40,7 +39,7 @@ class User:
             "the user's isAdmin status """
         self.db.search_by_email('users', email)
         hashes = self.db.search_by_email('users', email)
-        if User().verify_hash(password, hashes[9]):
+        if User().verify_hash(password, hashes[8]):
             return hashes
 
     @staticmethod

@@ -20,3 +20,7 @@ class Nomination:
     def alreadyExpressed(self, user):
         if self.db.search_by_user('nominations', user):
             return True
+
+    def search(self, parameter):
+        if self.db.fetch_single_item('offices', parameter):
+            return True

@@ -1,6 +1,6 @@
 from flask import Blueprint, make_response, request, jsonify
 from app.api.v2.models.office import Office
-from utils.helpers import admin_required, jwt_required, get_jwt_claims, verify_jwt_in_request
+from utils.helpers import admin_required, jwt_required, allowed_offices, allowed_office_types
 from utils.validations import validate_office_key_pair_values, error, check_for_blanks, \
     check_for_non_strings, success
 
@@ -29,6 +29,12 @@ class OfficeEndPoint:
 
         name = data.get('name')
         office = data.get('officeType')
+
+        if name not in allowed_offices:
+            return error(400, "Office name can either be Presidential, Gubernatorial, Senatorial, Member of National Assembly, Member of County Assemby or Women Representative!")
+
+        if office not in allowed_office_types:
+            return error(400, "Office type can either be National or County!")
 
         if Office().search(name):
             return error(400, "Such an office is already registered!")

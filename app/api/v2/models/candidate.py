@@ -36,15 +36,34 @@ class Candidate:
         party = data[0]
         return party
 
-    def get_politicians_specific_office(self, id):
-        data = self.db.fetch_all_candidates('offices.id', id)
+    # def get_politicians_specific_office(self, id):
+    #     data = self.db.fetch_all_candidates('offices.id', id)
+    #     rows = []
+    #     for i, items in enumerate(data):
+    #         firstname, lastname, office, party = items
+    #         result = dict(
+    #             office=office,
+    #             candidate=firstname+" "+lastname,
+    #             party=party
+    #         )
+    #         rows.append(result)
+
+    #     return rows
+
+    def get_all_politicians(self):
+        data = self.db.fetch_all_candidates()
         rows = []
         for i, items in enumerate(data):
-            firstname, lastname, office, party = items
+            firstname, lastname, othername, office, party, dateapplied, approved, dateapproved = items
             result = dict(
                 office=office,
-                candidate=firstname+" "+lastname,
-                party=party
+                firstname=firstname,
+                othername=othername,
+                lastname=lastname,
+                party=party,
+                dateapplied=dateapplied,
+                approved=approved,
+                dateapproved=dateapproved
             )
             rows.append(result)
 

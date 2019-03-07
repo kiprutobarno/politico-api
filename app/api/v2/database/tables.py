@@ -50,7 +50,6 @@ def create_queries():
                     createdBy INTEGER NOT NULL,
                     office INTEGER NOT NULL,
                     candidate INTEGER NOT NULL,
-                    timeVoted TIMESTAMP NULL DEFAULT NOW(),
                     FOREIGN KEY(office) REFERENCES offices(id),
                     FOREIGN KEY(candidate) REFERENCES users(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""

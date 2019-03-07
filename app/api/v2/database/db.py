@@ -141,11 +141,19 @@ class Connection:
     #     item = self.cursor.fetchall()
     #     return item
 
-    def fetch_all_candidates(self):
+    def fetch_all_politicians(self):
         self.cursor.execute(""" SELECT nominations.id, nominations.usr, users.firstname, users.lastname, users.othername, offices.name AS office, 
                                 parties.name AS party, nominations.dateApplied, nominations.approved, 
                                 nominations.dateApproved FROM nominations INNER JOIN users ON nominations.usr=users.id 
                                 INNER JOIN offices ON nominations.office=offices.id INNER JOIN parties ON nominations.party=parties.id;""")
+        item = self.cursor.fetchall()
+        return item
+
+    def fetch_all_candidates(self):
+        self.cursor.execute(""" SELECT nominations.id, nominations.usr, users.firstname, users.lastname, users.othername, offices.name AS office, 
+                                parties.name AS party, nominations.dateApplied, nominations.approved, 
+                                nominations.dateApproved FROM nominations INNER JOIN users ON nominations.usr=users.id 
+                                INNER JOIN offices ON nominations.office=offices.id INNER JOIN parties ON nominations.party=parties.id WHERE nominations.approved=TRUE ORDER BY office;""")
         item = self.cursor.fetchall()
         return item
 

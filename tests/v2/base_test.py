@@ -147,7 +147,7 @@ class BaseTestCase(TestCase):
     def get_specifc_office_candidates(self, token):
         """Create candidate endpoint test method """
         return self.client.get(
-            'api/v2/office/1/candidates',
+            'api/v2/office/1/politicians',
             content_type='application/json',
             headers=dict(Authorization="Bearer " + token)
         )

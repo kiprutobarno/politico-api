@@ -2,7 +2,7 @@ from flask import Blueprint, make_response, request, jsonify
 from app.api.v2.models.candidate import Candidate
 from utils.validations import validate_party_key_pair_values, \
     error, validUrl, check_for_blanks, check_for_non_ints, success
-from utils.helpers import admin_required
+from utils.helpers import admin_required, jwt_required
 from utils.validations import validate_login_key_pair_values
 
 candidate = Blueprint('candidate', __name__)
@@ -66,7 +66,7 @@ class CandidateEndPoint:
         return success(200, "Success", Candidate().get_all_politicians())
 
     @candidate.route('/candidates', methods=["GET"])
-    @admin_required
+    @jwt_required
     def get_candidates():
         """ Get all approved candidates endpoint """
         return success(200, "Success", Candidate().get_all_candidates())

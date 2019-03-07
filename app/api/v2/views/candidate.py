@@ -59,8 +59,14 @@ class CandidateEndPoint:
         Candidate().unApprove(candidate)
         return success(201, "This candidates registration has been revoked!", Candidate().get(candidate)), 201
 
-    @candidate.route('/office/<int:office>/candidates', methods=["GET"])
+    @candidate.route('/office/<int:office>/politicians', methods=["GET"])
     @admin_required
-    def get_candidates(office):
+    def get_politicians(office):
         """ Get specific office candidates endpoint """
         return success(200, "Success", Candidate().get_all_politicians())
+
+    @candidate.route('/candidates', methods=["GET"])
+    @admin_required
+    def get_candidates():
+        """ Get all approved candidates endpoint """
+        return success(200, "Success", Candidate().get_all_candidates())

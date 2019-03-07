@@ -11,10 +11,13 @@ class Result:
         data = self.db.fetch_all_results(id)
         rows = []
         for i, items in enumerate(data):
-            office, firstname, lastname, results = items
+            office, firstname, lastname, othername, party, results, = items
             result = dict(
                 office=office,
-                candidate=firstname+" "+lastname,
+                candidate=firstname,
+                lastname=lastname,
+                othername=othername,
+                party=party,
                 results=results
             )
             rows.append(result)

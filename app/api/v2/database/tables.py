@@ -44,16 +44,6 @@ def create_queries():
                     name VARCHAR(50) NOT NULL,
                     dateCreated TIMESTAMP NULL DEFAULT NOW() );"""
 
-    votes = """CREATE TABLE IF NOT EXISTS votes(
-                    id SERIAL PRIMARY KEY NOT NULL,
-                    createdOn TIMESTAMP NULL DEFAULT NOW(),
-                    createdBy INTEGER NOT NULL,
-                    office INTEGER NOT NULL,
-                    candidate INTEGER NOT NULL,
-                    FOREIGN KEY(office) REFERENCES offices(id),
-                    FOREIGN KEY(candidate) REFERENCES users(id)
-                    ON DELETE CASCADE ON UPDATE CASCADE );"""
-
     petitions = """CREATE TABLE IF NOT EXISTS petitions(
                     id SERIAL PRIMARY KEY NOT NULL,
                     createdOn TIMESTAMP NULL DEFAULT NOW(),
@@ -75,6 +65,16 @@ def create_queries():
                     FOREIGN KEY(office) REFERENCES offices(id),
                     FOREIGN KEY(party) REFERENCES parties(id),
                     FOREIGN KEY(usr) REFERENCES users(id)
+                    ON DELETE CASCADE ON UPDATE CASCADE );"""
+
+    votes = """CREATE TABLE IF NOT EXISTS votes(
+                    id SERIAL PRIMARY KEY NOT NULL,
+                    createdOn TIMESTAMP NULL DEFAULT NOW(),
+                    createdBy INTEGER NOT NULL,
+                    office INTEGER NOT NULL,
+                    candidate INTEGER NOT NULL,
+                    FOREIGN KEY(office) REFERENCES offices(id),
+                    FOREIGN KEY(candidate) REFERENCES users(id)
                     ON DELETE CASCADE ON UPDATE CASCADE );"""
 
     queries = [users, parties, offices, votes, petitions, nominations]

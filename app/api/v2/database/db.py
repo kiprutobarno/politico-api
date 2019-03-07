@@ -133,14 +133,6 @@ class Connection:
         item = self.cursor.fetchone()
         return item
 
-    #  def fetch_all_candidates(self, selector, value):
-    #     self.cursor.execute(""" SELECT users.firstname, users.lastname, offices.name, parties.name
-    #                     FROM nominations INNER JOIN users ON nominations.usr=users.id
-    #                     INNER JOIN offices ON nominations.office=offices.id
-    #                     INNER JOIN parties ON nominations.party=parties.id WHERE {}={}""".format(selector, value))
-    #     item = self.cursor.fetchall()
-    #     return item
-
     def fetch_all_politicians(self):
         self.cursor.execute(""" SELECT nominations.id, nominations.usr, users.firstname, users.lastname, users.othername, offices.name AS office, 
                                 parties.name AS party, nominations.dateApplied, nominations.approved, 
@@ -158,10 +150,14 @@ class Connection:
         return item
 
     def fetch_all_results(self, id):
-        self.cursor.execute("""SELECT offices.name, users.firstname, users.lastname, COUNT(*) as votes FROM votes
-                    INNER JOIN offices ON offices.id=votes.office
-                    INNER JOIN users ON users.id=votes.candidate WHERE office={}
-                    GROUP BY offices.name, users.firstname, users.lastname;""".format(id))
+        self.cursor.execute("""SELECT offices.name, users.firstname, users.othername, users.lastname, parties.name, 
+                                COUNT(*) as votes FROM votes 
+                                INNER JOIN offices ON offices.id=votes.office 
+                                INNER JOIN users ON users.id=votes.candidate 
+                                INNER JOIN nominations on votes.candidate=nominations.usr 
+                                INNER JOIN parties on nominations.party=parties.id WHERE votes.office={} 
+                                GROUP BY offices.name, users.firstname, users.othername, users.lastname, parties.name 
+                                ORDER BY votes DESC;""".format(id))
         item = self.cursor.fetchall()
         return item
 

@@ -42,19 +42,22 @@ class Vote:
         return data
 
     def get(self, id):
-        query = """ SELECT offices.name, users.firstname, users.lastname, nominations.usr FROM votes
+        query = """ SELECT offices.name, users.firstname, users.lastname, nominations.usr, parties.name FROM votes
                     INNER JOIN offices ON votes.office=offices.id
                     INNER JOIN users ON votes.createdby=users.id
                     INNER JOIN nominations ON votes.candidate=nominations.usr
+                    INNER JOIN parties ON nominations.party=parties.id
                     """.format(id)
         self.db.cursor.execute(query)
 
         data = self.db.cursor.fetchone()
+        print(data)
         return {
             "voter": data[1] +
             " " +
             data[2],
             "office": data[0],
             "candidate": Vote().get_candidate(data[3])[0] + " "+Vote().get_candidate(data[3])[1],
+            "party": data[4],
             "message": "Success"
         }

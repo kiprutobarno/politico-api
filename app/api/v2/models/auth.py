@@ -42,6 +42,10 @@ class User:
         if User().verify_hash(password, hashes[8]):
             return hashes
 
+    def get_user(self, id):
+        """ This function returns a user """
+        return self.db.search_by_id('users', id)
+
     @staticmethod
     def generate_hash(password):
         return sha256.hash(password)

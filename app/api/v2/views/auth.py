@@ -90,3 +90,12 @@ class Login:
                 }
             }]), 201
         return error(401, "wrong login credentials"), 401
+
+
+class getUser:
+    @jwt_required
+    @auth.route('auth/users/<int:id>', methods=['GET'])
+    def user(id):
+        if User().get_user(id):
+            return success(200, "Success", User().get_user(id))
+        return error(400, "User not registered!")

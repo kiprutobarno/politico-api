@@ -35,3 +35,10 @@ class VoteEndPoint:
             return error(400, "Sorry, you have already voted!")
         Vote().vote(office, candidate, voter)
         return success(201, "Thanks for voting, your vote will count!", Vote().get(voter)), 201
+
+
+class GetVote:
+    @vote.route('/votes/<int:id>', methods=["GET"])
+    @jwt_required
+    def getvote(id):
+        return success(201, "Thanks for voting, your vote will count!", Vote().get(id)), 201

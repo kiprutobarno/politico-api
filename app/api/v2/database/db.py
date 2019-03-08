@@ -149,6 +149,14 @@ class Connection:
         item = self.cursor.fetchall()
         return item
 
+    def fetch_candidates_per_office(self, id):
+        self.cursor.execute(""" SELECT nominations.id, nominations.usr, users.firstname, users.lastname, users.othername, offices.name AS office, 
+                                parties.name AS party, nominations.dateApplied, nominations.approved, 
+                                nominations.dateApproved FROM nominations INNER JOIN users ON nominations.usr=users.id 
+                                INNER JOIN offices ON nominations.office=offices.id INNER JOIN parties ON nominations.party=parties.id WHERE nominations.approved=TRUE AND nominations.office={} ORDER BY office;""".format(id))
+        item = self.cursor.fetchall()
+        return item
+
     def fetch_all_results(self, id):
         self.cursor.execute("""SELECT offices.name, users.firstname, users.othername, users.lastname, parties.name, 
                                 COUNT(*) as votes FROM votes 

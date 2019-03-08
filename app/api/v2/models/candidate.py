@@ -36,20 +36,6 @@ class Candidate:
         party = data[0]
         return party
 
-    # def get_politicians_specific_office(self, id):
-    #     data = self.db.fetch_all_candidates('offices.id', id)
-    #     rows = []
-    #     for i, items in enumerate(data):
-    #         firstname, lastname, office, party = items
-    #         result = dict(
-    #             office=office,
-    #             candidate=firstname+" "+lastname,
-    #             party=party
-    #         )
-    #         rows.append(result)
-
-    #     return rows
-
     def get_all_politicians(self):
         """Fetch all politicians"""
         data = self.db.fetch_all_politicians()
@@ -75,6 +61,28 @@ class Candidate:
     def get_all_candidates(self):
         """Get all candidates"""
         data = self.db.fetch_all_candidates()
+        rows = []
+        for i, items in enumerate(data):
+            id, user, firstname, lastname, othername, office, party, dateapplied, approved, dateapproved = items
+            result = dict(
+                id=id,
+                usr=user,
+                office=office,
+                firstname=firstname,
+                othername=othername,
+                lastname=lastname,
+                party=party,
+                dateapplied=dateapplied,
+                approved=approved,
+                dateapproved=dateapproved
+            )
+            rows.append(result)
+
+        return rows
+
+    def get_candidates_per_office(self, id):
+        """Get candidates per office"""
+        data = self.db.fetch_candidates_per_office(id)
         rows = []
         for i, items in enumerate(data):
             id, user, firstname, lastname, othername, office, party, dateapplied, approved, dateapproved = items

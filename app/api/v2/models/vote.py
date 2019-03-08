@@ -46,8 +46,7 @@ class Vote:
                     INNER JOIN offices ON votes.office=offices.id
                     INNER JOIN users ON votes.createdby=users.id
                     INNER JOIN nominations ON votes.candidate=nominations.usr
-                    INNER JOIN parties ON nominations.party=parties.id
-                    """.format(id)
+                    INNER JOIN parties ON nominations.party=parties.id""".format(id)
         self.db.cursor.execute(query)
 
         data = self.db.cursor.fetchone()

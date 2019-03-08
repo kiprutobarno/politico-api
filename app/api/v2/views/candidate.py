@@ -70,3 +70,9 @@ class CandidateEndPoint:
     def get_candidates():
         """ Get all approved candidates endpoint """
         return success(200, "Success", Candidate().get_all_candidates())
+
+    @candidate.route('office/<int:id>/candidates', methods=["GET"])
+    @jwt_required
+    def get_office_candidates(id):
+        """ Get all approved candidates endpoint """
+        return success(200, "Success", Candidate().get_candidates_per_office(id))
